@@ -1,0 +1,19 @@
+gfxpoly is a library for doing geometric polygon operations.
+(like polygon intersection, union, hidden surface removal, stroke to
+ outline conversion, wind rule conversion etc.)
+It aims to be more easily embeddable than e.g. GX, livarot or CGAL, faster 
+and more stable than libart, and is distributed under a non-commercial 
+license (GPLv2).
+
+It's using the algorithm from Hobby [1] with a few additional ideas 
+from Hershberger [2] and Bhattacharya et al [3] (in order to produce 
+a grid-rounded glyph polygon intersection in a single scanline pass)
+
+It's very stable- at www.scribd.com, it's used to process (intersect) 
+over 150,000,000 polygons (stemming from figures and illustrations
+in documents) every single day.
+
+
+[1] http://ect.bell-labs.com/who/hobby/93_2-27.pdf),
+[2] http://www.springerlink.com/content/p46t8502v6q6g687/
+[3] http://cccg.ca/proceedings/2007/07a1full.pdf
