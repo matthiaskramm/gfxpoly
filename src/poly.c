@@ -495,7 +495,7 @@ static void segment_init(segment_t*s, int32_t x1, int32_t y1, int32_t x2, int32_
 
 static segment_t* segment_new(point_t a, point_t b, int polygon_nr, segment_dir_t dir)
 {
-    segment_t*s = (segment_t*)rfx_calloc(sizeof(segment_t));
+    segment_t*s = (segment_t*)calloc(1, sizeof(segment_t));
     segment_init(s, a.x, a.y, b.x, b.y, polygon_nr, dir);
     return s;
 }
@@ -1203,7 +1203,7 @@ void horiz_reset(horizdata_t*horiz)
 
 void horiz_destroy(horizdata_t*horiz)
 {
-    if(horiz->data) rfx_free(horiz->data);
+    if(horiz->data) free(horiz->data);
     horiz->data = 0;
 }
 

@@ -153,7 +153,7 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
     unsigned char* image = (unsigned char*)malloc(width8*buf->height);
     memset(image, 0, width8*buf->height);
 
-    buf->lines = (renderline_t*)rfx_alloc(buf->height*sizeof(renderline_t));
+    buf->lines = (renderline_t*)malloc(buf->height*sizeof(renderline_t));
     int y;
     for(y=0;y<buf->height;y++) {
         memset(&buf->lines[y], 0, sizeof(renderline_t));

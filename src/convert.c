@@ -257,7 +257,7 @@ void gfxpolywriter_init(polywriter_t*w)
     data->points_size = 16;
     data->new = 1;
     data->dir = DIR_UNKNOWN;
-    data->points = (point_t*)rfx_alloc(sizeof(point_t)*data->points_size);
+    data->points = (point_t*)malloc(sizeof(point_t)*data->points_size);
     data->poly->strokes = 0;
 }
 
@@ -384,14 +384,14 @@ static void* polydraw_result(gfxdrawer_t*d)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     void*result = i->writer.finish(&i->writer);
-    rfx_free(i);
+    free(i);
     memset(d, 0, sizeof(gfxdrawer_t));
     return result;
 }
 
 void gfxdrawer_target_poly(gfxdrawer_t*d, double gridsize)
 {
-    polydraw_internal_t*i = (polydraw_internal_t*)rfx_calloc(sizeof(polydraw_internal_t));
+    polydraw_internal_t*i = (polydraw_internal_t*)calloc(1, sizeof(polydraw_internal_t));
     d->internal = i;
     i->lastx = INVALID_COORD; // convert_coord can never return this value
     i->lasty = INVALID_COORD;
@@ -561,7 +561,7 @@ gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize)
 
 gfxline_t*gfxline_makerectangle(double x1,double y1,double x2, double y2)
 {
-    gfxline_t* line = (gfxline_t*)rfx_calloc(sizeof(gfxline_t)*5);
+    gfxline_t* line = (gfxline_t*)calloc(5,sizeof(gfxline_t));
     line[0].x = x1;line[0].y = y1;line[0].type = gfx_moveTo;line[0].next = &line[1];
     line[1].x = x2;line[1].y = y1;line[1].type = gfx_lineTo;line[1].next = &line[2];
     line[2].x = x2;line[2].y = y2;line[2].type = gfx_lineTo;line[2].next = &line[3];
@@ -598,13 +598,13 @@ void gfxline_destroy(gfxline_t*l)
 {
     if(l && (l+1) == l->next) {
 	/* flattened */
-	rfx_free(l);
+	free(l);
     } else {
 	gfxline_t*next;
 	while(l) {
 	    next = l->next;
 	    l->next = 0;
-	    rfx_free(l);
+	    free(l);
 	    l = next;
 	}
     }
