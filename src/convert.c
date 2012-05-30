@@ -574,7 +574,39 @@ gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double g
 {
     gfxline_t* line = gfxline_makerectangle(x1, y1, x2, y2);
     gfxpoly_t* poly = gfxpoly_from_fill(line, gridsize);
-    gfxline_free(line);
+    gfxline_destroy(line);
     return poly;
+}
+
+void gfxline_print(gfxline_t*l)
+{
+    while(l) {
+	if(l->type == gfx_moveTo) {
+	    printf("moveTo %.2f,%.2f\n", l->x, l->y);
+	}
+	if(l->type == gfx_lineTo) {
+	    printf("lineTo %.2f,%.2f\n", l->x, l->y);
+	}
+	if(l->type == gfx_splineTo) {
+	    printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
+	}
+	l = l->next;
+    }
+}
+
+void gfxline_destroy(gfxline_t*l)
+{
+    if(l && (l+1) == l->next) {
+	/* flattened */
+	rfx_free(l);
+    } else {
+	gfxline_t*next;
+	while(l) {
+	    next = l->next;
+	    l->next = 0;
+	    rfx_free(l);
+	    l = next;
+	}
+    }
 }
 
