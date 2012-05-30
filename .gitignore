@@ -6,3 +6,4 @@ config.log
 config.status
 gfxpoly.a
 tags
+examples/logo

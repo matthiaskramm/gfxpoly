@@ -383,6 +383,7 @@ static void polydraw_close(gfxdrawer_t*d)
 static void* polydraw_result(gfxdrawer_t*d)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
+    assert(!i->last);
     void*result = i->writer.finish(&i->writer);
     free(i);
     memset(d, 0, sizeof(gfxdrawer_t));
