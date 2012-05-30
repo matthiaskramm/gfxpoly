@@ -526,7 +526,7 @@ void actlist_delete(actlist_t*a, segment_t*s)
 #ifdef HAVE_LRAND48
         if(lrand48()&1) {
 #else
-        if(((ptroff_t)s)&16) {
+        if(((uintptr_t)s)&16) {
 #endif
             // free up root->left->right
             segment_t*t = a->root->leftchild;

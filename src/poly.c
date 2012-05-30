@@ -23,7 +23,6 @@
 #include <math.h>
 #include <limits.h>
 #include <time.h>
-#include "types.h"
 #include "poly.h"
 #include "active.h"
 #include "xrow.h"
@@ -234,29 +233,29 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
                 num_circ=-num_circ;
 
             if(!dict_contains(d1, &p)) {
-                dict_put(d1, &p, (void*)(ptroff_t)num_xor);
+                dict_put(d1, &p, (void*)(uintptr_t)num_xor);
                 if(updown) {
                     assert(!dict_contains(d2, &p));
-                    dict_put(d2, &p, (void*)(ptroff_t)num_circ);
+                    dict_put(d2, &p, (void*)(uintptr_t)num_circ);
                 }
             } else {
-                int count = (ptroff_t)dict_lookup(d1, &p);
+                int count = (uintptr_t)dict_lookup(d1, &p);
                 dict_del(d1, &p);
                 count+=num_xor;
-                dict_put(d1, &p, (void*)(ptroff_t)count);
+                dict_put(d1, &p, (void*)(uintptr_t)count);
 
                 if(updown) {
                     assert(dict_contains(d2, &p));
-                    count = (ptroff_t)dict_lookup(d2, &p);
+                    count = (uintptr_t)dict_lookup(d2, &p);
                     dict_del(d2, &p);
                     count+=num_circ;
-                    dict_put(d2, &p, (void*)(ptroff_t)count);
+                    dict_put(d2, &p, (void*)(uintptr_t)count);
                 }
             }
         }
     }
     DICT_ITERATE_ITEMS(d1, point_t*, p1, void*, c1) {
-        int count = (ptroff_t)c1;
+        int count = (uintptr_t)c1;
         if(count&1) {
             fprintf(stderr, "Error: Point (%.2f,%.2f) occurs %d times\n", p1->x * poly->gridsize, p1->y * poly->gridsize, count);
             dict_destroy(d1);
@@ -266,9 +265,9 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
     }
     if(updown) {
         DICT_ITERATE_ITEMS(d2, point_t*, p2, void*, c2) {
-            int count = (ptroff_t)c2;
+            int count = (uintptr_t)c2;
             assert(dict_contains(d1, p2));
-            int ocount = (ptroff_t)dict_lookup(d1, p2);
+            int ocount = (uintptr_t)dict_lookup(d1, p2);
             if(count!=0) {
                 if(count>0) fprintf(stderr, "Error: Point (%.2f,%.2f) has %d more incoming than outgoing segments (%d incoming, %d outgoing)\n", p2->x * poly->gridsize, p2->y * poly->gridsize, count, (ocount+count)/2, (ocount-count)/2);
                 if(count<0) fprintf(stderr, "Error: Point (%.2f,%.2f) has %d more outgoing than incoming segments (%d incoming, %d outgoing)\n", p2->x * poly->gridsize, p2->y * poly->gridsize, -count, (ocount+count)/2, (ocount-count)/2);
@@ -620,12 +619,12 @@ static void schedule_crossing(status_t*status, segment_t*s1, segment_t*s2)
     }
 
 #ifndef DONT_REMEMBER_CROSSINGS
-    if(dict_contains(&s1->scheduled_crossings, (void*)(ptroff_t)s2->nr)) {
+    if(dict_contains(&s1->scheduled_crossings, (void*)(uintptr_t)s2->nr)) {
         /* FIXME: this whole segment hashing thing is really slow */
 #ifdef DEBUG
         fprintf(stderr, "[%d] doesn't intersect with [%d] because: we already scheduled this intersection\n", s1->nr, s2->nr);
 //      DICT_ITERATE_KEY(&s1->scheduled_crossings, void*, x) {
-//          fprintf(stderr, "[%d]<->[%d]\n", s1->nr, (int)(ptroff_t)x);
+//          fprintf(stderr, "[%d]<->[%d]\n", s1->nr, (int)(uintptr_t)x);
 //      }
 #endif
         return; // we already know about this one
@@ -757,8 +756,8 @@ static void schedule_crossing(status_t*status, segment_t*s1, segment_t*s2)
 #ifndef DONT_REMEMBER_CROSSINGS
     /* we insert into each other's intersection history because these segments might switch
        places and we still want to look them up quickly after they did */
-    dict_put(&s1->scheduled_crossings, (void*)(ptroff_t)(s2->nr), 0);
-    dict_put(&s2->scheduled_crossings, (void*)(ptroff_t)(s1->nr), 0);
+    dict_put(&s1->scheduled_crossings, (void*)(uintptr_t)(s2->nr), 0);
+    dict_put(&s2->scheduled_crossings, (void*)(uintptr_t)(s1->nr), 0);
 #endif
 
     event_t* e = event_new();
@@ -1485,8 +1484,8 @@ static void event_apply(status_t*status, event_t*e)
 #ifndef DONT_REMEMBER_CROSSINGS
                 /* ignore this crossing for now (there are some line segments in between).
                    it'll get rescheduled as soon as the "obstacles" are gone */
-                char del1 = dict_del(&e->s1->scheduled_crossings, (void*)(ptroff_t)e->s2->nr);
-                char del2 = dict_del(&e->s2->scheduled_crossings, (void*)(ptroff_t)e->s1->nr);
+                char del1 = dict_del(&e->s1->scheduled_crossings, (void*)(uintptr_t)e->s2->nr);
+                char del2 = dict_del(&e->s2->scheduled_crossings, (void*)(uintptr_t)e->s1->nr);
                 assert(del1 && del2);
 #endif
 #ifdef CHECKS

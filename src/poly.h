@@ -22,7 +22,6 @@
 #define __poly_h__
 
 #include <stdint.h>
-#include "types.h"
 #include "wind.h"
 #include "dict.h"
 
@@ -71,7 +70,7 @@ typedef struct _segment {
     
     int polygon_nr;
     windstate_t wind;
-    ptroff_t nr;
+    uintptr_t nr;
 
 #ifdef SPLAY
     struct _segment*parent;

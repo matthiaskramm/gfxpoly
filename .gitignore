@@ -1,1 +1,6 @@
 *.o
+Makefile
+autom4te.cache
+c
+config.log
+config.status

@@ -1,0 +1,37 @@
+CC=@CC@ @CPPFLAGS@ @CFLAGS@ -Isrc -DCHECKS
+
+_SRC = active.c convert.c poly.c wind.c render.c xrow.c stroke.c moments.c dict.c
+_OBJS = active.o convert.o poly.o wind.o render.o xrow.o stroke.o moments.o dict.o
+SRC_OBJS=$(foreach obj, $(_OBJS), src/$(obj))
+
+all: $(SRC_OBJS)
+
+src/active.o: src/active.c src/active.h src/poly.h Makefile
+	$(CC) -c src/active.c -o src/active.o
+
+src/convert.o: src/convert.c src/convert.h src/poly.h Makefile
+	$(CC) -c src/convert.c -o src/convert.o
+
+src/poly.o: src/poly.c src/poly.h src/active.h src/heap.h Makefile
+	$(CC) -c src/poly.c -o src/poly.o
+
+src/wind.o: src/wind.c src/wind.h src/poly.h Makefile
+	$(CC) -c src/wind.c -o src/wind.o
+
+src/dict.o: src/dict.c src/dict.h Makefile
+	$(CC) -c src/dict.c -o src/dict.o
+
+src/render.o: src/render.c src/wind.h src/poly.h src/render.h Makefile
+	$(CC) -c src/render.c -o src/render.o
+
+src/xrow.o: src/xrow.c src/xrow.h Makefile
+	$(CC) -c src/xrow.c -o src/xrow.o
+
+src/stroke.o: src/stroke.c src/poly.h src/convert.h src/wind.h Makefile
+	$(CC) -c src/stroke.c -o src/stroke.o
+
+src/moments.o: src/moments.c src/moments.h Makefile
+	$(CC) -c src/moments.c -o src/moments.o
+
+clean: 
+	rm -f *.o
