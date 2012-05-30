@@ -4,3 +4,5 @@ autom4te.cache
 c
 config.log
 config.status
+gfxpoly.a
+tags
