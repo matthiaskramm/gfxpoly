@@ -34,26 +34,8 @@ typedef enum {EVENT_CROSS, EVENT_END, EVENT_START, EVENT_HORIZONTAL} eventtype_t
 typedef enum {SLOPE_POSITIVE, SLOPE_NEGATIVE} slope_t;
 
 #define INVALID_COORD (0x7fffffff)
-typedef struct _point {
-    int32_t x;
-    int32_t y;
-} point_t;
-type_t point_type;
-
 #define SEGNR(s) ((int)((s)?(s)->nr:-1))
-
-typedef struct _gfxpolystroke {
-    segment_dir_t dir;
-    edgestyle_t*fs;
-    int points_size;
-    int num_points;
-    point_t*points;
-    struct _gfxpolystroke*next;
-} gfxpolystroke_t;
-typedef struct _gfxpoly {
-    double gridsize;
-    gfxpolystroke_t*strokes;
-} gfxpoly_t;
+type_t point_type;
 
 typedef struct _segment {
     point_t a;
@@ -91,11 +73,6 @@ typedef struct _segment {
     dict_t scheduled_crossings;
 #endif
 } segment_t;
-
-typedef struct _moments {
-    double area;
-    double m[3][3];
-} moments_t;
 
 #define LINE_EQ(p,s) ((double)(s)->delta.y*(p).x - (double)(s)->delta.x*(p).y - (s)->k)
 
