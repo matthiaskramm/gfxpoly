@@ -190,19 +190,19 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     gfxline_t*start = gfxline_rewind(_start);
     if(!start)
         return;
-    assert(start->type == GFX_MOVETO);
+    assert(start->type == gfx_moveTo);
     gfxline_t*line = start;
     // measure array size
     int size = 0;
     int pos = 0;
     double lastx,lasty;
     while(line) {
-        if(line->type == GFX_MOVETO) {
+        if(line->type == gfx_moveTo) {
             if(pos>size) size = pos;
             pos++;
-        } else if(line->type == GFX_LINETO) {
+        } else if(line->type == gfx_lineTo) {
             pos++;
-        } else if(line->type == GFX_SPLINETO) {
+        } else if(line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
             pos+=parts+1;
@@ -218,11 +218,11 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     line = start;
     pos = 0;
     while(line) {
-        if(line->type == GFX_MOVETO) {
+        if(line->type == gfx_moveTo) {
             if(pos)
                 draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);
             pos = 0;
-        } else if(line->type == GFX_SPLINETO) {
+        } else if(line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
             double stepsize = 1.0/parts;

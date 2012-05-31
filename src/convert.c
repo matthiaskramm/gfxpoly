@@ -45,17 +45,17 @@ static inline int32_t convert_coord(double x, double z)
 static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
 {
     gfxline_t*line = gfxline_rewind(_line);
-    assert(!line || line[0].type == GFX_MOVETO);
+    assert(!line || line[0].type == gfx_moveTo);
     double lastx=0,lasty=0;
     double z = 1.0 / gridsize;
     while(line) {
-        if(line->type == GFX_MOVETO) {
-            if(line->next && line->next->type != GFX_MOVETO && (line->x!=lastx || line->y!=lasty)) {
+        if(line->type == gfx_moveTo) {
+            if(line->next && line->next->type != gfx_moveTo && (line->x!=lastx || line->y!=lasty)) {
                 w->moveto(w, convert_coord(line->x,z), convert_coord(line->y,z));
             }
-        } else if(line->type == GFX_LINETO) {
+        } else if(line->type == gfx_lineTo) {
             w->lineto(w, convert_coord(line->x,z), convert_coord(line->y,z));
-        } else if(line->type == GFX_SPLINETO) {
+        } else if(line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + 
                                    fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
@@ -474,13 +474,13 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
             }
         }
         if(last.x != stroke->points[pos].x || last.y != stroke->points[pos].y) {
-            l = gfx_moveTo(l, stroke->points[pos].x * poly->gridsize,
+            l = gfxline_moveTo(l, stroke->points[pos].x * poly->gridsize,
                               stroke->points[pos].y * poly->gridsize);
             assert(!should_connect);
         }
         pos += incr;
         for(t=1;t<stroke->num_points;t++) {
-            l = gfx_lineTo(l, stroke->points[pos].x * poly->gridsize,
+            l = gfxline_lineTo(l, stroke->points[pos].x * poly->gridsize,
                               stroke->points[pos].y * poly->gridsize);
             pos += incr;
         }
@@ -531,11 +531,11 @@ gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize)
 gfxline_t*gfxline_makerectangle(double x1,double y1,double x2, double y2)
 {
     gfxline_t* line = gfxline_new();
-    line = gfx_moveTo(line, x1, y1);
-    line = gfx_lineTo(line, x2, y1);
-    line = gfx_lineTo(line, x2, y2);
-    line = gfx_lineTo(line, x1, y2);
-    line = gfx_lineTo(line, x1, y1);
+    line = gfxline_moveTo(line, x1, y1);
+    line = gfxline_lineTo(line, x2, y1);
+    line = gfxline_lineTo(line, x2, y2);
+    line = gfxline_lineTo(line, x1, y2);
+    line = gfxline_lineTo(line, x1, y1);
     return line;
 }
 
@@ -551,13 +551,13 @@ void gfxline_print(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(l);
     while(l) {
-	if(l->type == GFX_MOVETO) {
+	if(l->type == gfx_moveTo) {
 	    printf("moveTo %.2f,%.2f\n", l->x, l->y);
 	}
-	if(l->type == GFX_LINETO) {
+	if(l->type == gfx_lineTo) {
 	    printf("lineTo %.2f,%.2f\n", l->x, l->y);
 	}
-	if(l->type == GFX_SPLINETO) {
+	if(l->type == gfx_splineTo) {
 	    printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
 	}
 	l = l->next;
