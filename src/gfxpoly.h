@@ -23,6 +23,10 @@
 
 #include <stdint.h>
 
+/* +----------------------------------------------------------------+ */
+/* |                           Definitions                          | */
+/* +----------------------------------------------------------------+ */
+
 /* A "grid" value is the granularity at which polygon intersection operates.
    It usually makes sense to set this to the smallest value that can actually be represented
    in the output device (like 0.05 = 1 twip for SWF).  */
@@ -45,6 +49,10 @@ typedef struct _edgestyle {
     void*internal;
 } edgestyle_t;
 
+/* +----------------------------------------------------------------+ */
+/* |                          gfxpoly_t objects                     | */
+/* +----------------------------------------------------------------+ */
+
 typedef struct _gfxpolystroke {
     segment_dir_t dir;
     edgestyle_t*fs;
@@ -61,11 +69,17 @@ typedef struct _gfxpoly {
 
 void gfxpoly_destroy(gfxpoly_t*poly);
 
-/* operators */
+/* +----------------------------------------------------------------+ */
+/* |                            Operators                           | */
+/* +----------------------------------------------------------------+ */
+
 gfxpoly_t* gfxpoly_intersect(gfxpoly_t*p1, gfxpoly_t*p2);
 gfxpoly_t* gfxpoly_union(gfxpoly_t*p1, gfxpoly_t*p2);
 
-/* area and moments functions */
+/* +----------------------------------------------------------------+ */
+/* |                         Area and Moments                       | */
+/* +----------------------------------------------------------------+ */
+
 typedef struct _moments {
     double area;
     double m[3][3];
@@ -74,7 +88,10 @@ typedef struct _moments {
 double gfxpoly_area(gfxpoly_t*p);
 double gfxpoly_intersection_area(gfxpoly_t*p1, gfxpoly_t*p2);
 
-/* low-level scanline processing interface */
+/* +----------------------------------------------------------------+ */
+/* |           Low level scanline processing interface              | */
+/* +----------------------------------------------------------------+ */
+
 typedef struct _windstate {
     char is_filled;
     int wind_nr;
@@ -93,7 +110,10 @@ typedef struct _windrule
 
 gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule, windcontext_t*context, moments_t*moments);
 
-/* conversion from shapes with curves and floating point coordinates */
+/* +----------------------------------------------------------------+ */
+/* |     Conversion from curves and floating point coordinates      | */
+/* +----------------------------------------------------------------+ */
+
 typedef double gfxcoord_t;
 typedef enum {gfx_moveTo, gfx_lineTo, gfx_splineTo} gfx_linetype;
 typedef enum {gfx_joinMiter, gfx_joinRound, gfx_joinBevel} gfx_joinType;
@@ -110,7 +130,9 @@ typedef struct _gfxline {
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize);
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize);
 
-/* creation of gfxpoly objects by drawing on a "gfxcanvas" */
+/* +----------------------------------------------------------------+ */
+/* |     creation of gfxpoly objects by drawing on a "gfxcanvas"    | */
+/* +----------------------------------------------------------------+ */
 
 typedef struct _gfxcanvas
 {
@@ -125,11 +147,17 @@ typedef struct _gfxcanvas
 
 gfxcanvas_t* gfxcanvas_new(double gridsize);
 
-/* conversion from gfxpoly to gfxline lists */
+/* +----------------------------------------------------------------+ */
+/* |           conversion from gfxpoly to gfxline lists             | */
+/* +----------------------------------------------------------------+ */
+
 gfxline_t* gfxline_from_gfxpoly(gfxpoly_t*poly);
 gfxline_t* gfxline_from_gfxpoly_with_direction(gfxpoly_t*poly);
 
-/* convenience functions */
+/* +----------------------------------------------------------------+ */
+/* |                   convenience functions                        | */
+/* +----------------------------------------------------------------+ */
+
 gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize);
 gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double gridsize);
 
