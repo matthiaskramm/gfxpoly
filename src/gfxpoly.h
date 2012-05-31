@@ -110,6 +110,21 @@ typedef struct _gfxline {
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize);
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize);
 
+/* creation of gfxpoly objects by drawing on a "gfxcanvas" */
+
+typedef struct _gfxcanvas
+{
+    void*internal;
+    gfxcoord_t x,y;
+    void (*moveTo)(struct _gfxcanvas*d, gfxcoord_t x, gfxcoord_t y);
+    void (*lineTo)(struct _gfxcanvas*d, gfxcoord_t x, gfxcoord_t y);
+    void (*splineTo)(struct _gfxcanvas*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y);
+    void (*close)(struct _gfxcanvas*d);
+    void* (*result)(struct _gfxcanvas*d);
+} gfxcanvas_t;
+
+gfxcanvas_t* gfxcanvas_new(double gridsize);
+
 /* conversion from gfxpoly to gfxline lists */
 gfxline_t* gfxline_from_gfxpoly(gfxpoly_t*poly);
 gfxline_t* gfxline_from_gfxpoly_with_direction(gfxpoly_t*poly);

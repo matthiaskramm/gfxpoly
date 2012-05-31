@@ -23,17 +23,6 @@
 
 #include "poly.h"
 
-typedef struct _gfxdrawer
-{
-    void*internal;
-    gfxcoord_t x,y;
-    void (*moveTo)(struct _gfxdrawer*d, gfxcoord_t x, gfxcoord_t y);
-    void (*lineTo)(struct _gfxdrawer*d, gfxcoord_t x, gfxcoord_t y);
-    void (*splineTo)(struct _gfxdrawer*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y);
-    void (*close)(struct _gfxdrawer*d);
-    void* (*result)(struct _gfxdrawer*d);
-} gfxdrawer_t;
-
 typedef struct _polywriter
 {
     void(*moveto)(struct _polywriter*, int32_t x, int32_t y);
@@ -43,7 +32,7 @@ typedef struct _polywriter
     void*internal;
 } polywriter_t;
 
-void gfxdrawer_target_poly(gfxdrawer_t*d, double gridsize);
+void gfxcanvas_target_poly(gfxcanvas_t*d, double gridsize);
 
 void gfxpolywriter_init(polywriter_t*w);
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize);

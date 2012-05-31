@@ -300,7 +300,7 @@ typedef struct _polydraw_internal
     polywriter_t writer;
 } polydraw_internal_t;
 
-static void polydraw_moveTo(gfxdrawer_t*d, gfxcoord_t _x, gfxcoord_t _y)
+static void polydraw_moveTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     int32_t x = convert_coord(_x, i->z);
@@ -316,7 +316,7 @@ static void polydraw_moveTo(gfxdrawer_t*d, gfxcoord_t _x, gfxcoord_t _y)
     i->lasty = y;
     i->last = 1;
 }
-static void polydraw_lineTo(gfxdrawer_t*d, gfxcoord_t _x, gfxcoord_t _y)
+static void polydraw_lineTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     if(!i->last) {
@@ -334,7 +334,7 @@ static void polydraw_lineTo(gfxdrawer_t*d, gfxcoord_t _x, gfxcoord_t _y)
     i->lasty = y;
     i->last = 1;
 }
-static void polydraw_splineTo(gfxdrawer_t*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y)
+static void polydraw_splineTo(gfxcanvas_t*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     if(!i->last) {
@@ -365,7 +365,7 @@ static void polydraw_splineTo(gfxdrawer_t*d, gfxcoord_t sx, gfxcoord_t sy, gfxco
     i->lasty = ny;
     i->last = 1;
 }
-static void polydraw_close(gfxdrawer_t*d)
+static void polydraw_close(gfxcanvas_t*d)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     assert(!(i->last && (i->x0 == INVALID_COORD || i->y0 == INVALID_COORD)));
@@ -380,18 +380,19 @@ static void polydraw_close(gfxdrawer_t*d)
     i->x0 = INVALID_COORD;
     i->y0 = INVALID_COORD;
 }
-static void* polydraw_result(gfxdrawer_t*d)
+static void* polydraw_result(gfxcanvas_t*d)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     assert(!i->last);
     void*result = i->writer.finish(&i->writer);
     free(i);
-    memset(d, 0, sizeof(gfxdrawer_t));
+    memset(d, 0, sizeof(gfxcanvas_t));
     return result;
 }
 
-void gfxdrawer_target_poly(gfxdrawer_t*d, double gridsize)
+gfxcanvas_t* gfxcanvas_new(double gridsize)
 {
+    gfxcanvas_t*d = calloc(1, sizeof(gfxcanvas_t));
     polydraw_internal_t*i = (polydraw_internal_t*)calloc(1, sizeof(polydraw_internal_t));
     d->internal = i;
     i->lastx = INVALID_COORD; // convert_coord can never return this value
@@ -406,6 +407,7 @@ void gfxdrawer_target_poly(gfxdrawer_t*d, double gridsize)
     gfxpolywriter_init(&i->writer);
     i->writer.setgridsize(&i->writer, gridsize);
     i->z = 1.0 / gridsize;
+    return d;
 }
 
 #if 0

@@ -49,8 +49,7 @@ int main(int argn, char*argv[])
 {
     double grid = 2;
 
-    gfxdrawer_t draw;
-    gfxdrawer_target_poly(&draw, grid);
+    gfxcanvas_t*canvas = gfxcanvas_new(grid);
 
     char*str = "gfxpoly";
     int length = strlen(str);
@@ -73,18 +72,18 @@ int main(int argn, char*argv[])
         for(j=0;j<glyph->num_points;j++) {
             ttfpoint_t*p = &glyph->points[j];
             if(p->flags&GLYPH_CONTOUR_START) {
-                draw.moveTo(&draw, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
+                canvas->moveTo(canvas, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
             } else {
-                draw.lineTo(&draw, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
+                canvas->lineTo(canvas, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
             }
             if(p->flags&GLYPH_CONTOUR_END) {
-                draw.close(&draw);
+                canvas->close(canvas);
             }
         }
         offset_x += glyph->advance * 3 / 5 * scale_x;
     }
 
-    gfxpoly_t*poly = (gfxpoly_t*)draw.result(&draw);
+    gfxpoly_t*poly = (gfxpoly_t*)canvas->result(canvas);
     save(poly, grid, "test.ps");
 
     gfxpoly_destroy(poly);

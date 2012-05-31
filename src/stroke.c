@@ -38,7 +38,7 @@ typedef enum {LEFT=0, RIGHT=1} leftright_t;
 // ds(t)/dt = 2*t*x2 + (2-2t)*cx + (2t-2)*x1
 // ds(0) = 2*(cx-x1)
 
-static void draw_arc(gfxdrawer_t*draw, double x, double y, double a1, double a2, double r)
+static void draw_arc(gfxcanvas_t*draw, double x, double y, double a1, double a2, double r)
 {
     if(a2<a1) a2+=M_PI*2;
 
@@ -75,7 +75,7 @@ typedef struct _gfxpoint
     gfxcoord_t x,y;
 } gfxpoint_t;
 
-static void draw_single_stroke(gfxpoint_t*p, int num, gfxdrawer_t*draw, double width, gfx_capType cap, gfx_joinType join, double limit)
+static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double limit)
 {
     width/=2;
     if(width<=0) 
@@ -184,7 +184,7 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxdrawer_t*draw, double w
         draw->close(draw);
 }
 
-void draw_stroke(gfxline_t*start, gfxdrawer_t*draw, double width, gfx_capType cap, gfx_joinType join, double miterLimit)
+void draw_stroke(gfxline_t*start, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double miterLimit)
 {
     if(!start) 
         return;
@@ -244,8 +244,8 @@ void draw_stroke(gfxline_t*start, gfxdrawer_t*draw, double width, gfx_capType ca
 static windcontext_t onepolygon = {1};
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize)
 {
-    gfxdrawer_t d;
-    gfxdrawer_target_poly(&d, gridsize);
+    gfxcanvas_t d;
+    gfxcanvas_target_poly(&d, gridsize);
     draw_stroke(line, &d, width, cap_style, joint_style, miterLimit);
     gfxpoly_t*poly = (gfxpoly_t*)d.result(&d);
     assert(gfxpoly_check(poly, 1));
