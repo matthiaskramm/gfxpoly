@@ -53,18 +53,18 @@ typedef struct _edgestyle {
 /* |                          gfxpoly_t objects                     | */
 /* +----------------------------------------------------------------+ */
 
-typedef struct _gfxpolystroke {
+typedef struct _gfxsegmentlist {
     segment_dir_t dir;
     edgestyle_t*fs;
     int points_size;
     int num_points;
     point_t*points;
-    struct _gfxpolystroke*next;
-} gfxpolystroke_t;
+    struct _gfxsegmentlist*next;
+} gfxsegmentlist_t;
 
 typedef struct _gfxpoly {
     double gridsize;
-    gfxpolystroke_t*strokes;
+    gfxsegmentlist_t*strokes;
 } gfxpoly_t;
 
 void gfxpoly_destroy(gfxpoly_t*poly);

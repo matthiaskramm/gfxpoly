@@ -66,7 +66,7 @@ typedef struct _segment {
 
     point_t pos;
 
-    gfxpolystroke_t*stroke;
+    gfxsegmentlist_t*stroke;
     int stroke_pos;
 
 #ifndef DONT_REMEMBER_CROSSINGS

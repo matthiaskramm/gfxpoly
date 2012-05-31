@@ -48,7 +48,7 @@ void gfxpoly_fail(char*expr, char*file, int line, const char*function)
     void*md5 = initialize_md5();
 
     int s,t;
-    gfxpolystroke_t*stroke = current_polygon->strokes;
+    gfxsegmentlist_t*stroke = current_polygon->strokes;
     for(;stroke;stroke=stroke->next) {
         for(t=0;t<stroke->num_points;t++) {
             update_md5(md5, (unsigned char*)&stroke->points[t].x, sizeof(stroke->points[t].x));
@@ -183,7 +183,7 @@ typedef struct _status {
 
     horizdata_t horiz;
 
-    gfxpolystroke_t*strokes;
+    gfxsegmentlist_t*strokes;
 #ifdef CHECKS
     dict_t*seen_crossings; //list of crossing we saw so far
     dict_t*intersecting_segs; //list of segments intersecting in this scanline
@@ -194,7 +194,7 @@ typedef struct _status {
 
 int gfxpoly_num_segments(gfxpoly_t*poly)
 {
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     int count = 0;
     for(;stroke;stroke=stroke->next) {
         count++;
@@ -205,7 +205,7 @@ int gfxpoly_size(gfxpoly_t*poly)
 {
     int s,t;
     int edges = 0;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
         edges += stroke->num_points-1;
     }
@@ -217,7 +217,7 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
     dict_t*d1 = dict_new(&point_type);
     dict_t*d2 = dict_new(&point_type);
     int s,t;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
         /* In order to not confuse the fill/wind logic, existing segments must have
            a non-zero edge style */
@@ -271,7 +271,7 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
             if(count!=0) {
                 if(count>0) fprintf(stderr, "Error: Point (%.2f,%.2f) has %d more incoming than outgoing segments (%d incoming, %d outgoing)\n", p2->x * poly->gridsize, p2->y * poly->gridsize, count, (ocount+count)/2, (ocount-count)/2);
                 if(count<0) fprintf(stderr, "Error: Point (%.2f,%.2f) has %d more outgoing than incoming segments (%d incoming, %d outgoing)\n", p2->x * poly->gridsize, p2->y * poly->gridsize, -count, (ocount+count)/2, (ocount-count)/2);
-                gfxpolystroke_t*stroke = poly->strokes;
+                gfxsegmentlist_t*stroke = poly->strokes;
                 for(;stroke;stroke=stroke->next) {
                     for(s=0;s<stroke->num_points-1;s++) {
                         point_t a = stroke->points[s];
@@ -301,7 +301,7 @@ void gfxpoly_dump(gfxpoly_t*poly)
     int s,t;
     double g = poly->gridsize;
     fprintf(stderr, "polyon %p (gridsize: %.2f)\n", poly, poly->gridsize);
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
         fprintf(stderr, "%11p", stroke);
         if(stroke->dir==DIR_UP) {
@@ -328,7 +328,7 @@ void gfxpoly_save(gfxpoly_t*poly, const char*filename)
     fprintf(fi, "%% gridsize %f\n", poly->gridsize);
     fprintf(fi, "%% begin\n");
     int s,t;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
             fprintf(fi, "%g setgray\n", stroke->dir==DIR_UP ? 0.7 : 0);
         point_t p = stroke->points[0];
@@ -351,7 +351,7 @@ void gfxpoly_save_arrows(gfxpoly_t*poly, const char*filename)
     int t;
     double l = 5.0 / poly->gridsize;
     double g = poly->gridsize;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
         fprintf(fi, "0 setgray\n");
 
@@ -512,7 +512,7 @@ static void segment_destroy(segment_t*s)
     free(s);
 }
 
-static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxpolystroke_t*stroke, int polygon_nr, int pos, double gridsize)
+static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stroke, int polygon_nr, int pos, double gridsize)
 {
     if(!stroke) 
         return;
@@ -556,7 +556,7 @@ static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxpolystroke_t*strok
 static void gfxpoly_enqueue(gfxpoly_t*p, queue_t*queue, hqueue_t*hqueue, int polygon_nr)
 {
     int t;
-    gfxpolystroke_t*stroke = p->strokes;
+    gfxsegmentlist_t*stroke = p->strokes;
     for(;stroke;stroke=stroke->next) {
         assert(stroke->num_points > 1);
 
@@ -810,7 +810,7 @@ static void store_horizontal(status_t*status, point_t p1, point_t p2, edgestyle_
 
 static void append_stroke(status_t*status, point_t a, point_t b, segment_dir_t dir, edgestyle_t*fs)
 {
-    gfxpolystroke_t*stroke = status->strokes;
+    gfxsegmentlist_t*stroke = status->strokes;
     /* find a stoke to attach this segment to. It has to have an endpoint
        matching our start point, and a matching edgestyle */
     while(stroke) {
@@ -820,7 +820,7 @@ static void append_stroke(status_t*status, point_t a, point_t b, segment_dir_t d
         stroke = stroke->next;
     }
     if(!stroke) {
-        stroke = calloc(1,sizeof(gfxpolystroke_t));
+        stroke = calloc(1,sizeof(gfxsegmentlist_t));
         stroke->dir = dir;
         stroke->fs = fs;
         stroke->next = status->strokes;
@@ -1615,7 +1615,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
 #ifdef CHECKS
     /* we only add segments with non-empty edgestyles to strokes in
        recalculate_windings, but better safe than sorry */
-    gfxpolystroke_t*stroke = p->strokes;
+    gfxsegmentlist_t*stroke = p->strokes;
     while(stroke) {
         assert(stroke->fs);
         stroke = stroke->next;

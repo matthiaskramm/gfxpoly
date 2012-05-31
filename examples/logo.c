@@ -30,7 +30,7 @@ static void save(gfxpoly_t*poly, double z, const char*filename)
     FILE*fi = fopen(filename, "wb");
     fprintf(fi, "%% begin\n");
     int s,t;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
             fprintf(fi, "%g setgray\n", stroke->dir==DIR_UP ? 0.7 : 0);
         point_t p = stroke->points[0];

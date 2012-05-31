@@ -151,7 +151,7 @@ void finish_segment(compactpoly_t*data)
     if(data->num_points <= 1)
         return;
     point_t*p = malloc(sizeof(point_t)*data->num_points);
-    gfxpolystroke_t*s = calloc(1,sizeof(gfxpolystroke_t));
+    gfxsegmentlist_t*s = calloc(1,sizeof(gfxsegmentlist_t));
     s->fs = &edgestyle_default;
     s->next = data->poly->strokes;
     data->poly->strokes = s;
@@ -229,15 +229,15 @@ static void compactsetgridsize(polywriter_t*w, double gridsize)
 }
 /*static int compare_stroke(const void*_s1, const void*_s2)
 {
-    gfxpolystroke_t*s1 = (gfxpolystroke_t*)_s1;
-    gfxpolystroke_t*s2 = (gfxpolystroke_t*)_s2;
+    gfxsegmentlist_t*s1 = (gfxsegmentlist_t*)_s1;
+    gfxsegmentlist_t*s2 = (gfxsegmentlist_t*)_s2;
     return s1->points[0].y - s2->points[0].y;
 }*/
 static void*compactfinish(polywriter_t*w)
 {
     compactpoly_t*data = (compactpoly_t*)w->internal;
     finish_segment(data);
-    //qsort(data->poly->strokes, data->poly->num_strokes, sizeof(gfxpolystroke_t), compare_stroke);
+    //qsort(data->poly->strokes, data->poly->num_strokes, sizeof(gfxsegmentlist_t), compare_stroke);
     free(data->points);
     gfxpoly_t*poly = data->poly;
     free(w->internal);w->internal = 0;
@@ -280,9 +280,9 @@ gfxpoly_t* gfxpoly_from_file(const char*filename, double gridsize)
 void gfxpoly_destroy(gfxpoly_t*poly)
 {
     int t;
-    gfxpolystroke_t*stroke = poly->strokes;
+    gfxsegmentlist_t*stroke = poly->strokes;
     while(stroke) {
-        gfxpolystroke_t*next = stroke->next;
+        gfxsegmentlist_t*next = stroke->next;
         free(stroke->points);
         free(stroke);
         stroke = next;
@@ -413,7 +413,7 @@ gfxcanvas_t* gfxcanvas_new(double gridsize)
 #if 0
 gfxline_t*gfxline_from_gfxpoly(gfxpoly_t*poly)
 {
-    gfxpolystroke_t*stroke;
+    gfxsegmentlist_t*stroke;
     int count = 0;
     for(stroke=poly->strokes;stroke;stroke=stroke->next) {
         assert(stroke->num_points);
@@ -441,13 +441,13 @@ gfxline_t*gfxline_from_gfxpoly(gfxpoly_t*poly)
 
 static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
 {
-    gfxpolystroke_t*stroke;
+    gfxsegmentlist_t*stroke;
     int count = 0;
     if(!poly->strokes)
         return 0;
     dict_t*d = dict_new(&point_type);
     dict_t*todo = dict_new(&ptr_type);
-    gfxpolystroke_t*stroke_min= poly->strokes;
+    gfxsegmentlist_t*stroke_min= poly->strokes;
     int32_t x_min=stroke_min->points[0].x;
     int32_t y_min=stroke_min->points[0].y;
     for(stroke=poly->strokes;stroke;stroke=stroke->next) {
@@ -469,7 +469,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
             stroke_min = stroke;
         }
     }
-    gfxpolystroke_t*next_todo = poly->strokes;
+    gfxsegmentlist_t*next_todo = poly->strokes;
     gfxline_t*l = malloc(sizeof(gfxline_t)*count);
     count = 0;
     stroke = stroke_min;
