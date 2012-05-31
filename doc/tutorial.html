@@ -81,11 +81,11 @@ the shape you want to process as an outline of lines and splines:
 double gridsize = 0.01;
 
 gfxline_t*outline = NULL;
-outline = gfx_moveTo(outline, 0,0);
-outline = gfx_lineTo(outline, 100,0);
-outline = gfx_lineTo(outline, 100,100);
-outline = gfx_splineTo(outline, 50,50, 0,100);
-outline = gfx_lineTo(outline, 0,0);
+outline = GFX_MOVETO(outline, 0,0);
+outline = GFX_LINETO(outline, 100,0);
+outline = GFX_LINETO(outline, 100,100);
+outline = GFX_SPLINETO(outline, 50,50, 0,100);
+outline = GFX_LINETO(outline, 0,0);
 
 gfxpoly_t*poly = gfxpoly_from_fill(outline, gridsize);
 </pre>

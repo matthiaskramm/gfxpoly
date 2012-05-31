@@ -25,6 +25,7 @@
 #include "convert.h"
 #include "wind.h"
 #include "dict.h"
+#include "gfxline.h"
 
 /* factor that determines into how many line fragments a spline is converted */
 #define SUBFRACTION (2.4)
@@ -41,19 +42,20 @@ static inline int32_t convert_coord(double x, double z)
     return ceil(x);
 }
 
-static void convert_gfxline(gfxline_t*line, polywriter_t*w, double gridsize)
+static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
 {
-    assert(!line || line[0].type == gfx_moveTo);
+    gfxline_t*line = gfxline_rewind(_line);
+    assert(!line || line[0].type == GFX_MOVETO);
     double lastx=0,lasty=0;
     double z = 1.0 / gridsize;
     while(line) {
-        if(line->type == gfx_moveTo) {
-            if(line->next && line->next->type != gfx_moveTo && (line->x!=lastx || line->y!=lasty)) {
+        if(line->type == GFX_MOVETO) {
+            if(line->next && line->next->type != GFX_MOVETO && (line->x!=lastx || line->y!=lasty)) {
                 w->moveto(w, convert_coord(line->x,z), convert_coord(line->y,z));
             }
-        } else if(line->type == gfx_lineTo) {
+        } else if(line->type == GFX_LINETO) {
             w->lineto(w, convert_coord(line->x,z), convert_coord(line->y,z));
-        } else if(line->type == gfx_splineTo) {
+        } else if(line->type == GFX_SPLINETO) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + 
                                    fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
@@ -386,7 +388,7 @@ static void* polydraw_result(gfxcanvas_t*d)
     assert(!i->last);
     void*result = i->writer.finish(&i->writer);
     free(i);
-    memset(d, 0, sizeof(gfxcanvas_t));
+    free(d);
     return result;
 }
 
@@ -409,35 +411,6 @@ gfxcanvas_t* gfxcanvas_new(double gridsize)
     i->z = 1.0 / gridsize;
     return d;
 }
-
-#if 0
-gfxline_t*gfxline_from_gfxpoly(gfxpoly_t*poly)
-{
-    gfxsegmentlist_t*stroke;
-    int count = 0;
-    for(stroke=poly->strokes;stroke;stroke=stroke->next) {
-        assert(stroke->num_points);
-        count += stroke->num_points;
-    }
-    if(!count) return 0;
-    gfxline_t*l = malloc(sizeof(gfxline_t)*count);
-    count = 0;
-    /* TODO: it might make sense to concatenate strokes */
-    for(stroke=poly->strokes;stroke;stroke=stroke->next) {
-        int t;
-        for(t=0;t<stroke->num_points;t++) {
-            l[count+t].x = stroke->points[t].x * poly->gridsize;
-            l[count+t].y = stroke->points[t].y * poly->gridsize;
-            l[count+t].type = gfx_lineTo;
-            l[count+t].next = &l[count+t+1];
-        }
-        l[count].type = gfx_moveTo;
-        count+=stroke->num_points;
-    }
-    l[count-1].next = 0;
-    return l;
-}
-#endif
 
 static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
 {
@@ -470,12 +443,12 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         }
     }
     gfxsegmentlist_t*next_todo = poly->strokes;
-    gfxline_t*l = malloc(sizeof(gfxline_t)*count);
-    count = 0;
     stroke = stroke_min;
     
     point_t last = {INVALID_COORD, INVALID_COORD};
     char should_connect = 0;
+    
+    gfxline_t*l = gfxline_new();
     while(stroke) {
         if(stroke && !preserve_direction) {
             char del1 = dict_del2(d, &stroke->points[0], stroke);
@@ -501,20 +474,14 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
             }
         }
         if(last.x != stroke->points[pos].x || last.y != stroke->points[pos].y) {
-            l[count].x = stroke->points[pos].x * poly->gridsize;
-            l[count].y = stroke->points[pos].y * poly->gridsize;
-            l[count].type = gfx_moveTo;
-            l[count].next = &l[count+1];
-            count++;
+            l = gfx_moveTo(l, stroke->points[pos].x * poly->gridsize,
+                              stroke->points[pos].y * poly->gridsize);
             assert(!should_connect);
         }
         pos += incr;
         for(t=1;t<stroke->num_points;t++) {
-            l[count].x = stroke->points[pos].x * poly->gridsize;
-            l[count].y = stroke->points[pos].y * poly->gridsize;
-            l[count].type = gfx_lineTo;
-            l[count].next = &l[count+1];
-            count++;
+            l = gfx_lineTo(l, stroke->points[pos].x * poly->gridsize,
+                              stroke->points[pos].y * poly->gridsize);
             pos += incr;
         }
         last = stroke->points[pos-incr];
@@ -522,7 +489,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         assert(del);
         assert(!dict_contains(todo, stroke));
 
-        /* try to find a poly which starts at the point we drew last */
+        /* try to find a poly which starts at the point we have drawn last */
         stroke = dict_lookup(d, &last);
         should_connect = 1;
         while(!dict_contains(todo, stroke)) {
@@ -535,7 +502,6 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
             next_todo = next_todo->next;
         }
     }
-    l[count-1].next = 0;
     dict_destroy(todo);
     dict_destroy(d);
     return l;
@@ -564,12 +530,12 @@ gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize)
 
 gfxline_t*gfxline_makerectangle(double x1,double y1,double x2, double y2)
 {
-    gfxline_t* line = (gfxline_t*)calloc(5,sizeof(gfxline_t));
-    line[0].x = x1;line[0].y = y1;line[0].type = gfx_moveTo;line[0].next = &line[1];
-    line[1].x = x2;line[1].y = y1;line[1].type = gfx_lineTo;line[1].next = &line[2];
-    line[2].x = x2;line[2].y = y2;line[2].type = gfx_lineTo;line[2].next = &line[3];
-    line[3].x = x1;line[3].y = y2;line[3].type = gfx_lineTo;line[3].next = &line[4];
-    line[4].x = x1;line[4].y = y1;line[4].type = gfx_lineTo;
+    gfxline_t* line = gfxline_new();
+    line = gfx_moveTo(line, x1, y1);
+    line = gfx_lineTo(line, x2, y1);
+    line = gfx_lineTo(line, x2, y2);
+    line = gfx_lineTo(line, x1, y2);
+    line = gfx_lineTo(line, x1, y1);
     return line;
 }
 
@@ -581,24 +547,26 @@ gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double g
     return poly;
 }
 
-void gfxline_print(gfxline_t*l)
+void gfxline_print(gfxline_t*_l)
 {
+    gfxline_t*l = gfxline_rewind(l);
     while(l) {
-	if(l->type == gfx_moveTo) {
+	if(l->type == GFX_MOVETO) {
 	    printf("moveTo %.2f,%.2f\n", l->x, l->y);
 	}
-	if(l->type == gfx_lineTo) {
+	if(l->type == GFX_LINETO) {
 	    printf("lineTo %.2f,%.2f\n", l->x, l->y);
 	}
-	if(l->type == gfx_splineTo) {
+	if(l->type == GFX_SPLINETO) {
 	    printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
 	}
 	l = l->next;
     }
 }
 
-void gfxline_destroy(gfxline_t*l)
+void gfxline_destroy(gfxline_t*_l)
 {
+    gfxline_t*l = gfxline_rewind(l);
     if(l && (l+1) == l->next) {
 	/* flattened */
 	free(l);

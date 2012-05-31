@@ -24,6 +24,7 @@
 #include "poly.h"
 #include "wind.h"
 #include "convert.h"
+#include "gfxline.h"
 
 /* notice: left/right for a coordinate system where y goes up, not down */
 typedef enum {LEFT=0, RIGHT=1} leftright_t;
@@ -184,23 +185,24 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
         draw->close(draw);
 }
 
-void draw_stroke(gfxline_t*start, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double miterLimit)
+void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double miterLimit)
 {
-    if(!start) 
+    gfxline_t*start = gfxline_rewind(_start);
+    if(!start)
         return;
-    assert(start->type == gfx_moveTo);
+    assert(start->type == GFX_MOVETO);
     gfxline_t*line = start;
     // measure array size
     int size = 0;
     int pos = 0;
     double lastx,lasty;
     while(line) {
-        if(line->type == gfx_moveTo) {
+        if(line->type == GFX_MOVETO) {
             if(pos>size) size = pos;
             pos++;
-        } else if(line->type == gfx_lineTo) {
+        } else if(line->type == GFX_LINETO) {
             pos++;
-        } else if(line->type == gfx_splineTo) {
+        } else if(line->type == GFX_SPLINETO) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
             pos+=parts+1;
@@ -216,11 +218,11 @@ void draw_stroke(gfxline_t*start, gfxcanvas_t*draw, double width, gfx_capType ca
     line = start;
     pos = 0;
     while(line) {
-        if(line->type == gfx_moveTo) {
+        if(line->type == GFX_MOVETO) {
             if(pos)
                 draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);
             pos = 0;
-        } else if(line->type == gfx_splineTo) {
+        } else if(line->type == GFX_SPLINETO) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if(!parts) parts = 1;
             double stepsize = 1.0/parts;

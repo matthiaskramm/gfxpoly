@@ -115,7 +115,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
 /* +----------------------------------------------------------------+ */
 
 typedef double gfxcoord_t;
-typedef enum {gfx_moveTo, gfx_lineTo, gfx_splineTo} gfx_linetype;
+typedef enum {GFX_MOVETO, GFX_LINETO, GFX_SPLINETO} gfx_linetype;
 typedef enum {gfx_joinMiter, gfx_joinRound, gfx_joinBevel} gfx_joinType;
 typedef enum {gfx_capButt, gfx_capRound, gfx_capSquare} gfx_capType;
 
@@ -127,8 +127,14 @@ typedef struct _gfxline {
     struct _gfxline*next;
 } gfxline_t;
 
+gfxline_t* gfxline_new();
+gfxline_t* gfx_moveTo(gfxline_t*line, gfxcoord_t x, gfxcoord_t y);
+gfxline_t* gfx_lineTo(gfxline_t*line, gfxcoord_t x, gfxcoord_t y);
+gfxline_t* gfx_splineTo(gfxline_t*line, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y);
+
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize);
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize);
+void gfxline_destroy(gfxline_t*l);
 
 /* +----------------------------------------------------------------+ */
 /* |     creation of gfxpoly objects by drawing on a "gfxcanvas"    | */
