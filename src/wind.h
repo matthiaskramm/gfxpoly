@@ -48,7 +48,7 @@ typedef struct _windcontext
 
 typedef struct _windrule
 {
-    windstate_t (*start)(windcontext_t* num_polygons);
+    windstate_t (*start)(windcontext_t* context);
     windstate_t (*add)(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int polygon_nr);
     edgestyle_t* (*diff)(windstate_t*left, windstate_t*right);
 } windrule_t;

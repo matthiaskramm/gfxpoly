@@ -23,20 +23,6 @@
 
 #include "poly.h"
 
-typedef enum {gfx_moveTo, gfx_lineTo, gfx_splineTo} gfx_linetype;
-typedef enum {gfx_joinMiter, gfx_joinRound, gfx_joinBevel} gfx_joinType;
-typedef enum {gfx_capButt, gfx_capRound, gfx_capSquare} gfx_capType;
-
-typedef double gfxcoord_t;
-
-typedef struct _gfxline
-{
-    gfx_linetype type;
-    gfxcoord_t x,y;
-    gfxcoord_t sx,sy;
-    struct _gfxline*next; /*NULL=end*/
-} gfxline_t;
-
 typedef struct _gfxdrawer
 {
     void*internal;

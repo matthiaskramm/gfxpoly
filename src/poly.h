@@ -22,6 +22,7 @@
 #define __poly_h__
 
 #include <stdint.h>
+#include "gfxpoly.h"
 #include "wind.h"
 #include "dict.h"
 

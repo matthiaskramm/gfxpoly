@@ -1,0 +1,229 @@
+<html>
+<head>
+<style type="text/css">
+* {
+    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
+    font-size: 16pt;
+    background-color: #202040; 
+    color: #ffffff;
+}
+pre.code, pre.commit, pre.ruby, pre.shell, pre.python, pre.c {
+    border: 1px solid #a0b090;
+    font-family: Lucida Console, Monaco, monospace;
+    font-size: 16pt;
+    background-color: #204040; 
+    color: #ffffff;
+    width: 100%;
+}
+pre.commit, pre.generated {
+    border: 1px solid #ffffff;
+    background-color: #000000; 
+    color: #ffffff;
+    font-size: 14pt;
+}
+h1 {
+    color: #ffffff;
+    font-size: 20pt;
+    text-decoration: underline;
+    text-align:center;
+}
+h2 {
+    color: #4080f0;
+    font-size: 19pt;
+    text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<h1>gfxpoly tutorial</h1>
+
+<h2>Polygon representation</h2><a name="#representation"/>
+
+<p>
+Polygons in gfxpoly are represented as a set of line segments.
+The internal representation doesn't have a way to represent curves (splines),
+however it's possible to convert splines to a gfxpoly structure
+by approximating them with lines (See <a href="#creating_polygons"/>creating polygons</a>.)
+</p>
+
+<p>
+Polygon endpoints, furthermore, are rounded to a grid (i.e., represented as integer coordinates.) <br />
+During polygon intersection, the resulting polygons are again rounded- also, new intersection
+points will cause adjacent lines (i.e. lines passing through that grid point) 
+to be "routed" through the intersection point, a concept known as "snap rounding to hot pixels": <br />
+
+<!-- TODO hot pixels drawing -->
+
+This approach ensures robustness of intersection, since there's always a unique representation of
+the output polygon (as opposed to doing polygon intersection on floating point numbers where 
+due to numerical precision, intersection points might now have an actual representation as floating
+point number, leading to errors when they are "rounded" to a float.)
+</p>
+
+<p>
+There are a lot of academic papers about why snap rounding is preferrable to numeric approaches.
+gfxpoly uses <a href="http://ect.bell-labs.com/who/hobby/93_2-27.pdf">the algorithm from Hobby</a> 
+with a few additional ideas 
+from <a href="http://www.springerlink.com/content/p46t8502v6q6g687/">Hershberger</a> and 
+<a href="http://cccg.ca/proceedings/2007/07a1full.pdf">Bhattacharya et al</a>.
+</p>
+
+<h2>Creating polygons</h2><a name="#creating_polygons"/>
+
+<p> 
+The easiest way to create a gfxpoly polygon is to first represent
+the shape you want to process as an outline of lines and splines:
+</p>
+
+<pre class="code">
+double gridsize = 0.01;
+
+gfxline_t*outline = NULL;
+outline = gfx_moveTo(outline, 0,0);
+outline = gfx_lineTo(outline, 100,0);
+outline = gfx_lineTo(outline, 100,100);
+outline = gfx_splineTo(outline, 50,50, 0,100);
+outline = gfx_lineTo(outline, 0,0);
+
+gfxpoly_t*poly = gfxpoly_from_fill(outline, gridsize);
+</pre>
+
+<p>
+Here, <tt>gridsize</tt> is the spacing of grid points- i.e., the numerical
+precision of your coordinate system. So a coordinate like <tt>7.392</tt> will
+be truncated to <tt>7.39</tt> during conversion to gfxpoly_t (and since gfxpoly_t
+represents coordinates as integers, be internally stored as 739.)
+</p>
+
+<p>
+You can also create polygons from a <b>stroke</b>:
+</p>
+
+<pre class="code">
+gfxpoly_t*poly = gfxpoly_from_stroke(outline, /*line width*/10.0, gfx_capRound, gfx_joinRound, 0.0, gridsize);
+</pre>
+
+<p>
+The parameters are defined as following:
+</p>
+
+<!-- TODO line drawing -->
+
+<h2>Boolean operations between polygons</h2><a name="#bool"/>
+
+<p>Once you have a representation of your polygon as <tt>gfxpoly</tt> you 
+can intersect polygons:</p>
+
+<pre class="code">
+gfxpoly_t*poly12 = gfxpoly_intersect(poly1, poly2);
+</pre>
+
+<p>You can also build the union of two polygons:</p>
+
+<pre class="code">
+gfxpoly_t*poly12 = gfxpoly_union(poly1, poly2);
+</pre>
+
+<p>
+Notice: gfxpoly_intersect and gfxpoly_union are really just convenience
+wrappers for <tt>gfxpoly_process</tt>. See <a href="#gfxpoly_process">gfxpoly_process</a>. <br />
+By using <a href="#gfxpoly_process">gfxpoly_process</a> directly, you can implement other polygon operations, like symmetric
+difference, overlay, transparency etc.
+</p>
+
+<h2>Polygon area and moments</h2><a name="#area"/>
+
+<p>
+You can also compute the area of a polygon:
+</p>
+
+<pre class="code">
+double area = gfxpoly_area(poly);
+</pre>
+
+<p>
+If you're interested in the degree of overlap between two polygons, there's
+a shortcut that does <tt>gfxpoly_intersect</tt> and <tt>gfxpoly_area</tt> in
+a single step:
+</p>
+
+<pre class="code">
+double area = gfxpoly_intersection_area(poly1, poly2);
+</pre>
+
+<h2>Advanced</h2><a name="#advanced"/>
+<h3>Creating gfxpoly through gfxcanvas</h3><a name="#gfxcanvas"/>
+<p>
+Representing polygons as a <tt>gfxline_t</tt> list first has the disadvantage
+of having to allocate that structure first. A faster way is to use the 
+gfxcanvas_t abstraction to convert a shape to a gfxpoly on the fly:
+</p>
+
+<pre class="code">
+gfxcanvas_t*canvas = gfxcanvas_new(gridsize);
+canvas-&gt;moveTo(canvas, 0,0);
+canvas-&gt;lineTo(canvas, 100,0);
+canvas-&gt;lineTo(canvas, 100,100);
+canvas-&gt;splineTo(canvas, 50,50, 0,100);
+canvas-&gt;lineTo(canvas, 0,0);
+canvas-&gt;close(canvas);
+gfxpoly_t* poly = (gfxpoly_t*)canvas-&gt;result(canvas);
+</pre>
+
+<h3>gfxpoly_process</h3><a name="#gfxpoly_process"/>
+
+<p>
+Internally, for every polygon operation, a scanline pass is run over all
+the line segments using <tt>gfxpoly_process</tt>. It has the following prototype:
+</p>
+
+<pre class="code">
+gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule, windcontext_t*context, moments_t*moments);
+</pre>
+
+<p>To implement custom polygon operations, you would create your own <tt>windcontext</tt>.
+To understand how this works, we need to talk about scanline algorithms first. <br />
+A <b>scanline algorithm</b> processes a set of line segments from top to bottom (or left to right,
+depending on the implementation), and during every scanline, shoots an imaginary ray from negative
+infinity to positive infinity, looking at which polygon segments it hits, and in which order:
+</p>
+
+<!-- scanline -->
+
+<p>The state of the ray is represented as a <tt>windstate_t</tt> structure- it e.g. stores
+whether the current polygon area we're in is filled or not, or how many polygons are currently
+on top of each other.
+</p>
+
+<p>A <tt>windrule_t</tt> structure specifies what should happen to the <tt>windstate_t</tt> every
+time we pass through an edge, it's initial value (at negative infinity) and also, when generating
+the output polygon, what kind of edge to place between two different <tt>windstate_t</tt> areas.
+</p>
+
+<p>An <tt>edgestyle_t</tt> structure is attached to every edge, and can store user data that applies
+to that edge (e.g. for polygon overlays, the color of the polygon belonging to that edge.)
+</p>
+
+<p>Hence, for creating your own windrule, you have to implement the following functions:
+</p>
+
+<pre> 
+windstate_t start(windcontext_t*context);
+windstate_t add(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int polygon_nr);
+edgestyle_t* diff(windstate_t*left, windstate_t*right);
+</pre>
+
+<p>
+gfxpoly already contains windrule implementations for:
+<ul>
+<li>Even/Odd self-intersection (<tt>windrule_evenodd</tt>)</li>
+<li>Circular self-intersection (<tt>windrule_circular</tt>)</li>
+<li>Two polygon intersection (<tt>windrule_intersect</tt>)</li>
+<li>Two polygon union (<tt>windrule_union</tt>)</li>
+</ul>
+</p>
+
+</body>
+</html>
