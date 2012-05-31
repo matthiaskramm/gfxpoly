@@ -243,7 +243,6 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     free(points);
 }
 
-static windcontext_t onepolygon = {1};
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize)
 {
     gfxcanvas_t d;

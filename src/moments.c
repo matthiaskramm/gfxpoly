@@ -18,6 +18,9 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
 
+#include "gfxpoly.h"
+#include "poly.h"
+#include "wind.h"
 #include "moments.h"
 
 #define MOMENTS
@@ -74,4 +77,30 @@ void moments_normalize(moments_t*moments, double gridsize)
     moments->m[0][0] *= gridsize*gridsize;
     moments->m[1][0] *= gridsize*gridsize*gridsize*gridsize;
     moments->m[2][0] *= gridsize*gridsize*gridsize*gridsize*gridsize*gridsize;
+}
+
+double gfxpoly_area(gfxpoly_t*p)
+{
+    moments_t moments;
+    gfxpoly_t*p2 = gfxpoly_process(p, 0, &windrule_evenodd, &onepolygon, &moments);
+    gfxpoly_destroy(p2);
+    moments_normalize(&moments, p->gridsize);
+    return moments.area;
+}
+double gfxpoly_intersection_area(gfxpoly_t*p1, gfxpoly_t*p2)
+{
+    moments_t moments;
+    gfxpoly_t*p3 = gfxpoly_process(p1, p2, &windrule_intersect, &twopolygons, &moments);
+    gfxpoly_destroy(p3);
+
+    moments_normalize(&moments, p1->gridsize);
+    return moments.area;
+}
+moments_t gfxpoly_moments(gfxpoly_t*p)
+{
+    moments_t moments;
+    gfxpoly_t*p2 = gfxpoly_process(p, 0, &windrule_evenodd, &onepolygon, &moments);
+    gfxpoly_destroy(p2);
+    moments_normalize(&moments, p->gridsize);
+    return moments;
 }

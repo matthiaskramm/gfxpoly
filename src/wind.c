@@ -27,6 +27,9 @@ windstate_t windstate_nonfilled = {
     wind_nr: 0,
 };
 
+windcontext_t onepolygon = {1};
+windcontext_t twopolygons = {2};
+
 // -------------------- even/odd ----------------------
 
 windstate_t evenodd_start(windcontext_t*context)

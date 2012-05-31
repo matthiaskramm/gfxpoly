@@ -1624,8 +1624,6 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
     return p;
 }
 
-static windcontext_t onepolygon = {1};
-static windcontext_t twopolygons = {2};
 gfxpoly_t* gfxpoly_intersect(gfxpoly_t*p1, gfxpoly_t*p2)
 {
     return gfxpoly_process(p1, p2, &windrule_intersect, &twopolygons, 0);
@@ -1633,21 +1631,4 @@ gfxpoly_t* gfxpoly_intersect(gfxpoly_t*p1, gfxpoly_t*p2)
 gfxpoly_t* gfxpoly_union(gfxpoly_t*p1, gfxpoly_t*p2)
 {
     return gfxpoly_process(p1, p2, &windrule_union, &twopolygons, 0);
-}
-double gfxpoly_area(gfxpoly_t*p)
-{
-    moments_t moments;
-    gfxpoly_t*p2 = gfxpoly_process(p, 0, &windrule_evenodd, &onepolygon, &moments);
-    gfxpoly_destroy(p2);
-    moments_normalize(&moments, p->gridsize);
-    return moments.area;
-}
-double gfxpoly_intersection_area(gfxpoly_t*p1, gfxpoly_t*p2)
-{
-    moments_t moments;
-    gfxpoly_t*p3 = gfxpoly_process(p1, p2, &windrule_intersect, &twopolygons, &moments);
-    gfxpoly_destroy(p3);
-
-    moments_normalize(&moments, p1->gridsize);
-    return moments.area;
 }

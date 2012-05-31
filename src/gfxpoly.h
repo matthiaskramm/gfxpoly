@@ -87,6 +87,7 @@ typedef struct _moments {
 
 double gfxpoly_area(gfxpoly_t*p);
 double gfxpoly_intersection_area(gfxpoly_t*p1, gfxpoly_t*p2);
+moments_t gfxpoly_moments(gfxpoly_t*p);
 
 /* +----------------------------------------------------------------+ */
 /* |           Low level scanline processing interface              | */

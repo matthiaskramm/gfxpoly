@@ -517,7 +517,6 @@ gfxline_t*gfxline_from_gfxpoly_with_direction(gfxpoly_t*poly)
     return mkgfxline(poly, 1);
 }
 
-static windcontext_t onepolygon = {1};
 gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize)
 {
     gfxpoly_t*poly = gfxpoly_from_fill(line, gridsize);
