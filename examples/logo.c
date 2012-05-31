@@ -24,7 +24,7 @@
 
 #define FONT "/usr/lib/win32/fonts/georgia.ttf"
 
-void save(gfxpoly_t*poly, double z, const char*filename)
+static void save(gfxpoly_t*poly, double z, const char*filename)
 {
     FILE*fi = fopen(filename, "wb");
     fprintf(fi, "%% begin\n");

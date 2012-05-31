@@ -62,7 +62,7 @@ static inline void add_pixel(renderbuf_t*buf, double x, int y, segment_dir_t dir
 
     if(l->num == l->size) {
         l->size += 32;
-        l->points = (renderpoint_t*)rfx_realloc(l->points, l->size * sizeof(renderpoint_t));
+        l->points = (renderpoint_t*)realloc(l->points, l->size * sizeof(renderpoint_t));
     }
     l->points[l->num] = p;
     l->num++;
