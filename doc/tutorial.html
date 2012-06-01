@@ -3,34 +3,35 @@
 <style type="text/css">
 * {
     font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
-    font-size: 16pt;
-    background-color: #202040; 
-    color: #ffffff;
+    font-size: 14pt;
+    background-color: #ffffff; 
+    color: #000000;
 }
 pre.code, pre.commit, pre.ruby, pre.shell, pre.python, pre.c {
     border: 1px solid #a0b090;
     font-family: Lucida Console, Monaco, monospace;
     font-size: 16pt;
-    background-color: #204040; 
-    color: #ffffff;
+    background-color: #000020; 
+    color: #40ffc0;
     width: 100%;
+    padding: 10px;
 }
 pre.commit, pre.generated {
     border: 1px solid #ffffff;
     background-color: #000000; 
-    color: #ffffff;
+    color: #80ffff;
     font-size: 14pt;
 }
 h1 {
-    color: #ffffff;
+    color: #000000;
     font-size: 20pt;
     text-decoration: underline;
     text-align:center;
 }
 h2 {
-    color: #4080f0;
+    margin-top: 40px;
+    color: #008000;
     font-size: 19pt;
-    text-decoration: underline;
 }
 </style>
 </head>
@@ -190,7 +191,9 @@ depending on the implementation), and during every scanline, shoots an imaginary
 infinity to positive infinity, looking at which polygon segments it hits, and in which order:
 </p>
 
-<!-- scanline -->
+<p>
+<img src="windstate.png" /p>
+</p>
 
 <p>The state of the ray is represented as a <tt>windstate_t</tt> structure- it e.g. stores
 whether the current polygon area we're in is filled or not, or how many polygons are currently
@@ -209,7 +212,7 @@ to that edge (e.g. for polygon overlays, the color of the polygon belonging to t
 <p>Hence, for creating your own windrule, you have to implement the following functions:
 </p>
 
-<pre> 
+<pre class="code"> 
 windstate_t start(windcontext_t*context);
 windstate_t add(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int polygon_nr);
 edgestyle_t* diff(windstate_t*left, windstate_t*right);
