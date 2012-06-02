@@ -33,6 +33,8 @@
 typedef enum {EVENT_CROSS, EVENT_END, EVENT_START, EVENT_HORIZONTAL} eventtype_t;
 typedef enum {SLOPE_POSITIVE, SLOPE_NEGATIVE} slope_t;
 
+#define point_t gridpoint_t
+
 #define INVALID_COORD (0x7fffffff)
 #define SEGNR(s) ((int)((s)?(s)->nr:-1))
 type_t point_type;

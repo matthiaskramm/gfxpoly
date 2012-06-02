@@ -387,6 +387,43 @@ void gfxpoly_save_arrows(gfxpoly_t*poly, const char*filename)
     fclose(fi);
 }
 
+#if defined(HAVE_PDFLIB) && 0
+#include <pdflib.h>
+void gfxpoly_save_as_pdf(gfxpoly_t*poly, const char*filename)
+{
+    gfxbbox_t bbox = gfxpoly_calculate_bbox(poly);
+    double tx = -bbox.x1;
+    double ty = -bbox.y1;
+    int width = bbox.x2 - bbox.x1;
+    int height = bbox.y2 - bbox.y1;
+
+    PDF*pdf = PDF_new();
+    PDF_open_file(pdf, filename);
+    PDF_set_parameter(pdf, "usercoordinates", "true");
+    PDF_set_parameter(pdf, "topdown", "false");
+
+    double z = poly->gridsize * scale;
+
+    PDF_begin_page(pdf, width, height);
+
+    gfxsegmentlist_t*stroke = poly->strokes;
+    PDF_setcolor(pdf, "stroke", "rgb", 0.0,0.0,0,0);
+    for(;stroke;stroke=stroke->next) {
+        gridpoint_t p = stroke->points[0];
+	PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
+        int s;
+        for(s=1;s<stroke->num_points;s++) {
+            p = stroke->points[s];
+	    PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
+        }
+	PDF_stroke(pdf);
+    }
+    PDF_end_page(pdf);
+    PDF_close(pdf);
+    PDF_delete(pdf);
+}
+#endif
+
 inline static event_t* event_new()
 {
     event_t*e = calloc(1,sizeof(event_t));
@@ -1536,7 +1573,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
         assert(poly1->gridsize == poly2->gridsize);
         gfxpoly_enqueue(poly2, &status.queue, 0, /*polygon nr*/1);
     }
-
+    
 #ifdef CHECKS
     status.seen_crossings = dict_new(&point_type);
 #endif
@@ -1626,9 +1663,47 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
 
 gfxpoly_t* gfxpoly_intersect(gfxpoly_t*p1, gfxpoly_t*p2)
 {
-    return gfxpoly_process(p1, p2, &windrule_intersect, &twopolygons, 0);
+    return gfxpoly_process(p1, p2, &windrule_intersect, &twopolygons, NULL);
 }
 gfxpoly_t* gfxpoly_union(gfxpoly_t*p1, gfxpoly_t*p2)
 {
-    return gfxpoly_process(p1, p2, &windrule_union, &twopolygons, 0);
+    return gfxpoly_process(p1, p2, &windrule_union, &twopolygons, NULL);
+}
+gfxpoly_t* gfxpoly_selfintersect_evenodd(gfxpoly_t*p)
+{
+    return gfxpoly_process(p, NULL, &windrule_evenodd, &onepolygon, NULL);
+}
+gfxpoly_t* gfxpoly_selfintersect_circular(gfxpoly_t*p)
+{
+    return gfxpoly_process(p, NULL, &windrule_circular, &onepolygon, NULL);
+}
+
+
+gfxbbox_t gfxpoly_calculate_bbox(gfxpoly_t*poly)
+{
+    gfxsegmentlist_t*stroke = poly->strokes;
+    gfxbbox_t bbox = {0,0,0,0};
+    if(!stroke || !stroke->num_points)
+        return bbox;
+    bbox.x1 = bbox.x2 = stroke->points[0].x;
+    bbox.y1 = bbox.y2 = stroke->points[0].y;
+    for(;stroke;stroke=stroke->next) {
+        int s;
+        for(s=0;s<stroke->num_points;s++) {
+            point_t p = stroke->points[s];
+            if(p.x < bbox.x1)
+                bbox.x1 = p.x;
+            if(p.y < bbox.y1)
+                bbox.y1 = p.y;
+            if(p.x > bbox.x2)
+                bbox.x2 = p.x;
+            if(p.y > bbox.y2)
+                bbox.y2 = p.y;
+        }
+    }
+    bbox.x1 *= poly->gridsize;
+    bbox.y1 *= poly->gridsize;
+    bbox.x2 *= poly->gridsize;
+    bbox.y2 *= poly->gridsize;
+    return bbox;
 }

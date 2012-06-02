@@ -26,7 +26,7 @@
 
 actlist_t* actlist_new()
 {
-    actlist_t*a = (actlist_t*)malloc(sizeof(actlist_t));
+    actlist_t*a = (actlist_t*)calloc(1, sizeof(actlist_t));
     return a;
 }
 void actlist_destroy(actlist_t*a)

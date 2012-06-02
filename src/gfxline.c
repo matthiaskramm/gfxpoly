@@ -14,6 +14,7 @@ gfxline_t* gfxline_moveTo(gfxline_t*prev, gfxcoord_t x, gfxcoord_t y)
     line->x = x;
     line->y = y;
     line->prev = prev;
+    line->next = NULL;
     if(prev) {
         prev->next = line;
     }
@@ -27,6 +28,7 @@ gfxline_t* gfxline_lineTo(gfxline_t*prev, gfxcoord_t x, gfxcoord_t y)
     line->x = x;
     line->y = y;
     line->prev = prev;
+    line->next = NULL;
     if(prev) {
         prev->next = line;
     }
@@ -42,6 +44,7 @@ gfxline_t* gfxline_splineTo(gfxline_t*prev, gfxcoord_t sx, gfxcoord_t sy, gfxcoo
     line->sx = sx;
     line->sy = sy;
     line->prev = prev;
+    line->next = NULL;
     if(prev) {
         prev->next = line;
     }

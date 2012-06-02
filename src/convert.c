@@ -509,12 +509,12 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
 
 gfxline_t*gfxline_from_gfxpoly(gfxpoly_t*poly)
 {
-    return mkgfxline(poly, 0);
+    return gfxline_rewind(mkgfxline(poly, 0));
 }
 
 gfxline_t*gfxline_from_gfxpoly_with_direction(gfxpoly_t*poly)
 {
-    return mkgfxline(poly, 1);
+    return gfxline_rewind(mkgfxline(poly, 1));
 }
 
 gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize)
