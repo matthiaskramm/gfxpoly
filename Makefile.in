@@ -58,4 +58,4 @@ install:
 	cp libgfxpoly.$(SO) $(libdir)
 
 clean: 
-	rm -f src/*.o examples/*.o gfxpoly.$(A) gfxpoly.$(SO)
+	rm -f src/*.o examples/*.o libgfxpoly.$(A) libgfxpoly.$(SO)
