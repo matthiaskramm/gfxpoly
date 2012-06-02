@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="New document 1">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path3731"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2828"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2828-7"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3649"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3675"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective3700"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4181"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-4"
+       style="overflow:visible">
+      <path
+         id="path3731-0"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <inkscape:perspective
+       id="perspective4181-1"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-9"
+       style="overflow:visible">
+      <path
+         id="path3731-6"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <inkscape:perspective
+       id="perspective4228"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4256"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4284"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4315"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.81670834"
+     inkscape:cx="465.74764"
+     inkscape:cy="880.0498"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1370"
+     inkscape:window-height="856"
+     inkscape:window-x="61"
+     inkscape:window-y="-5"
+     inkscape:window-maximized="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#808080;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="m 133.40625,10.53125 a 15.0015,15.0015 0 0 0 -13.875,11.90625 L 77.09375,223.28125 106.4375,229.5 141.84375,61.84375 l 55.5,77.1875 24.34375,-17.5 -75.3125,-104.75 a 15.0015,15.0015 0 0 0 -12.96875,-6.25 z"
+       id="path2818"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#808080;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="M 336.84375,15.90625 310,21.5625 l -42.4375,200.875 -3.09375,14.65625 29.34375,6.21875 3.125,-14.6875 35.375,-167.625 55.5,77.1875 8.75,12.15625 24.375,-17.5 -8.75,-12.1875 -75.34375,-104.75 z"
+       id="path2818-9"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#808080;fill-opacity:1;stroke:none;stroke-width:30;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans"
+       d="m 505.75,-10.8125 -7,33.25 -42.4375,200.84375 a 15.013023,15.013023 0 1 0 29.375,6.21875 l 35.375,-167.65625 55.5,77.1875 a 15.003255,15.003255 0 1 0 24.375,-17.5 L 525.59375,16.78125 505.75,-10.8125 z"
+       id="path2818-3"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 90.909091,225.52236 135.42356,29.597776 207.79221,129.16487"
+       id="path3637"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 282.50467,225.52236 325.54112,29.851363 400.61221,130.89648"
+       id="path3639"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 470.56276,225.55313 513.8528,25.955257 588.56527,129.3442"
+       id="path3639-6"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="6.4086776"
+       y="306.63913"
+       id="text3663"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665"
+         x="6.4086776"
+         y="306.63913">captype =</tspan><tspan
+         sodipodi:role="line"
+         x="6.4086776"
+         y="337.88913"
+         id="tspan3717">gfx_capButt</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="221.39119"
+       y="306.3252"
+       id="text3663-9"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665-3"
+         x="221.39119"
+         y="306.3252">captype =</tspan><tspan
+         sodipodi:role="line"
+         x="221.39119"
+         y="337.5752"
+         id="tspan3719">gfx_capSquare</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="423.85602"
+       y="305.08173"
+       id="text3663-9-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665-3-8"
+         x="423.85602"
+         y="305.08173">captype =</tspan><tspan
+         sodipodi:role="line"
+         x="423.85602"
+         y="336.33173"
+         id="tspan3721">gfx_capRound</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 64.894648,279.74854 19.590837,-40.4061"
+       id="path3723"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 257.12974,285.25847 19.59083,-40.4061"
+       id="path3723-9"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)"
+       d="m 449.36483,286.48289 19.59084,-40.4061"
+       id="path3723-2"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 210.6015,131.59284 c 11.08121,12.52548 -4.59665,3.28917 14.54008,30.76373 -20.05505,-26.96288 -19.89696,-10.56068 -26.93741,-22.6519"
+       id="path4214"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#2b0000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="193.30646"
+       y="172.76421"
+       id="text4216"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan4218"
+         x="193.30646"
+         y="172.76421">line width</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="49.757549"
+       y="-58.445782"
+       id="text3663-3"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665-8"
+         x="49.757549"
+         y="-58.445782">jointype =</tspan><tspan
+         sodipodi:role="line"
+         x="49.757549"
+         y="-27.195782"
+         id="tspan3717-0">gfx_joinRound</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="245.40985"
+       y="-60.841782"
+       id="text3663-3-4"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665-8-7"
+         x="245.40985"
+         y="-60.841782">jointype =</tspan><tspan
+         sodipodi:role="line"
+         x="245.40985"
+         y="-29.591782"
+         id="tspan3717-0-6">gfx_joinBevel</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:25px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="441.40363"
+       y="-61.707581"
+       id="text3663-3-4-8"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan3665-8-7-9"
+         x="441.40363"
+         y="-61.707581">jointype =</tspan><tspan
+         sodipodi:role="line"
+         x="441.40363"
+         y="-30.457581"
+         id="tspan3717-0-6-0">gfx_joinMiter</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-opacity:1;stroke-dashoffset:0;stroke-dasharray:4,8"
+       d="m 504.22306,64.505926 c -10.30963,0.918321 -36.79813,-13.257728 -36.80631,-38.236321 -0.0105,-32.0373698 21.32493,-47.791151 45.53036,-48.184793 33.48616,-0.544569 49.40922,22.01825786 50.78671,43.94094 1.38706,22.075136 -12.4683,35.745824 -21.09435,40.643534"
+       id="path4304"
+       sodipodi:nodetypes="csszs"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#2b0000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="609.42743"
+       y="42.077442"
+       id="text4216-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499"><tspan
+         sodipodi:role="line"
+         id="tspan4218-8"
+         x="609.42743"
+         y="42.077442">miterLimit</tspan><tspan
+         sodipodi:role="line"
+         x="609.42743"
+         y="62.077438"
+         id="tspan5092">(maximum allowed angle</tspan><tspan
+         sodipodi:role="line"
+         x="609.42743"
+         y="82.077438"
+         id="tspan5094">between segments</tspan><tspan
+         sodipodi:role="line"
+         x="609.42743"
+         y="102.07744"
+         id="tspan5096">before jointype becomes</tspan><tspan
+         sodipodi:role="line"
+         x="609.42743"
+         y="122.07744"
+         id="tspan5098">gfx_joinBevel)</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-9)"
+       d="M 602.5974,54.093788 568.83117,38.509372"
+       id="path4332"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-9)"
+       d="M 90.909087,-17.767684 120.34632,9.0721426"
+       id="path4522"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-9)"
+       d="m 278.78788,-19.499286 38.96104,32.900433"
+       id="path4712"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend-9)"
+       d="M 466.66667,-24.694091 497.8355,-0.45166686"
+       id="path4902"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/stroketypes.png"
+       inkscape:export-xdpi="95.800499"
+       inkscape:export-ydpi="95.800499" />
+  </g>
+</svg>
