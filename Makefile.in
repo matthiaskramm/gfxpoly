@@ -26,7 +26,7 @@ all: $(OBJS_IN_SRC) libgfxpoly.$(A) libgfxpoly.$(SO)
 examples: $(EXAMPLES)
 
 %.o: %.c
-	$(CC) -fPIC -c $< -o $@
+	$(CC) -c $< -o $@
 
 src/active.o: src/active.c src/active.h src/poly.h
 src/convert.o: src/convert.c src/convert.h src/poly.h
