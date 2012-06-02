@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="744.09448819"
+   height="1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.47 r22583"
+   sodipodi:docname="windrule.svg">
+  <defs
+     id="defs4">
+    <marker
+       inkscape:stockid="Arrow1Mend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Mend"
+       style="overflow:visible;">
+      <path
+         id="path3651"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
+         transform="scale(0.4) rotate(180) translate(10,0)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0.0"
+       refX="0.0"
+       id="Arrow1Lend"
+       style="overflow:visible;">
+      <path
+         id="path3645"
+         d="M 0.0,0.0 L 5.0,-5.0 L -12.5,0.0 L 5.0,5.0 L 0.0,0.0 z "
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1.0pt;marker-start:none;"
+         transform="scale(0.8) rotate(180) translate(12.5,0)" />
+    </marker>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <inkscape:perspective
+       id="perspective2834"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4095"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <marker
+       inkscape:stockid="Arrow1Lend"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow1Lend-7"
+       style="overflow:visible">
+      <path
+         id="path3645-3"
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt;marker-start:none"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)" />
+    </marker>
+    <inkscape:perspective
+       id="perspective4138"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4166"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4194"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4219"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4244"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4269"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4294"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4319"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4344"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4369"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4394"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4419"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4444"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4469"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective4494"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <inkscape:perspective
+       id="perspective2888"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="2.8"
+     inkscape:cx="224.28374"
+     inkscape:cy="949.00178"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1440"
+     inkscape:window-height="859"
+     inkscape:window-x="-5"
+     inkscape:window-y="-5"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:none"
+       d="m 70,52.362183 -25,54.999997 45,32.5 115,2.5 40,-74.999997 -120,-30 -55,15 z"
+       id="path2818"
+       sodipodi:nodetypes="ccccccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="m 156.42857,56.290757 -12.5,57.857133 36.07143,23.21429 90,5 91.07143,-40.71429 L 275.35714,54.862183 225,42.362186 156.42857,56.290757 z"
+       id="path2820"
+       sodipodi:nodetypes="cccccccc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085" />
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="60"
+       y="32.362183"
+       id="text2822"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2824"
+         x="60"
+         y="32.362183"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">Polygon 1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:16px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="255"
+       y="34.862183"
+       id="text2822-2"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2824-5"
+         x="255"
+         y="34.862183"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">Polygon 2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="-31.07143"
+       y="86.290756"
+       id="text2851"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2853"
+         x="-31.07143"
+         y="86.290756"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">o = windrule-&gt;start()</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="60.714287"
+       y="85.933609"
+       id="text2855"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2857"
+         x="60.714287"
+         y="85.933609">i1 = windrule-&gt;add(</tspan><tspan
+         sodipodi:role="line"
+         x="60.714287"
+         y="95.933609"
+         id="tspan2859">o, e1, DIR_DOWN, 1)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="50"
+       y="72.362183"
+       id="text2861"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863"
+         x="50"
+         y="72.362183"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e1</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="154.28572"
+       y="86.290756"
+       id="text2855-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2857-5"
+         x="154.28572"
+         y="86.290756">i2 = windrule-&gt;add(</tspan><tspan
+         sodipodi:role="line"
+         x="154.28572"
+         y="96.290756"
+         id="tspan2859-2">i1, e7, DIR_UP, 2)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial"
+       x="240"
+       y="85.933609"
+       id="text2855-6-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2857-5-5"
+         x="240"
+         y="85.933609">i3 = windrule-&gt;add(</tspan><tspan
+         sodipodi:role="line"
+         x="240"
+         y="95.933609"
+         id="tspan2859-2-8">i2, e4, DIR_DOWN, 1)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="145"
+       y="65.576469"
+       id="text2861-7"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9"
+         x="145"
+         y="65.576469"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e7</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="211.07143"
+       y="114.1479"
+       id="text2861-7-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0"
+         x="211.07143"
+         y="114.1479"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e4</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="297.14285"
+       y="65.21933"
+       id="text2861-7-6-4"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-1"
+         x="297.14285"
+         y="65.21933"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e11</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="57.922432"
+       y="129.11888"
+       id="text2861-0"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-4"
+         x="57.922432"
+         y="129.11888"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e2</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="134.54185"
+       y="148.40459"
+       id="text2861-0-8"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-4-7"
+         x="134.54185"
+         y="148.40459"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e3</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="145.23857"
+       y="40.535728"
+       id="text2861-7-6-6"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-2"
+         x="145.23857"
+         y="40.535728"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e5</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="199.84821"
+       y="41.923286"
+       id="text2861-7-6-6-4"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-2-7"
+         x="199.84821"
+         y="41.923286"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e6</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="259.49106"
+       y="49.423283"
+       id="text2861-7-6-6-4-9"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-2-7-3"
+         x="259.49106"
+         y="49.423283"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e12</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="299.70816"
+       y="134.47603"
+       id="text2861-7-6-4-9"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-1-2"
+         x="299.70816"
+         y="134.47603"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e10</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="229.70816"
+       y="146.97601"
+       id="text2861-7-6-4-9-8"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-1-2-3"
+         x="229.70816"
+         y="146.97601"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e9</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:8px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="162.56529"
+       y="125.90459"
+       id="text2861-7-6-4-9-8-0"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2863-9-0-1-2-3-1"
+         x="162.56529"
+         y="125.90459"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Arial;-inkscape-font-specification:Arial">e8</tspan></text>
+    <path
+       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:4,2;stroke-dashoffset:0;marker-end:url(#Arrow1Mend)"
+       d="M 2.8571427,79.147896 426.78572,78.433608"
+       id="path4511"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="/home/kramm/c/gfxpoly/text2908.png"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085" />
+    <text
+       xml:space="preserve"
+       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Arial Black;-inkscape-font-specification:'Arial Black, Bold'"
+       x="351.78571"
+       y="77.362183"
+       id="text2908"
+       inkscape:export-xdpi="135.34085"
+       inkscape:export-ydpi="135.34085"><tspan
+         sodipodi:role="line"
+         id="tspan2910"
+         x="351.78571"
+         y="77.362183"
+         style="-inkscape-font-specification:Arial;font-family:Arial;font-weight:normal;font-style:normal;font-stretch:normal;font-variant:normal">scanline</tspan></text>
+  </g>
+</svg>
