@@ -8,19 +8,12 @@
     color: #000000;
 }
 pre.code, pre.commit, pre.ruby, pre.shell, pre.python, pre.c {
-    border: 1px solid #a0b090;
+    border: 2px solid #008000;
     font-family: Lucida Console, Monaco, monospace;
     font-size: 16pt;
-    background-color: #000020; 
-    color: #40ffc0;
+    color: #002040;
     width: 100%;
     padding: 10px;
-}
-pre.commit, pre.generated {
-    border: 1px solid #ffffff;
-    background-color: #000000; 
-    color: #80ffff;
-    font-size: 14pt;
 }
 h1 {
     color: #000000;
@@ -32,6 +25,10 @@ h2 {
     margin-top: 40px;
     color: #008000;
     font-size: 19pt;
+}
+img.figure {
+    padding: 10px;
+    border: 2px solid #008000;
 }
 </style>
 </head>
@@ -55,7 +52,9 @@ During polygon intersection, the resulting polygons are again rounded- also, new
 points will cause adjacent lines (i.e. lines passing through that grid point) 
 to be "routed" through the intersection point, a concept known as "snap rounding to hot pixels": <br />
 
-<!-- TODO hot pixels drawing -->
+<p>
+<img class="figure" src="snapround.png" />
+</p>
 
 This approach ensures robustness of intersection, since there's always a unique representation of
 the output polygon (as opposed to doing polygon intersection on floating point numbers where 
@@ -110,7 +109,7 @@ gfxpoly_t*poly = gfxpoly_from_stroke(outline, /*line width*/10.0, gfx_capRound, 
 The parameters are defined as following:
 </p>
 
-<!-- TODO line drawing -->
+<img class="figure" src="stroketypes.png" />
 
 <h2>Boolean operations between polygons</h2><a name="#bool"/>
 
@@ -192,7 +191,7 @@ infinity to positive infinity, looking at which polygon segments it hits, and in
 </p>
 
 <p>
-<img src="windstate.png" /p>
+<img class="figure" src="windstate.png" /p>
 </p>
 
 <p>The state of the ray is represented as a <tt>windstate_t</tt> structure- it e.g. stores
@@ -212,11 +211,15 @@ to that edge (e.g. for polygon overlays, the color of the polygon belonging to t
 <p>Hence, for creating your own windrule, you have to implement the following functions:
 </p>
 
-<pre class="code"> 
+<pre class="code">
 windstate_t start(windcontext_t*context);
 windstate_t add(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int polygon_nr);
 edgestyle_t* diff(windstate_t*left, windstate_t*right);
 </pre>
+
+<p>
+<img class="figure" src="windrule.png" /p>
+</p>
 
 <p>
 gfxpoly already contains windrule implementations for:
