@@ -29,7 +29,6 @@ POSSIBILITY OF SUCH DAMAGE. */
 #include <stdlib.h>
 #include <memory.h>
 #include <math.h>
-#include "../config.h"
 #include "active.h"
 
 actlist_t* actlist_new()
