@@ -253,10 +253,9 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
 
 gfxpoly_t* gfxpoly_from_stroke(gfxline_t*line, gfxcoord_t width, gfx_capType cap_style, gfx_joinType joint_style, gfxcoord_t miterLimit, double gridsize)
 {
-    gfxcanvas_t d;
-    gfxcanvas_target_poly(&d, gridsize);
-    draw_stroke(line, &d, width, cap_style, joint_style, miterLimit);
-    gfxpoly_t*poly = (gfxpoly_t*)d.result(&d);
+    gfxcanvas_t*d = gfxcanvas_new(gridsize);
+    draw_stroke(line, d, width, cap_style, joint_style, miterLimit);
+    gfxpoly_t*poly = (gfxpoly_t*)d->result(d);
     assert(gfxpoly_check(poly, 1));
     gfxpoly_t*poly2 = gfxpoly_process(poly, 0, &windrule_circular, &onepolygon, 0);
     gfxpoly_destroy(poly);
