@@ -1,5 +1,5 @@
-CC=@CC@ @CPPFLAGS@ @CFLAGS@ -Isrc -DCHECKS
-L=gcc 
+CC=@CC@ @CPPFLAGS@ @CFLAGS@ -I. -Isrc -DCHECKS
+L=@CC@
 A=a
 AR=ar
 RANLIB=@RANLIB@
@@ -13,7 +13,7 @@ OBJS_IN_SRC=$(foreach obj, $(_OBJS), src/$(obj))
 
 EXAMPLES=examples/logo$(EXE)
 
-all: $(OBJS_IN_SRC) $(EXAMPLES)
+all: $(OBJS_IN_SRC) #$(EXAMPLES)
 
 src/active.o: src/active.c src/active.h src/poly.h
 	$(CC) -c src/active.c -o $@
@@ -53,7 +53,7 @@ examples/ttf.o: examples/ttf.c examples/ttf.h
 	$(CC) -c examples/ttf.c -o $@
 
 examples/logo$(EXE): examples/logo.o examples/ttf.o gfxpoly.$(A)
-	$(L) examples/logo.o examples/ttf.o gfxpoly.$(A) -o $@ $(LIBS)
+	$(L) examples/logo.o examples/ttf.o gfxpoly.$(A) -o $@ $(LIBS) -lpdflib
 
 clean: 
 	rm -f *.o
