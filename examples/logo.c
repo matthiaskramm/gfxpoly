@@ -1,4 +1,7 @@
-/* 
+/* logo.c
+
+logo
+
 Copyright (c) 2012 Matthias Kramm <kramm@quiss.org>
 All rights reserved.
 

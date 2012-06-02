@@ -3,7 +3,7 @@ gfxpoly is a library for doing geometric polygon operations.
  outline conversion, wind rule conversion etc.)
 It aims to be more easily embeddable than e.g. GX, livarot or CGAL, faster 
 and more stable than libart, and is distributed under a non-commercial 
-license (GPLv2).
+license (BSD-2).
 
 It's using the algorithm from Hobby [1] with a few additional ideas 
 from Hershberger [2] and Bhattacharya et al [3] (in order to produce 
