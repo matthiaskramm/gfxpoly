@@ -1,11 +1,19 @@
-CC=@CC@ @CPPFLAGS@ @CFLAGS@ -I. -Isrc -DCHECKS
-L=@CC@
+top_builddir=.
+
+CC=@CC@ @CPPFLAGS@ @CFLAGS@ -fPIC -I. -Isrc -DCHECKS
+L=@CC@ -fPIC
 A=a
+SO=so
 AR=ar
 RANLIB=@RANLIB@
 EXE=@EXEEXT@
 LIBS=-lm
 O=@OBJEXT@
+INSTALL=@INSTALL@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+includedir=@includedir@
+libdir=@libdir@
 
 _SRC = active.c convert.c poly.c wind.c render.c xrow.c stroke.c moments.c dict.c
 _OBJS = active.o convert.o poly.o wind.o render.o xrow.o stroke.o moments.o dict.o
@@ -13,47 +21,41 @@ OBJS_IN_SRC=$(foreach obj, $(_OBJS), src/$(obj))
 
 EXAMPLES=examples/logo$(EXE)
 
-all: $(OBJS_IN_SRC) #$(EXAMPLES)
+all: $(OBJS_IN_SRC) libgfxpoly.$(A) libgfxpoly.$(SO)
+
+examples: $(EXAMPLES)
+
+%.o: %.c
+	$(CC) -fPIC -c $< -o $@
 
 src/active.o: src/active.c src/active.h src/poly.h
-	$(CC) -c src/active.c -o $@
-
 src/convert.o: src/convert.c src/convert.h src/poly.h
-	$(CC) -c src/convert.c -o $@
-
 src/poly.o: src/poly.c src/poly.h src/active.h src/heap.h
-	$(CC) -c src/poly.c -o $@
-
 src/wind.o: src/wind.c src/wind.h src/poly.h
-	$(CC) -c src/wind.c -o $@
-
 src/dict.o: src/dict.c src/dict.h
-	$(CC) -c src/dict.c -o $@
-
 src/render.o: src/render.c src/wind.h src/poly.h src/render.h
-	$(CC) -c src/render.c -o $@
-
 src/xrow.o: src/xrow.c src/xrow.h
-	$(CC) -c src/xrow.c -o $@
-
 src/stroke.o: src/stroke.c src/poly.h src/convert.h src/wind.h
-	$(CC) -c src/stroke.c -o $@
-
 src/moments.o: src/moments.c src/moments.h
-	$(CC) -c src/moments.c -o $@
-
-gfxpoly.$(A): $(OBJS_IN_SRC)
-	$(AR) cru gfxpoly.$(A) $(OBJS_IN_SRC)
-	$(RANLIB) gfxpoly.$(A)
+src/gfxline.o: src/gfxline.c src/gfxline.h
 
 examples/logo.o: examples/logo.c src/*.h examples/ttf.h
-	$(CC) -c examples/logo.c -o $@
-
 examples/ttf.o: examples/ttf.c examples/ttf.h
-	$(CC) -c examples/ttf.c -o $@
+
+libgfxpoly.$(A): $(OBJS_IN_SRC)
+	$(AR) cru $@ $(OBJS_IN_SRC)
+	$(RANLIB) $@
+
+libgfxpoly.$(SO): $(OBJS_IN_SRC)
+	$(L) -shared $(OBJS_IN_SRC) -o $@
 
 examples/logo$(EXE): examples/logo.o examples/ttf.o gfxpoly.$(A)
 	$(L) examples/logo.o examples/ttf.o gfxpoly.$(A) -o $@ $(LIBS) -lpdflib
 
+install:
+	cp gfxpoly.h $(includedir)
+	cp libgfxpoly.$(A) $(libdir)
+	cp libgfxpoly.$(SO) $(libdir)
+
 clean: 
-	rm -f *.o
+	rm -f src/*.o examples/*.o gfxpoly.$(A) gfxpoly.$(SO)
