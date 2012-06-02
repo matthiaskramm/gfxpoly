@@ -70,6 +70,10 @@ from <a href="http://www.springerlink.com/content/p46t8502v6q6g687/">Hershberger
 <a href="http://cccg.ca/proceedings/2007/07a1full.pdf">Bhattacharya et al</a>.
 </p>
 
+<p>(In the above figure, you might have noticed that gfxpoly snaps to the lower right corner
+of grid points, instead of the center- this is an optimization that makes snapping faster)
+</p>
+
 <h2>Creating polygons</h2><a name="#creating_polygons"/>
 
 <p> 
@@ -126,8 +130,23 @@ gfxpoly_t*poly12 = gfxpoly_intersect(poly1, poly2);
 gfxpoly_t*poly12 = gfxpoly_union(poly1, poly2);
 </pre>
 
+<p>It also sometimes makes sense to intersect a polygon with itself (for example,
+to determine which parts of it are filled.) <br />
+There are two convenience functions that apply the corresponding <a href="#fillstyles">fillstyle</a>
+and generate a self-intersected polygon:
+</p>
+
+<pre class="code">
+gfxpoly_t* new_polygon = gfxpoly_selfintersect_evenodd(poly);
+</pre>
+
+<pre class="code">
+gfxpoly_t* new_polygon = gfxpoly_selfintersect_circular(poly);
+</pre>
+
+
 <p>
-Notice: gfxpoly_intersect and gfxpoly_union are really just convenience
+Notice: <tt>gfxpoly_intersect</tt>, <tt>gfxpoly_union</tt> and <tt>gfxpoly_selfintersect_*</tt> are really just convenience
 wrappers for <tt>gfxpoly_process</tt>. See <a href="#gfxpoly_process">gfxpoly_process</a>. <br />
 By using <a href="#gfxpoly_process">gfxpoly_process</a> directly, you can implement other polygon operations, like symmetric
 difference, overlay, transparency etc.
@@ -180,7 +199,9 @@ the line segments using <tt>gfxpoly_process</tt>. It has the following prototype
 </p>
 
 <pre class="code">
-gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule, windcontext_t*context, moments_t*moments);
+gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, 
+                           windrule_t*windrule, windcontext_t*context, 
+			   moments_t*moments);
 </pre>
 
 <p>To implement custom polygon operations, you would create your own <tt>windcontext</tt>.
@@ -221,8 +242,9 @@ edgestyle_t* diff(windstate_t*left, windstate_t*right);
 <img class="figure" src="windrule.png" /p>
 </p>
 
+<h3>winrules / fillstyles</h3><a name="#fillstyles"/>
 <p>
-gfxpoly already contains windrule implementations for:
+gfxpoly already contains windrule (a.k.a. fillstyle) implementations for:
 <ul>
 <li>Even/Odd self-intersection (<tt>windrule_evenodd</tt>)</li>
 <li>Circular self-intersection (<tt>windrule_circular</tt>)</li>
