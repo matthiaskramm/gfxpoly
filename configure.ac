@@ -1,4 +1,4 @@
-AC_INIT(gfxpoly, 0.1)
+AC_INIT(gfxpoly, 0.3.1)
 AC_PROG_CC
 AC_PROG_RANLIB
 AC_PROG_INSTALL

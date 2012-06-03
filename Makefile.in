@@ -1,6 +1,6 @@
 top_builddir=.
 
-CC=@CC@ @CPPFLAGS@ @CFLAGS@ -fPIC -I. -Isrc -DCHECKS
+CC=@CC@ @CPPFLAGS@ @CFLAGS@ @DEFS@ -fPIC -I. -Isrc -DCHECKS
 L=@CC@ -fPIC
 A=a
 SO=so
@@ -10,6 +10,7 @@ EXE=@EXEEXT@
 LIBS=-lm
 O=@OBJEXT@
 INSTALL=@INSTALL@
+PACKAGE_VERSION=@PACKAGE_VERSION@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
@@ -55,7 +56,7 @@ examples/logo$(EXE): examples/logo.o examples/ttf.o gfxpoly.$(A)
 install:
 	cp gfxpoly.h $(includedir)
 	cp libgfxpoly.$(A) $(libdir)
-	cp libgfxpoly.$(SO) $(libdir)
+	cp libgfxpoly.$(SO) $(libdir)/libgfxpoly.$(SO).$(PACKAGE_VERSION)
 
 clean: 
 	rm -f src/*.o examples/*.o libgfxpoly.$(A) libgfxpoly.$(SO)

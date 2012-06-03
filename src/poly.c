@@ -43,6 +43,11 @@ POSSIBILITY OF SUCH DAMAGE. */
 #include "MD5.h"
 #endif
 
+const char* gfxpoly_version()
+{
+    return PACKAGE_VERSION;
+}
+
 static gfxpoly_t*current_polygon = 0;
 void gfxpoly_fail(char*expr, char*file, int line, const char*function)
 {
