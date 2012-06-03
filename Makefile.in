@@ -10,19 +10,23 @@ EXE=@EXEEXT@
 LIBS=-lm
 O=@OBJEXT@
 INSTALL=@INSTALL@
+PACKAGE_NAME=@PACKAGE_NAME@
 PACKAGE_VERSION=@PACKAGE_VERSION@
 prefix=@prefix@
 exec_prefix=@exec_prefix@
 includedir=@includedir@
 libdir=@libdir@
 
-_SRC = active.c convert.c poly.c wind.c render.c xrow.c stroke.c moments.c dict.c gfxline.c
-_OBJS = active.o convert.o poly.o wind.o render.o xrow.o stroke.o moments.o dict.o gfxline.o
-OBJS_IN_SRC=$(foreach obj, $(_OBJS), src/$(obj))
+SRC_FILES = active.c convert.c poly.c wind.c render.c xrow.c stroke.c moments.c dict.c gfxline.c
+SRC_HEADERS = active.h convert.h poly.h wind.h render.h xrow.h stroke.h moments.h dict.h gfxline.h heap.h
+SRC_OBJECTS = $(addsuffix .o,$(basename $(SRC_FILES)))
+OBJECTS=$(addprefix src/, $(SRC_OBJECTS))
+
+SOURCES = gfxpoly.h $(addprefix src/, $(SRC_FILES)) $(addprefix src/, $(SRC_HEADERS))
 
 EXAMPLES=examples/logo$(EXE)
 
-all: $(OBJS_IN_SRC) libgfxpoly.$(A) libgfxpoly.$(SO)
+all: libgfxpoly.$(A) libgfxpoly.$(SO)
 
 examples: $(EXAMPLES)
 
@@ -43,12 +47,12 @@ src/gfxline.o: src/gfxline.c src/gfxline.h
 examples/logo.o: examples/logo.c src/*.h examples/ttf.h
 examples/ttf.o: examples/ttf.c examples/ttf.h
 
-libgfxpoly.$(A): $(OBJS_IN_SRC)
-	$(AR) cru $@ $(OBJS_IN_SRC)
+libgfxpoly.$(A): $(OBJECTS)
+	$(AR) cru $@ $(OBJECTS)
 	$(RANLIB) $@
 
-libgfxpoly.$(SO): $(OBJS_IN_SRC)
-	$(L) -shared $(OBJS_IN_SRC) -o $@
+libgfxpoly.$(SO): $(OBJECTS)
+	$(L) -shared $(OBJECTS) -o $@
 
 examples/logo$(EXE): examples/logo.o examples/ttf.o gfxpoly.$(A)
 	$(L) examples/logo.o examples/ttf.o gfxpoly.$(A) -o $@ $(LIBS) -lpdflib

@@ -1,0 +1,20 @@
+#!/usr/bin/make
+
+include Makefile
+
+NAME=$(PACKAGE_NAME)-$(PACKAGE_VERSION)
+
+SOURCE_FILES=$(SOURCES) Makefile.in configure configure.ac install-sh COPYING README
+FILES=$(addprefix $(NAME)/, $(SOURCE_FILES))
+
+all:
+	echo creating $(NAME).tar.gz
+	rm -f $(NAME)
+	rm -f $(NAME).tar
+	rm -f $(NAME).tar.gz
+	ln -s ./ $(NAME)
+	tar -chf $(NAME).tar $(FILES)
+	gzip -9 $(NAME).tar
+	rm -f $(NAME)
+	mv $(NAME).tar.gz html/
+
