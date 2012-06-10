@@ -191,6 +191,13 @@ canvas-&gt;close(canvas);
 gfxpoly_t* poly = (gfxpoly_t*)canvas-&gt;result(canvas);
 </pre>
 
+<p>
+This also has the advantage that you can overlay multiple input polygons using
+the same gfxcanvas object, and then later process them in one go. 
+Use <tt>canvas-&gt;setUserData(canvas, data)</tt> to store polygon-specific data. This
+data will later be passed back to you by <a href="#windrule">windrule</a>.add().
+</p>
+
 <h3>gfxpoly_process</h3><a name="#gfxpoly_process"/>
 
 <p>
