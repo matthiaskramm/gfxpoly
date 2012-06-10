@@ -1,7 +1,7 @@
 top_builddir=.
 
 CC=@CC@ @CPPFLAGS@ @CFLAGS@ @DEFS@ -fPIC -I. -Isrc -DCHECKS
-L=@CC@ -fPIC
+L=@CC@ @CFLAGS@ -fPIC
 A=a
 SO=so
 AR=ar
@@ -25,10 +25,14 @@ OBJECTS=$(addprefix src/, $(SRC_OBJECTS))
 SOURCES = gfxpoly.h $(addprefix src/, $(SRC_FILES)) $(addprefix src/, $(SRC_HEADERS))
 
 EXAMPLES=examples/logo$(EXE)
+TESTS=tests/run_ps$(EXE)
 
 all: libgfxpoly.$(A) libgfxpoly.$(SO)
 
 examples: $(EXAMPLES)
+
+tests: $(TESTS)
+	tests/run_ps tests/polygons
 
 %.o: %.c
 	$(CC) -c $< -o $@
@@ -47,6 +51,8 @@ src/gfxline.o: src/gfxline.c src/gfxline.h
 examples/logo.o: examples/logo.c src/*.h examples/ttf.h
 examples/ttf.o: examples/ttf.c examples/ttf.h
 
+tests/run_ps.o: tests/run_ps.c gfxpoly.h 
+
 libgfxpoly.$(A): $(OBJECTS)
 	$(AR) cru $@ $(OBJECTS)
 	$(RANLIB) $@
@@ -54,8 +60,11 @@ libgfxpoly.$(A): $(OBJECTS)
 libgfxpoly.$(SO): $(OBJECTS)
 	$(L) -shared $(OBJECTS) -o $@
 
-examples/logo$(EXE): examples/logo.o examples/ttf.o gfxpoly.$(A)
-	$(L) examples/logo.o examples/ttf.o gfxpoly.$(A) -o $@ $(LIBS) -lpdflib
+examples/logo$(EXE): examples/logo.o examples/ttf.o libgfxpoly.$(A)
+	$(L) examples/logo.o examples/ttf.o libgfxpoly.$(A) -o $@ $(LIBS) -lpdflib
+
+tests/run_ps$(EXE): tests/run_ps.o libgfxpoly.$(A)
+	$(L) tests/run_ps.o libgfxpoly.$(A) -o $@ $(LIBS)
 
 install:
 	cp gfxpoly.h $(includedir)
@@ -64,3 +73,5 @@ install:
 
 clean: 
 	rm -f src/*.o examples/*.o libgfxpoly.$(A) libgfxpoly.$(SO)
+
+.PHONY: tests examples
