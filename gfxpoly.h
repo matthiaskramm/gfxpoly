@@ -184,6 +184,7 @@ void gfxpoly_save(gfxpoly_t*poly, const char*filename);
 /* +----------------------------------------------------------------+ */
 
 typedef struct _windstate {
+    void*user;
     char is_filled;
     int wind_nr;
 } windstate_t;
