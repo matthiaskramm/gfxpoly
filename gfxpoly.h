@@ -86,6 +86,7 @@ typedef struct _gfxsegmentlist {
 
 typedef struct _gfxpoly {
     double gridsize;
+    void*user;
     gfxsegmentlist_t*strokes;
 } gfxpoly_t;
 
@@ -172,6 +173,13 @@ gfxline_t* gfxpoly_circular_to_evenodd(gfxline_t*line, double gridsize);
 gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double gridsize);
 
 /* +----------------------------------------------------------------+ */
+/* |                        load /save                              | */
+/* +----------------------------------------------------------------+ */
+
+gfxpoly_t* gfxpoly_from_file(const char*filename);
+void gfxpoly_save(gfxpoly_t*poly, const char*filename);
+
+/* +----------------------------------------------------------------+ */
 /* |           Low level scanline processing interface              | */
 /* +----------------------------------------------------------------+ */
 
@@ -181,6 +189,7 @@ typedef struct _windstate {
 } windstate_t;
 
 typedef struct _windcontext {
+    void*user;
     int num_polygons;
 } windcontext_t;
 
@@ -191,7 +200,7 @@ typedef struct _windrule
 {
     windstate_t (*start)(windcontext_t* context);
     windstate_t (*add)(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int polygon_nr);
-    edgestyle_t* (*diff)(windstate_t*left, windstate_t*right);
+    edgestyle_t* (*diff)(windcontext_t*context, windstate_t*left, windstate_t*right);
 } windrule_t;
 
 extern windrule_t windrule_evenodd;

@@ -29,7 +29,7 @@ POSSIBILITY OF SUCH DAMAGE. */
 #ifndef __wind_h__
 #define __wind_h__
 
-#include "gfxpoly.h" 
+#include "gfxpoly.h"
 
 #define DIR_INVERT(d) ((d)^(DIR_UP^DIR_DOWN))
 

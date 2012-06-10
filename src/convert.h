@@ -44,6 +44,6 @@ void gfxcanvas_target_poly(gfxcanvas_t*d, double gridsize);
 
 void gfxpolywriter_init(polywriter_t*w);
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize);
-gfxpoly_t* gfxpoly_from_file(const char*filename, double gridsize);
+gfxpoly_t* gfxpoly_from_file(const char*filename);
 
 #endif //__poly_convert_h__

@@ -85,6 +85,8 @@ static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
 
 static char* readline(FILE*fi)
 {
+    /* FIXME: Rather than reading the file byte by byte, we should really use
+       buffers or mmap */
     char c;
     while(1) {
         int l = fread(&c, 1, 1, fi);
@@ -96,8 +98,10 @@ static char* readline(FILE*fi)
     char line[256];
     int pos = 0;
     while(1) {
-        line[pos++] = c;
-        line[pos] = 0;
+        if(pos<sizeof(line)-2) {
+            line[pos++] = c;
+            line[pos] = 0;
+        }
         int l = fread(&c, 1, 1, fi);
         if(!l || c==10 || c==13) {
             return strdup(line);
@@ -110,6 +114,7 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
     FILE*fi = fopen(filename, "rb");
     if(!fi) {
         perror(filename);
+        return;
     }
     double z = 1.0 / gridsize;
     int count = 0;
@@ -279,12 +284,13 @@ gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize)
     convert_gfxline(line, &writer, gridsize);
     return (gfxpoly_t*)writer.finish(&writer);
 }
-gfxpoly_t* gfxpoly_from_file(const char*filename, double gridsize)
+gfxpoly_t* gfxpoly_from_file(const char*filename)
 {
     polywriter_t writer;
     gfxpolywriter_init(&writer);
-    writer.setgridsize(&writer, gridsize);
-    convert_file(filename, &writer, gridsize);
+    double default_gridsize = 1.0;
+    writer.setgridsize(&writer, default_gridsize);
+    convert_file(filename, &writer, default_gridsize);
     return (gfxpoly_t*)writer.finish(&writer);
 }
 void gfxpoly_destroy(gfxpoly_t*poly)

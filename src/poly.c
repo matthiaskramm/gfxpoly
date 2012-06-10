@@ -1175,7 +1175,7 @@ static void recalculate_windings(status_t*status, segrange_t*range)
             windstate_t wind = left?left->wind:status->windrule->start(status->context);
             s->wind = status->windrule->add(status->context, wind, s->fs, s->dir, s->polygon_nr);
             edgestyle_t*fs_old = s->fs_out;
-            s->fs_out = status->windrule->diff(&wind, &s->wind);
+            s->fs_out = status->windrule->diff(status->context, &wind, &s->wind);
 
 #ifdef DEBUG
             fprintf(stderr, "[%d] dir=%s wind=%d wind.filled=%s fs_old/new=%s/%s %s\n", s->nr, s->dir==DIR_UP?"up":"down", s->wind.wind_nr, s->wind.is_filled?"fill":"nofill", 
@@ -1310,7 +1310,7 @@ static windstate_t get_horizontal_first_windstate(status_t*status, int x1, int x
 static windstate_t process_horizontal_fragment(status_t*status, horizontal_t*h, int x1, int x2, windstate_t below)
 {
     windstate_t above = status->windrule->add(status->context, below, h->fs, h->dir, h->polygon_nr);
-    edgestyle_t*fs = status->windrule->diff(&above, &below);
+    edgestyle_t*fs = status->windrule->diff(status->context, &above, &below);
         
     segment_dir_t dir = above.is_filled?DIR_DOWN:DIR_UP;
     point_t p1 = {x1,h->y};

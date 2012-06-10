@@ -35,8 +35,8 @@ windstate_t windstate_nonfilled = {
     wind_nr: 0,
 };
 
-windcontext_t onepolygon = {1};
-windcontext_t twopolygons = {2};
+windcontext_t onepolygon = {NULL,1};
+windcontext_t twopolygons = {NULL,2};
 
 // -------------------- even/odd ----------------------
 
@@ -50,7 +50,7 @@ windstate_t evenodd_add(windcontext_t*context, windstate_t left, edgestyle_t*edg
     left.is_filled ^= 1;
     return left;
 }
-edgestyle_t* evenodd_diff(windstate_t*left, windstate_t*right)
+edgestyle_t* evenodd_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
     if(left->is_filled==right->is_filled)
         return 0;
@@ -84,7 +84,7 @@ windstate_t circular_add(windcontext_t*context, windstate_t left, edgestyle_t*ed
     return left;
 }
 
-edgestyle_t* circular_diff(windstate_t*left, windstate_t*right)
+edgestyle_t* circular_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
     if(left->is_filled==right->is_filled)
         return 0;
@@ -114,7 +114,7 @@ windstate_t intersect_add(windcontext_t*context, windstate_t left, edgestyle_t*e
     return left;
 }
 
-edgestyle_t* intersect_diff(windstate_t*left, windstate_t*right)
+edgestyle_t* intersect_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
     if(left->is_filled==right->is_filled)
         return 0;
@@ -143,7 +143,7 @@ windstate_t union_add(windcontext_t*context, windstate_t left, edgestyle_t*edge,
     return left;
 }
 
-edgestyle_t* union_diff(windstate_t*left, windstate_t*right)
+edgestyle_t* union_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
     if(left->is_filled==right->is_filled)
         return 0;
