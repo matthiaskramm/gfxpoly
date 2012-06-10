@@ -3,6 +3,7 @@ Makefile
 autom4te.cache
 m
 c
+r
 config.log
 config.status
 gfxpoly.a
@@ -10,3 +11,5 @@ tags
 examples/logo
 libgfxpoly.so
 libgfxpoly.a
+gfxpoly-*.*.*/
+gfxpoly-*.*.*.tar.gz
