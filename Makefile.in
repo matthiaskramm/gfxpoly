@@ -24,7 +24,7 @@ OBJECTS=$(addprefix src/, $(SRC_OBJECTS))
 
 SOURCES = gfxpoly.h $(addprefix src/, $(SRC_FILES)) $(addprefix src/, $(SRC_HEADERS))
 
-EXAMPLES=examples/logo$(EXE)
+EXAMPLES=examples/logo$(EXE) examples/triangles$(EXE)
 TESTS=tests/run_ps$(EXE)
 
 all: libgfxpoly.$(A) libgfxpoly.$(SO)
@@ -49,6 +49,7 @@ src/moments.o: src/moments.c src/moments.h
 src/gfxline.o: src/gfxline.c src/gfxline.h
 
 examples/logo.o: examples/logo.c src/*.h examples/ttf.h
+examples/triangles.o: examples/triangles.c src/*.h examples/ttf.h
 examples/ttf.o: examples/ttf.c examples/ttf.h
 
 tests/run_ps.o: tests/run_ps.c gfxpoly.h 
@@ -61,7 +62,10 @@ libgfxpoly.$(SO): $(OBJECTS)
 	$(L) -shared $(OBJECTS) -o $@
 
 examples/logo$(EXE): examples/logo.o examples/ttf.o libgfxpoly.$(A)
-	$(L) examples/logo.o examples/ttf.o libgfxpoly.$(A) -o $@ $(LIBS) -lpdflib
+	$(L) examples/logo.o examples/ttf.o libgfxpoly.$(A) -o $@ $(LIBS) -lpdf
+
+examples/triangles$(EXE): examples/triangles.o examples/ttf.o libgfxpoly.$(A)
+	$(L) examples/triangles.o examples/ttf.o libgfxpoly.$(A) -o $@ $(LIBS) -lpdf
 
 tests/run_ps$(EXE): tests/run_ps.o libgfxpoly.$(A)
 	$(L) tests/run_ps.o libgfxpoly.$(A) -o $@ $(LIBS)

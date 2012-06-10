@@ -33,6 +33,7 @@ POSSIBILITY OF SUCH DAMAGE. */
 
 typedef struct _polywriter
 {
+    void(*setedgestyle)(struct _polywriter*, void*style);
     void(*moveto)(struct _polywriter*, int32_t x, int32_t y);
     void(*lineto)(struct _polywriter*, int32_t x, int32_t y);
     void(*setgridsize)(struct _polywriter*, double g);

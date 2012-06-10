@@ -152,6 +152,7 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
 }
 
 typedef struct _compactpoly {
+    void*fs;
     gfxpoly_t*poly;
     point_t last;
     point_t*points;
@@ -161,13 +162,17 @@ typedef struct _compactpoly {
     char new;
 } compactpoly_t;
 
-void finish_segment(compactpoly_t*data)
+void finish_segment(compactpoly_t*data, void*fs)
 {
+    /* FIXME: we should just skip segments if they have a NULL edge style,
+              instead of requiring this to be non-NULL */
+    assert(fs);
+
     if(data->num_points <= 1)
         return;
     point_t*p = malloc(sizeof(point_t)*data->num_points);
     gfxsegmentlist_t*s = calloc(1,sizeof(gfxsegmentlist_t));
-    s->fs = &edgestyle_default;
+    s->fs = fs;
     s->next = data->poly->strokes;
     data->poly->strokes = s;
     s->num_points = s->points_size = data->num_points;
@@ -190,6 +195,13 @@ void finish_segment(compactpoly_t*data)
     }
 #endif
 }
+
+static void compactsetedgestyle(polywriter_t*w, void*fs)
+{
+    compactpoly_t*data = (compactpoly_t*)w->internal;
+    data->fs = fs;
+}
+
 static void compactmoveto(polywriter_t*w, int32_t x, int32_t y)
 {
     compactpoly_t*data = (compactpoly_t*)w->internal;
@@ -222,7 +234,7 @@ static void compactlineto(polywriter_t*w, int32_t x, int32_t y)
     segment_dir_t dir = diff<0?DIR_UP:DIR_DOWN;
 
     if(dir!=data->dir || data->new) {
-        finish_segment(data);
+        finish_segment(data, data->fs);
         data->dir = dir;
         data->points[0] = data->last;
         data->num_points = 1;
@@ -251,7 +263,7 @@ static void compactsetgridsize(polywriter_t*w, double gridsize)
 static void*compactfinish(polywriter_t*w)
 {
     compactpoly_t*data = (compactpoly_t*)w->internal;
-    finish_segment(data);
+    finish_segment(data, data->fs);
     //qsort(data->poly->strokes, data->poly->num_strokes, sizeof(gfxsegmentlist_t), compare_stroke);
     free(data->points);
     gfxpoly_t*poly = data->poly;
@@ -260,6 +272,7 @@ static void*compactfinish(polywriter_t*w)
 }
 void gfxpolywriter_init(polywriter_t*w)
 {
+    w->setedgestyle = compactsetedgestyle;
     w->moveto = compactmoveto;
     w->lineto = compactlineto;
     w->setgridsize = compactsetgridsize;
@@ -274,6 +287,7 @@ void gfxpolywriter_init(polywriter_t*w)
     data->dir = DIR_UNKNOWN;
     data->points = (point_t*)malloc(sizeof(point_t)*data->points_size);
     data->poly->strokes = 0;
+    data->fs = &edgestyle_default;
 }
 
 gfxpoly_t* gfxpoly_from_fill(gfxline_t*line, double gridsize)
@@ -316,6 +330,11 @@ typedef struct _polydraw_internal
     polywriter_t writer;
 } polydraw_internal_t;
 
+static void polydraw_setUserData(gfxcanvas_t*d, void*fs)
+{
+    polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
+    i->writer.setedgestyle(&i->writer, fs);
+}
 static void polydraw_moveTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
@@ -415,6 +434,7 @@ gfxcanvas_t* gfxcanvas_new(double gridsize)
     i->lasty = INVALID_COORD;
     i->x0 = INVALID_COORD;
     i->y0 = INVALID_COORD;
+    d->setUserData = polydraw_setUserData;
     d->moveTo = polydraw_moveTo;
     d->lineTo = polydraw_lineTo;
     d->splineTo = polydraw_splineTo;

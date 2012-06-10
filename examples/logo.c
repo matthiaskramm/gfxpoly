@@ -204,9 +204,9 @@ int main(int argn, char*argv[])
     draw_on_pdf(poly, "logo.pdf", 50.0/s);
 
     system("pdftoppm -r 72 logo.pdf logo");
-    system("convert logo-000001.ppm doc/logo.png");
+    system("convert logo-000001.ppm html/logo.png");
     system("rm -f logo.pdf logo-000001.ppm");
-    system("convert doc/logo.png -crop 5x5+10+10 doc/background.png");
+    system("convert html/logo.png -crop 5x5+10+10 html/background.png");
 
     gfxpoly_destroy(poly);
     return 0;

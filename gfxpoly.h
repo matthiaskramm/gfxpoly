@@ -86,7 +86,6 @@ typedef struct _gfxsegmentlist {
 
 typedef struct _gfxpoly {
     double gridsize;
-    void*user;
     gfxsegmentlist_t*strokes;
 } gfxpoly_t;
 
@@ -149,10 +148,14 @@ typedef struct _gfxcanvas
 {
     void*internal;
     gfxcoord_t x,y;
+
+    void (*setUserData)(struct _gfxcanvas*d, void*user);
+
     void (*moveTo)(struct _gfxcanvas*d, gfxcoord_t x, gfxcoord_t y);
     void (*lineTo)(struct _gfxcanvas*d, gfxcoord_t x, gfxcoord_t y);
     void (*splineTo)(struct _gfxcanvas*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y);
     void (*close)(struct _gfxcanvas*d);
+
     void* (*result)(struct _gfxcanvas*d);
 } gfxcanvas_t;
 
