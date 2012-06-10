@@ -9,7 +9,9 @@ config.status
 gfxpoly.a
 tags
 examples/logo
+tests/run_ps
 libgfxpoly.so
 libgfxpoly.a
 gfxpoly-*.*.*/
 gfxpoly-*.*.*.tar.gz
+.session.vim
