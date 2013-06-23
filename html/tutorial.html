@@ -1,43 +1,19 @@
+<!DOCTYPE html>
 <html>
 <head>
-<style type="text/css">
-* {
-    font-family: Lucida Sans Unicode, Lucida Grande, sans-serif;
-    font-size: 14pt;
-    background-color: #ffffff; 
-    color: #000000;
-}
-pre.code, pre.commit, pre.ruby, pre.shell, pre.python, pre.c {
-    border: 2px solid #008000;
-    font-family: Lucida Console, Monaco, monospace;
-    font-size: 16pt;
-    color: #002040;
-    width: 100%;
-    padding: 10px;
-}
-h1 {
-    color: #000000;
-    font-size: 20pt;
-    text-decoration: underline;
-    text-align:center;
-}
-h2 {
-    margin-top: 40px;
-    color: #008000;
-    font-size: 19pt;
-}
-img.figure {
-    padding: 10px;
-    border: 2px solid #008000;
-}
-</style>
+  <meta charset='utf-8' />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <link rel="stylesheet" type="text/css" media="screen" href="http://www.quiss.org/slate.css">
+  <title>gfxpoly tutorial</title>
 </head>
 
-<body>
+<body><div id="header_wrap" class="outer"><header class="inner">
+      <h2 id="project_tagline">gfxpoly tutorial</h2>
+</header></div>
 
-<h1>gfxpoly tutorial</h1>
+<div id="main_content_wrap" class="outer"><section id="main_content" class="inner">
 
-<h2>Polygon representation</h2><a name="#representation"/>
+<h2>Polygon representation</h2><a name="#representation"></a>
 
 <p>
 Polygons in gfxpoly are represented as a set of line segments.
@@ -74,7 +50,7 @@ from <a href="http://www.springerlink.com/content/p46t8502v6q6g687/">Hershberger
 of grid points, instead of the center- this is an optimization that makes snapping faster)
 </p>
 
-<h2>Creating polygons</h2><a name="#creating_polygons"/>
+<h2>Creating polygons</h2><a name="#creating_polygons"></a>
 
 <p> 
 The easiest way to create a gfxpoly polygon is to first represent
@@ -115,7 +91,7 @@ The parameters are defined as following:
 
 <img class="figure" src="stroketypes.png" />
 
-<h2>Boolean operations between polygons</h2><a name="#bool"/>
+<h2>Boolean operations between polygons</h2><a name="#bool"></a>
 
 <p>Once you have a representation of your polygon as <tt>gfxpoly</tt> you 
 can intersect polygons:</p>
@@ -152,7 +128,7 @@ By using <a href="#gfxpoly_process">gfxpoly_process</a> directly, you can implem
 difference, overlay, transparency etc.
 </p>
 
-<h2>Polygon area and moments</h2><a name="#area"/>
+<h2>Polygon area and moments</h2><a name="#area"></a>
 
 <p>
 You can also compute the area of a polygon:
@@ -172,8 +148,8 @@ a single step:
 double area = gfxpoly_intersection_area(poly1, poly2);
 </pre>
 
-<h2>Advanced</h2><a name="#advanced"/>
-<h3>Creating gfxpoly through gfxcanvas</h3><a name="#gfxcanvas"/>
+<h2>Advanced</h2><a name="#advanced"></a>
+<h3>Creating gfxpoly through gfxcanvas</h3><a name="#gfxcanvas"></a>
 <p>
 Representing polygons as a <tt>gfxline_t</tt> list first has the disadvantage
 of having to allocate that structure first. A faster way is to use the 
@@ -198,7 +174,7 @@ Use <tt>canvas-&gt;setUserData(canvas, data)</tt> to store polygon-specific data
 data will later be passed back to you by <a href="#windrule">windrule</a>.add().
 </p>
 
-<h3>gfxpoly_process</h3><a name="#gfxpoly_process"/>
+<h3>gfxpoly_process</h3><a name="#gfxpoly_process"></a>
 
 <p>
 Internally, for every polygon operation, a scanline pass is run over all
@@ -249,7 +225,7 @@ edgestyle_t* diff(windstate_t*left, windstate_t*right);
 <img class="figure" src="windrule.png" /p>
 </p>
 
-<h3>winrules / fillstyles</h3><a name="#fillstyles"/>
+<h3>winrules / fillstyles</h3><a name="#fillstyles"></a>
 <p>
 gfxpoly already contains windrule (a.k.a. fillstyle) implementations for:
 <ul>
@@ -260,5 +236,12 @@ gfxpoly already contains windrule (a.k.a. fillstyle) implementations for:
 </ul>
 </p>
 
-</body>
-</html>
+</section></div>
+
+<div id="footer_wrap" class="outer">
+<footer class="inner">
+  <p class="copyright">mrscake &copy; <a href="http://www.quiss.org">Matthias Kramm</a>, 2010-2013</p>
+</footer>
+</div>
+
+</body></html>
