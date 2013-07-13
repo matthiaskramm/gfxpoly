@@ -423,13 +423,13 @@ void gfxpoly_save_as_pdf(gfxpoly_t*poly, const char*filename)
     PDF_setcolor(pdf, "stroke", "rgb", 0.0,0.0,0,0);
     for(;stroke;stroke=stroke->next) {
         gridpoint_t p = stroke->points[0];
-	PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
+        PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
         int s;
         for(s=1;s<stroke->num_points;s++) {
             p = stroke->points[s];
-	    PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
+            PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
         }
-	PDF_stroke(pdf);
+        PDF_stroke(pdf);
     }
     PDF_end_page(pdf);
     PDF_close(pdf);

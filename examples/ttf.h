@@ -161,8 +161,8 @@ typedef struct _table_cvt {
 typedef struct _table_gasp {
     int num;
     struct {
-	uint16_t size;
-	uint16_t behaviour;
+        uint16_t size;
+        uint16_t behaviour;
     } *records;
 } table_gasp_t;
 

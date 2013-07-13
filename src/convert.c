@@ -584,16 +584,16 @@ void gfxline_print(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(l);
     while(l) {
-	if(l->type == gfx_moveTo) {
-	    printf("moveTo %.2f,%.2f\n", l->x, l->y);
-	}
-	if(l->type == gfx_lineTo) {
-	    printf("lineTo %.2f,%.2f\n", l->x, l->y);
-	}
-	if(l->type == gfx_splineTo) {
-	    printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
-	}
-	l = l->next;
+        if(l->type == gfx_moveTo) {
+            printf("moveTo %.2f,%.2f\n", l->x, l->y);
+        }
+        if(l->type == gfx_lineTo) {
+            printf("lineTo %.2f,%.2f\n", l->x, l->y);
+        }
+        if(l->type == gfx_splineTo) {
+            printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
+        }
+        l = l->next;
     }
 }
 
@@ -601,16 +601,16 @@ void gfxline_destroy(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(l);
     if(l && (l+1) == l->next) {
-	/* flattened */
-	free(l);
+        /* flattened */
+        free(l);
     } else {
-	gfxline_t*next;
-	while(l) {
-	    next = l->next;
-	    l->next = 0;
-	    free(l);
-	    l = next;
-	}
+        gfxline_t*next;
+        while(l) {
+            next = l->next;
+            l->next = 0;
+            free(l);
+            l = next;
+        }
     }
 }
 

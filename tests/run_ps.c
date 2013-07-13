@@ -27,11 +27,11 @@ void rotate90(gfxpoly_t*poly)
     int i,j;
     gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
-	for(j=0;j<stroke->num_points;j++) {
-	    point_t a = stroke->points[j];
-	    stroke->points[j].x = a.y;
-	    stroke->points[j].y = a.x;
-	}
+        for(j=0;j<stroke->num_points;j++) {
+            point_t a = stroke->points[j];
+            stroke->points[j].x = a.y;
+            stroke->points[j].y = a.x;
+        }
     }
 }
 
@@ -67,28 +67,28 @@ int main(int argn, char*argv[])
         free(filename);
 
         gfxpoly_t*poly2 = gfxpoly_process(poly1, 0, rule, &onepolygon, 0);
-	assert(gfxpoly_check(poly2, 1));
+        assert(gfxpoly_check(poly2, 1));
 
-	int pass;
-	for(pass=0;pass<2;pass++) {
-	    intbbox_t bbox = intbbox_from_polygon(poly1, zoom);
-	    unsigned char*bitmap1 = render_polygon(poly1, &bbox, zoom, rule, &onepolygon);
-	    unsigned char*bitmap2 = render_polygon(poly2, &bbox, zoom, &windrule_circular, &onepolygon);
-	    if(!bitmap_ok(&bbox, bitmap1) || !bitmap_ok(&bbox, bitmap2)) {
-		save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
-		assert(!"error in bitmaps");
-	    }
-	    if(!compare_bitmaps(&bbox, bitmap1, bitmap2)) {
-		save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
-		assert(!"bitmaps don't match");
-	    }
-	    free(bitmap1);
-	    free(bitmap2);
+        int pass;
+        for(pass=0;pass<2;pass++) {
+            intbbox_t bbox = intbbox_from_polygon(poly1, zoom);
+            unsigned char*bitmap1 = render_polygon(poly1, &bbox, zoom, rule, &onepolygon);
+            unsigned char*bitmap2 = render_polygon(poly2, &bbox, zoom, &windrule_circular, &onepolygon);
+            if(!bitmap_ok(&bbox, bitmap1) || !bitmap_ok(&bbox, bitmap2)) {
+                save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
+                assert(!"error in bitmaps");
+            }
+            if(!compare_bitmaps(&bbox, bitmap1, bitmap2)) {
+                save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
+                assert(!"bitmaps don't match");
+            }
+            free(bitmap1);
+            free(bitmap2);
 
-	    // second pass renders the 90° rotated version
-	    rotate90(poly1);
-	    rotate90(poly2);
-	}
+            // second pass renders the 90° rotated version
+            rotate90(poly1);
+            rotate90(poly2);
+        }
 
         gfxpoly_destroy(poly1);
         gfxpoly_destroy(poly2);

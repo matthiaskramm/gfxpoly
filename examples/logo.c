@@ -87,9 +87,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
     PDF_setlinewidth(pdf, 2.0);
     for(fy=0;fy<=height;fy+=z) {
         for(fx=0;fx<=width;fx+=z) {
-	    PDF_moveto(pdf, fx, fy);
-	    PDF_lineto(pdf, fx, fy);
-	    PDF_stroke(pdf);
+            PDF_moveto(pdf, fx, fy);
+            PDF_lineto(pdf, fx, fy);
+            PDF_stroke(pdf);
         }
     }
 
@@ -101,9 +101,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
     PDF_setrgbcolor_fill(pdf, 0xe8/255.0,0xec/255.0,0xff/255.0);
     for(l=filled1;l;l=l->next) {
         if(l->type == gfx_moveTo) {
-	    PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
+            PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
         } else if(l->type == gfx_lineTo) {
-	    PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
+            PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
         }
     }
     PDF_fill(pdf);
@@ -111,9 +111,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
     PDF_setrgbcolor_fill(pdf, 0xd0/255.0,0xd8/255.0,0xff/255.0);
     for(l=filled2;l;l=l->next) {
         if(l->type == gfx_moveTo) {
-	    PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
+            PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
         } else if(l->type == gfx_lineTo) {
-	    PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
+            PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
         }
     }
     PDF_fill(pdf);
@@ -123,13 +123,13 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
     PDF_setlinewidth(pdf, 1.0);
     for(stroke=evenodd->strokes;stroke;stroke=stroke->next) {
         gridpoint_t p = stroke->points[0];
-	PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
+        PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
         int s;
         for(s=1;s<stroke->num_points;s++) {
             p = stroke->points[s];
-	    PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
+            PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
         }
-	PDF_stroke(pdf);
+        PDF_stroke(pdf);
     }
 
     PDF_setlinecap(pdf, /*round*/1);
@@ -140,9 +140,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
         int s;
         for(s=0;s<stroke->num_points;s++) {
             p = stroke->points[s];
-	    PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
-	    PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
-	    PDF_stroke(pdf);
+            PDF_moveto(pdf, tx+p.x*z, ty+p.y*z);
+            PDF_lineto(pdf, tx+p.x*z, ty+p.y*z);
+            PDF_stroke(pdf);
         }
     }
 
