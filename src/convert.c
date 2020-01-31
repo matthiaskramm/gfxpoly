@@ -582,7 +582,7 @@ gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double g
 
 void gfxline_print(gfxline_t*_l)
 {
-    gfxline_t*l = gfxline_rewind(l);
+    l = gfxline_rewind(l);
     while(l) {
         if(l->type == gfx_moveTo) {
             printf("moveTo %.2f,%.2f\n", l->x, l->y);
@@ -599,7 +599,7 @@ void gfxline_print(gfxline_t*_l)
 
 void gfxline_destroy(gfxline_t*_l)
 {
-    gfxline_t*l = gfxline_rewind(l);
+    l = gfxline_rewind(l);
     if(l && (l+1) == l->next) {
         /* flattened */
         free(l);
