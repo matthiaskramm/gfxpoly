@@ -289,8 +289,8 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
                     for(s=0;s<stroke->num_points-1;s++) {
                         point_t a = stroke->points[s];
                         point_t b = stroke->points[s+1];
-                        if(a.x == p2->x && a.y == p2->y ||
-                           b.x == p2->x && b.y == p2->y) {
+                        if((a.x == p2->x && a.y == p2->y) ||
+                           (b.x == p2->x && b.y == p2->y)) {
                             fprintf(stderr, "%.2f,%.2f -> %.2f,%.2f\n", 
                                     a.x * poly->gridsize, 
                                     a.y * poly->gridsize, 
