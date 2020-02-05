@@ -1,6 +1,6 @@
 top_builddir=.
 
-CC=@CC@ @CPPFLAGS@ @CFLAGS@ @DEFS@ -fPIC -I. -Isrc -DCHECKS
+CC=@CC@ @CPPFLAGS@ @CFLAGS@ @DEFS@ -fPIC -I. -Isrc -DCHECKS -Wno-unused-function
 L=@CC@ @CFLAGS@ -fPIC
 A=a
 SO=so
