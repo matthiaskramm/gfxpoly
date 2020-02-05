@@ -216,7 +216,6 @@ int gfxpoly_num_segments(gfxpoly_t*poly)
 }
 int gfxpoly_size(gfxpoly_t*poly)
 {
-    int s,t;
     int edges = 0;
     gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
@@ -229,7 +228,6 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
 {
     dict_t*d1 = dict_new(&point_type);
     dict_t*d2 = dict_new(&point_type);
-    int s,t;
     gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
         /* In order to not confuse the fill/wind logic, existing segments must have
@@ -238,6 +236,7 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
 
         /* put all the segments into dictionaries so that we can check
            that the endpoint multiplicity is two */
+        int s;
         for(s=0;s<stroke->num_points;s++) {
             point_t p = stroke->points[s];
             int num_xor = (s>=1 && s<stroke->num_points-1)?2:1; // mid points are two points (start+end)
@@ -286,6 +285,7 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
                 if(count<0) fprintf(stderr, "Error: Point (%.2f,%.2f) has %d more outgoing than incoming segments (%d incoming, %d outgoing)\n", p2->x * poly->gridsize, p2->y * poly->gridsize, -count, (ocount+count)/2, (ocount-count)/2);
                 gfxsegmentlist_t*stroke = poly->strokes;
                 for(;stroke;stroke=stroke->next) {
+                    int s;
                     for(s=0;s<stroke->num_points-1;s++) {
                         point_t a = stroke->points[s];
                         point_t b = stroke->points[s+1];
@@ -311,7 +311,7 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
 
 void gfxpoly_dump(gfxpoly_t*poly)
 {
-    int s,t;
+    int s;
     double g = poly->gridsize;
     fprintf(stderr, "polyon %p (gridsize: %.2f)\n", poly, poly->gridsize);
     gfxsegmentlist_t*stroke = poly->strokes;
@@ -340,7 +340,7 @@ void gfxpoly_save(gfxpoly_t*poly, const char*filename)
     FILE*fi = fopen(filename, "wb");
     fprintf(fi, "%% gridsize %f\n", poly->gridsize);
     fprintf(fi, "%% begin\n");
-    int s,t;
+    int s;
     gfxsegmentlist_t*stroke = poly->strokes;
     for(;stroke;stroke=stroke->next) {
             fprintf(fi, "%g setgray\n", stroke->dir==DIR_UP ? 0.7 : 0);
@@ -361,7 +361,6 @@ void gfxpoly_save_arrows(gfxpoly_t*poly, const char*filename)
     FILE*fi = fopen(filename, "wb");
     fprintf(fi, "%% gridsize %f\n", poly->gridsize);
     fprintf(fi, "%% begin\n");
-    int t;
     double l = 5.0 / poly->gridsize;
     double g = poly->gridsize;
     gfxsegmentlist_t*stroke = poly->strokes;
@@ -605,7 +604,6 @@ static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stro
 
 static void gfxpoly_enqueue(gfxpoly_t*p, queue_t*queue, hqueue_t*hqueue, int polygon_nr)
 {
-    int t;
     gfxsegmentlist_t*stroke = p->strokes;
     for(;stroke;stroke=stroke->next) {
         assert(stroke->num_points > 1);
@@ -791,10 +789,10 @@ static void schedule_crossing(status_t*status, segment_t*s1, segment_t*s2)
     assert(p.x >= s1->minx && p.x <= s1->maxx);
     assert(p.x >= s2->minx && p.x <= s2->maxx);
 
+#ifndef DONT_REMEMBER_CROSSINGS
     point_t pair;
     pair.x = s1->nr;
     pair.y = s2->nr;
-#ifndef DONT_REMEMBER_CROSSINGS
     assert(!dict_contains(status->seen_crossings, &pair));
     dict_put(status->seen_crossings, &pair, 0);
 #endif
@@ -1132,7 +1130,6 @@ static void recalculate_windings(status_t*status, segrange_t*range)
 
     segment_t*s = range->segmin;
     segment_t*end = range->segmax;
-    segment_t*last = 0;
 
 #ifdef DEBUG
     s = actlist_leftmost(status->actlist);
@@ -1213,11 +1210,9 @@ static void intersect_with_horizontal(status_t*status, segment_t*h)
     right = right->right; //first seg to the right of h->b
     segment_t* s = left;
 
-    point_t o = h->a;
     while(s!=right) {
         assert(s);
         int32_t x = XPOS_INT(s, status->y);
-        point_t p = {x, status->y};
 #ifdef DEBUG
         fprintf(stderr, "...intersecting with [%d] (%.2f,%.2f) -> (%.2f,%.2f) at (%.2f,%.2f)\n", 
                 s->nr,
@@ -1232,7 +1227,6 @@ static void intersect_with_horizontal(status_t*status, segment_t*h)
         assert(s->delta.x > 0 && x <= s->b.x || s->delta.x <= 0 && x >= s->b.x);
         xrow_add(status->xrow, x);
 
-        o = p;
         s = s->right;
     }
 }
@@ -1539,10 +1533,10 @@ static void event_apply(status_t*status, event_t*e)
                 assert(del1 && del2);
 #endif
 #ifdef CHECKS
+#ifndef DONT_REMEMBER_CROSSINGS
                 point_t pair;
                 pair.x = e->s1->nr;
                 pair.y = e->s2->nr;
-#ifndef DONT_REMEMBER_CROSSINGS
                 assert(dict_contains(status->seen_crossings, &pair));
                 dict_del(status->seen_crossings, &pair);
 #endif

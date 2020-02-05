@@ -57,8 +57,6 @@ static void draw_arc(gfxcanvas_t*draw, double x, double y, double a1, double a2,
 
     int t;
     double step = (a2-a1)/steps;
-    double lastx = x+cos(a1)*r;
-    double lasty = y+sin(a1)*r;
 
     /* we could probably build a table for this- there are only 8
        possible values for step */
@@ -74,8 +72,6 @@ static void draw_arc(gfxcanvas_t*draw, double x, double y, double a1, double a2,
         double dx = x + cos(a-step/2)*r2;
         double dy = y + sin(a-step/2)*r2;
         draw->splineTo(draw, dx, dy, xx, yy);
-        lastx = xx;
-        lasty = yy;
     }
 }
 
@@ -105,7 +101,6 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
     int start = 0;
     int end = num-1;
     int incr = 1;
-    int pos = 0;
 
     double lastw=0;
     /* iterate through the points two times: first forward, then backward,
@@ -157,8 +152,6 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
             double addx = cos(w-M_PI/2)*width;
             double addy = sin(w-M_PI/2)*width;
             draw->lineTo(draw, p[pos].x+addx, p[pos].y+addy);
-            double px2 = p[pos+incr].x + addx;
-            double py2 = p[pos+incr].y + addy;
             draw->lineTo(draw, p[pos+incr].x+addx, p[pos+incr].y+addy);
             lastw = w;
         }

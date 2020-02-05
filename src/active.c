@@ -45,7 +45,6 @@ void actlist_dump(actlist_t*a, int32_t y, double gridsize)
 {
     segment_t*s = a->list;
     double lastx;
-    char bad = 0;
     if(!s) fprintf(stderr, "(empty)\n");
     while(s) {
         if(y) {
@@ -114,7 +113,6 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
 #ifdef CHECKS
     segment_t*t = a->list;
     char to_the_left = 0;
-    char fail = 0;
     while(t) {
         /* this check doesn't work out with cmp() because during horizontal
            processing, both segments ending as well as segments starting will
@@ -321,8 +319,6 @@ static void actlist_splay_dump2(actlist_t*a, segment_t*s, char*mid, char*up, cha
     if(!s) return;
     
     if(s->leftchild || s->rightchild) {
-        int t;
-
         if(s->leftchild) {
             char*o3 = malloc(strlen(up)+3);
             strcpy(o3, up);strcat(o3, "+-");
@@ -365,7 +361,6 @@ static void move_to_root(actlist_t*a, segment_t*s)
     if(!s) return;
     /* this is a textbook implementation of the three splay operations
        zig, zig-zig and zig-zag */
-    int nr=0;
     while(a->root != s) {
         assert(s->parent);
         segment_t*p = s->parent;
@@ -410,12 +405,11 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
     memset(&tmp, 0, sizeof(tmp));
     segment_t*left=&tmp,*right=&tmp;
    
-    int c = 0;
     while(1) {
         if(cmp(a->root,p1,p2)<0) {
             /* we're to the left of the root */
             if(!a->root->leftchild) {
-                c = -1;break;
+                break;
             }
             if(cmp(a->root->leftchild,p1,p2)<0) {
                 /* we're also to the left of the root's left child
@@ -425,7 +419,7 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
                 LINK(s, rightchild, a->root);
                 a->root = s;
                 if(!a->root->leftchild) {
-                    c = -1;break;
+                    break;
                 }
             }
             LINK(right, leftchild, a->root);
@@ -434,7 +428,7 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
         } else /* cmp(a->root,p1,p2)>=0 */ {
             /* we're to the right of the root */
             if(!a->root->rightchild) {
-                c = 1;break;
+                break;
             }
             if(cmp(a->root->rightchild,p1,p2)>=0) {
                 /* we're also to the right of the root's right child
@@ -444,7 +438,7 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
                 LINK(s, leftchild, a->root);
                 a->root = s;
                 if(!a->root->rightchild)
-                    c = 1;break;
+                    break;
             }
             LINK(left, rightchild, a->root);
             left = a->root;

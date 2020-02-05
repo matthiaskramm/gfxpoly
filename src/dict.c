@@ -176,10 +176,6 @@ type_t charptr_type = {
 
 #define INITIAL_SIZE 1
 
-static int max(int x, int y) {
-    return x>y?x:y;
-}
-
 dict_t*dict_new(type_t*t)
 {
     dict_t*d = malloc(sizeof(dict_t));
@@ -429,7 +425,7 @@ void dict_foreach_keyvalue(dict_t*h, void (*runFunction)(void*data, const void*k
             if(runFunction) {
                 runFunction(data, e->key, e->data);
             }
-            e = e->next;
+            e = next;
         }
     }
 }
@@ -443,7 +439,7 @@ void dict_foreach_value(dict_t*h, void (*runFunction)(void*))
             if(runFunction) {
                 runFunction(e->data);
             }
-            e = e->next;
+            e = next;
         }
     }
 }

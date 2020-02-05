@@ -119,7 +119,6 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
     double z = 1.0 / gridsize;
     int count = 0;
     double g = 0;
-    double lastx=0,lasty=0;
     while(1) {
         char*line = readline(fi);
         if(!line)
@@ -309,7 +308,6 @@ gfxpoly_t* gfxpoly_from_file(const char*filename)
 }
 void gfxpoly_destroy(gfxpoly_t*poly)
 {
-    int t;
     gfxsegmentlist_t*stroke = poly->strokes;
     while(stroke) {
         gfxsegmentlist_t*next = stroke->next;

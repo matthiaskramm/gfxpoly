@@ -170,7 +170,7 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
     }
 
     int polygon_nr = 0;
-    int s,t;
+    int t;
     gfxsegmentlist_t*stroke = polygon->strokes;
     for(;stroke;stroke=stroke->next) {
         for(t=0;t<stroke->num_points-1;t++) {
@@ -267,7 +267,7 @@ intbbox_t intbbox_from_polygon(gfxpoly_t*polygon, double zoom)
         b.xmax = polygon->strokes->points[0].x*g;
         b.ymax = polygon->strokes->points[0].y*g;
     }
-    int s,t;
+    int t;
     gfxsegmentlist_t*stroke = polygon->strokes;
     for(;stroke;stroke=stroke->next) {
         for(t=0;t<stroke->num_points;t++) {
