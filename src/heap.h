@@ -46,7 +46,7 @@ static void name##_put(name##_t*h, t*e)                                \
         if (!node) break;                                               \
         parent = (node-1)/2;                                           \
         h->elements[node] = h->elements[parent];                       \
-    } while(lt(e, h->elements[parent]));                               \
+    } while (lt(e, h->elements[parent]));                               \
     h->elements[node] = e;                                             \
 }                                                                      \
 static t* name##_get(name##_t*h)                                       \
@@ -66,7 +66,7 @@ static t* name##_get(name##_t*h)                                       \
                                    h->elements[child]))                \
             child++;                                                   \
         h->elements[node] = h->elements[child];                        \
-    } while(lt(h->elements[child],node_p));                            \
+    } while (lt(h->elements[child],node_p));                            \
     h->elements[node] = node_p;                                        \
     return r;                                                          \
 }                                                                      \

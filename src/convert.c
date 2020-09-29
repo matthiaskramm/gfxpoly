@@ -56,7 +56,7 @@ static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
     assert(!line || line[0].type == gfx_moveTo);
     double lastx=0,lasty=0;
     double z = 1.0 / gridsize;
-    while(line) {
+    while (line) {
         if (line->type == gfx_moveTo) {
             if (line->next && line->next->type != gfx_moveTo && (line->x!=lastx || line->y!=lasty)) {
                 w->moveto(w, convert_coord(line->x,z), convert_coord(line->y,z));
@@ -88,7 +88,7 @@ static char* readline(FILE*fi)
     /* FIXME: Rather than reading the file byte by byte, we should really use
        buffers or mmap */
     char c;
-    while(1) {
+    while (1) {
         int l = fread(&c, 1, 1, fi);
         if (!l)
             return 0;
@@ -97,7 +97,7 @@ static char* readline(FILE*fi)
     }
     char line[256];
     int pos = 0;
-    while(1) {
+    while (1) {
         if (pos<sizeof(line)-2) {
             line[pos++] = c;
             line[pos] = 0;
@@ -119,7 +119,7 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
     double z = 1.0 / gridsize;
     int count = 0;
     double g = 0;
-    while(1) {
+    while (1) {
         char*line = readline(fi);
         if (!line)
             break;
@@ -309,7 +309,7 @@ gfxpoly_t* gfxpoly_from_file(const char*filename)
 void gfxpoly_destroy(gfxpoly_t*poly)
 {
     gfxsegmentlist_t*stroke = poly->strokes;
-    while(stroke) {
+    while (stroke) {
         gfxsegmentlist_t*next = stroke->next;
         free(stroke->points);
         free(stroke);
@@ -481,7 +481,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
     char should_connect = 0;
     
     gfxline_t*l = gfxline_new();
-    while(stroke) {
+    while (stroke) {
         if (stroke && !preserve_direction) {
             char del1 = dict_del2(d, &stroke->points[0], stroke);
             char del2 = dict_del2(d, &stroke->points[stroke->num_points-1], stroke);
@@ -524,7 +524,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         /* try to find a poly which starts at the point we have drawn last */
         stroke = dict_lookup(d, &last);
         should_connect = 1;
-        while(!dict_contains(todo, stroke)) {
+        while (!dict_contains(todo, stroke)) {
             should_connect = 0;
             stroke = next_todo;
             if (!next_todo) {
@@ -581,7 +581,7 @@ gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double g
 void gfxline_print(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(_l);
-    while(l) {
+    while (l) {
         if (l->type == gfx_moveTo) {
             printf("moveTo %.2f,%.2f\n", l->x, l->y);
         }
@@ -603,7 +603,7 @@ void gfxline_destroy(gfxline_t*_l)
         free(l);
     } else {
         gfxline_t*next;
-        while(l) {
+        while (l) {
             next = l->next;
             l->next = 0;
             free(l);

@@ -197,7 +197,7 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     int size = 0;
     int pos = 0;
     double lastx,lasty;
-    while(line) {
+    while (line) {
         if (line->type == gfx_moveTo) {
             if (pos>size) size = pos;
             pos++;
@@ -218,7 +218,7 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     gfxpoint_t* points = malloc(sizeof(gfxpoint_t)*size);
     line = start;
     pos = 0;
-    while(line) {
+    while (line) {
         if (line->type == gfx_moveTo) {
             if (pos)
                 draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);

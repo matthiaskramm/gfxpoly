@@ -81,7 +81,7 @@ gfxline_t* gfxline_splineTo(gfxline_t*prev, gfxcoord_t sx, gfxcoord_t sy, gfxcoo
 
 gfxline_t* gfxline_rewind(gfxline_t*line)
 {
-    while(line && line->prev)
+    while (line && line->prev)
         line = line->prev;
     return line;
 }

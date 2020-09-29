@@ -45,7 +45,7 @@ int main(int argn, char*argv[])
     DIR*_dir = opendir(dir);
     if (!_dir) return;
     struct dirent*file;
-    while(1) {
+    while (1) {
         file = readdir(_dir);
         if (!file)
             break;

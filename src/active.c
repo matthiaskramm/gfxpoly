@@ -46,7 +46,7 @@ void actlist_dump(actlist_t*a, int32_t y, double gridsize)
     segment_t*s = a->list;
     double lastx;
     if (!s) fprintf(stderr, "(empty)\n");
-    while(s) {
+    while (s) {
         if (y) {
             double x = ((double)s->delta.x*(y-s->a.y)/s->delta.y)+s->a.x;
             if (s!=a->list) {
@@ -66,7 +66,7 @@ void actlist_verify(actlist_t*a, int32_t y)
     segment_t*s = a->list;
     assert(!s || !s->left);
     segment_t*l = 0;
-    while(s) {
+    while (s) {
         if (y) {
             if (l) {
                 /* we need to re-evaluate the x of the previous segment. if we
@@ -113,7 +113,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
 #ifdef CHECKS
     segment_t*t = a->list;
     char to_the_left = 0;
-    while(t) {
+    while (t) {
         /* this check doesn't work out with cmp() because during horizontal
            processing, both segments ending as well as segments starting will
            be active in this scanline */
@@ -122,7 +122,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
         if (d>=0 && to_the_left) {
             actlist_dump(a, p1.y, 1);
             segment_t*s = a->list;
-            while(s) {
+            while (s) {
                 fprintf(stderr, "[%d] %f/%f (%d,%d) -> (%d,%d)\n", SEGNR(s),
                         single_cmp(s,p1), cmp(s,p1,p2),
                         s->a.x, s->a.y, s->b.x, s->b.y);
@@ -147,7 +147,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
     if (!s) return 0;
     double d=0;
     int depth = 0;
-    while(s) {
+    while (s) {
         last = s;
         depth++;
         d = single_cmp(s, p1);
@@ -183,7 +183,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
             return 0;
         }
     } else {
-        while(last->right && cmp(last->right, p1, p2)>=0) {
+        while (last->right && cmp(last->right, p1, p2)>=0) {
             last = last->right;
         }
     }
@@ -191,7 +191,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
 #ifdef CHECKS
     segment_t*l=0;
     s = a->list;
-    while(s) {
+    while (s) {
         if (cmp(s, p1, p2)<0)
             break;
         l = s;s = s->right;
@@ -201,7 +201,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
         printf("after tree: [%d]\n", SEGNR(out));
         actlist_splay_dump(a);
         s = a->list;
-        while(s) {
+        while (s) {
             double d1 = single_cmp(s,p1);
             double d2 = cmp(s,p1,p2);
             int x1 = d1<0?-1:(d1>0?1:0);
@@ -221,7 +221,7 @@ segment_t* actlist_find(actlist_t*a, point_t p1, point_t p2)
 {
     segment_t*last=0, *s = a->list;
     if (!s) return last;
-    while(s) {
+    while (s) {
         double d = cmp(s, p1, p2);
         if (d<0)
             break;
@@ -361,7 +361,7 @@ static void move_to_root(actlist_t*a, segment_t*s)
     if (!s) return;
     /* this is a textbook implementation of the three splay operations
        zig, zig-zig and zig-zag */
-    while(a->root != s) {
+    while (a->root != s) {
         assert(s->parent);
         segment_t*p = s->parent;
         if (p == a->root) {
@@ -405,7 +405,7 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
     memset(&tmp, 0, sizeof(tmp));
     segment_t*left=&tmp,*right=&tmp;
    
-    while(1) {
+    while (1) {
         if (cmp(a->root,p1,p2)<0) {
             /* we're to the left of the root */
             if (!a->root->leftchild) {
@@ -531,7 +531,7 @@ void actlist_delete(actlist_t*a, segment_t*s)
 #endif
             // free up root->left->right
             segment_t*t = a->root->leftchild;
-            while(t->rightchild) {
+            while (t->rightchild) {
                 segment_t*r = t->rightchild;
                 segment_t*l = r->leftchild;
                 LINK(r, leftchild, t);
@@ -545,7 +545,7 @@ void actlist_delete(actlist_t*a, segment_t*s)
         } else {
             // free up root->right->left
             segment_t*t = a->root->rightchild;
-            while(t->leftchild) {
+            while (t->leftchild) {
                 segment_t*l = t->leftchild;
                 segment_t*r = l->rightchild;
                 LINK(l, rightchild, t);
@@ -583,7 +583,7 @@ segment_t* actlist_rightmost(actlist_t*a)
 #endif
     segment_t*s = a->list;
     segment_t*last = 0;
-    while(s) {
+    while (s) {
         last = s;
         s = s->right;
     }
@@ -605,7 +605,7 @@ void actlist_swap(actlist_t*a, segment_t*s1, segment_t*s2)
     /* test that s1 is to the left of s2- our swap
        code depends on that */
     segment_t*s = s1;
-    while(s && s!=s2) s = s->right;
+    while (s && s!=s2) s = s->right;
     assert(s==s2);
 #endif
 /*#ifndef SPLAY

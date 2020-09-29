@@ -70,7 +70,7 @@ static void msg(char*format, ...)
     vsnprintf(buf, sizeof(buf)-1, format, arglist);
     va_end(arglist);
     l = strlen(buf);
-    while(l && buf[l-1]=='\n') {
+    while (l && buf[l-1]=='\n') {
         buf[l-1] = 0;
         l--;
     }
@@ -237,7 +237,7 @@ ttf_table_t*ttf_addtable(ttf_t*ttf, uint32_t id)
 ttf_table_t*ttf_find_table(ttf_t*ttf, uint32_t id)
 {
     ttf_table_t*table = ttf->tables;
-    while(table) {
+    while (table) {
         if (table->id == id)
             return table;
         table = table->next;
@@ -994,7 +994,7 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
 
     /* parse flag array (1st pass- to determine start of coordinates) */
     int num=0;
-    while(num<glyph->num_points) {
+    while (num<glyph->num_points) {
         uint8_t flag = readuint8_t(r);
         if (flag&0xc0) {
             msg("<error> Bad flags in glyph outline: %02x (at pos %d)", flag, num);
@@ -1019,7 +1019,7 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
     char is_start=1;
     int contour_pos=0;
     int bytepos = r->pos;
-    while(num<glyph->num_points) {
+    while (num<glyph->num_points) {
         uint8_t flag = readuint8_t(&fx);
         int count = flag&8?readuint8_t(&fx)+1:1;
         count=count>glyph->num_points-num?glyph->num_points-num:(count?count:1);
@@ -1041,13 +1041,13 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
             glyph->points[num].flags = f;
             num++;
             is_start = is_end;
-        } while(--count);
+        } while (--count);
     }
 
     /* parse flag array (3rd pass) and y coordinates */
     num=0;
     int y = 0;
-    while(num<glyph->num_points) {
+    while (num<glyph->num_points) {
         uint8_t flag = readuint8_t(&fy);
         int count = flag&8?readuint8_t(&fy)+1:1;
         count=count>glyph->num_points-num?glyph->num_points-num:(count?count:1);
@@ -1057,7 +1057,7 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
             else if ((flag&0x24) == 0x00) y += readint16_t(r);
             glyph->points[num].y = y;
             num++;
-        } while(--count);
+        } while (--count);
     }
     free(endpoints);
     return 1;
@@ -1421,7 +1421,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
 
     int pos=0;
     int num_segments=0;
-    while(pos < ttf->unicode_size) {
+    while (pos < ttf->unicode_size) {
         if (!ttf->unicode[pos]) {
             pos++;
             continue;
@@ -1452,7 +1452,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
     /* backpatch search range */
     int tmp = num_segments;
     int search_range = 0;
-    while(tmp) {
+    while (tmp) {
         search_range = tmp;
         tmp = tmp&(tmp-1);
     }
@@ -1461,7 +1461,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
     /* backpatch entry selector */
     int entry_selector = 0;
     tmp = search_range;
-    while(tmp>1) {tmp>>=1;entry_selector++;}
+    while (tmp>1) {tmp>>=1;entry_selector++;}
     w->data[num_segments_pos++]=entry_selector>>8;
     w->data[num_segments_pos++]=entry_selector;
     /* backpatch range shift */
@@ -1471,7 +1471,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
 
     pos=0;
     num_segments = 0;
-    while(pos < ttf->unicode_size) {
+    while (pos < ttf->unicode_size) {
         if (!ttf->unicode[pos]) {
             pos++;
             continue;
@@ -2252,7 +2252,7 @@ ttf_table_t* ttf_write(ttf_t*ttf, uint32_t*checksum_adjust)
     /* write number of tables */
     int num_tables=0;
     ttf_table_t*t = ttf->tables;
-    while(t) {
+    while (t) {
         num_tables++;
         t = t->next;
     }
@@ -2261,7 +2261,7 @@ ttf_table_t* ttf_write(ttf_t*ttf, uint32_t*checksum_adjust)
     /* write search range */
     int tmp = num_tables;
     int search_range = 0;
-    while(tmp) {
+    while (tmp) {
         search_range = tmp;
         tmp = tmp&(tmp-1);
     }
@@ -2271,7 +2271,7 @@ ttf_table_t* ttf_write(ttf_t*ttf, uint32_t*checksum_adjust)
 
     /* write entry selector */
     int entry_selector = 0;
-    while(tmp>1) {
+    while (tmp>1) {
         tmp>>=1;
         entry_selector++;
     }
@@ -2427,7 +2427,7 @@ void ttf_dump(ttf_t*ttf)
 {
     msg("<notice> Truetype file version %08x%s", ttf->version, ttf->version == OPENTYPE?" (opentype)":"");
     ttf_table_t*table = ttf->tables;
-    while(table) {
+    while (table) {
         uint32_t tag = table->id;
         msg("<notice> Tag %02x%02x%02x%02x [%c%c%c%c] (length: %d)",
                 (tag>>24)&0xff, (tag>>16)&0xff, (tag>>8)&0xff, (tag)&0xff,
@@ -2445,7 +2445,7 @@ void ttf_dump(ttf_t*ttf)
 void ttf_destroy_tables(ttf_t*ttf)
 {
     ttf_table_t*table = ttf->tables;
-    while(table) {
+    while (table) {
         ttf_table_t*next = table->next;
         free(table->data);
         free(table);

@@ -568,7 +568,7 @@ static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stro
     segment_t*s = 0;
     /* we need to queue multiple segments at once because we need to process start events
        before horizontal events */
-    while(pos < stroke->num_points-1) {
+    while (pos < stroke->num_points-1) {
         assert(stroke->points[pos].y <= stroke->points[pos+1].y);
         s = segment_new(stroke->points[pos], stroke->points[pos+1], polygon_nr, stroke->dir);
         s->fs = stroke->fs;
@@ -861,7 +861,7 @@ static void append_stroke(status_t*status, point_t a, point_t b, segment_dir_t d
     gfxsegmentlist_t*stroke = status->strokes;
     /* find a stoke to attach this segment to. It has to have an endpoint
        matching our start point, and a matching edgestyle */
-    while(stroke) {
+    while (stroke) {
         point_t p = stroke->points[stroke->num_points-1];
         if (p.x == a.x && p.y == a.y && stroke->fs == fs && stroke->dir == dir)
             break;
@@ -940,10 +940,10 @@ static void segrange_adjust_endpoints(segrange_t*range, int32_t y)
     /* we need this because if two segments intersect exactly on
        the scanline, segrange_test_segment_{min,max} can't tell which
        one is smaller/larger */
-    if (min) while(min->left && XPOS_EQ(min, min->left, y)) {
+    if (min) while (min->left && XPOS_EQ(min, min->left, y)) {
         min = min->left;
     }
-    if (max) while(max->right && XPOS_EQ(max, max->right, y)) {
+    if (max) while (max->right && XPOS_EQ(max, max->right, y)) {
         max = max->right;
     }
     range->segmin = min;
@@ -990,7 +990,7 @@ static void add_points_to_positively_sloped_segments(status_t*status, int32_t y,
         segment_t*seg = actlist_find(status->actlist, box.left2, box.left2);
 
         seg = actlist_right(status->actlist, seg);
-        while(seg) {
+        while (seg) {
             if (seg->a.y == y) {
                 // this segment started in this scanline, ignore it
                 seg->changed = 1;last = seg;if (!first) {first=seg;}
@@ -1032,7 +1032,7 @@ static void add_points_to_negatively_sloped_segments(status_t*status, int32_t y,
         box_t box = box_new(status->xrow->x[t], y);
         segment_t*seg = actlist_find(status->actlist, box.right2, box.right2);
 
-        while(seg) {
+        while (seg) {
             if (seg->a.y == y) {
                 // this segment started in this scanline, ignore it
                 seg->changed = 1;last = seg;if (!first) {first=seg;}
@@ -1072,7 +1072,7 @@ static void add_points_to_negatively_sloped_segments(status_t*status, int32_t y,
 static void add_points_to_ending_segments(status_t*status, int32_t y)
 {
     segment_t*seg = status->ending_segments;
-    while(seg) {
+    while (seg) {
         segment_t*next = seg->right;seg->right=0;
 
         assert(seg->b.y == status->y);
@@ -1133,7 +1133,7 @@ static void recalculate_windings(status_t*status, segrange_t*range)
 
 #ifdef DEBUG
     s = actlist_leftmost(status->actlist);
-    while(s) {
+    while (s) {
         fprintf(stderr, "[%d]%d%s ", s->nr, s->changed,
             s == range->segmin?"S":(
             s == range->segmax?"E":""));
@@ -1146,12 +1146,12 @@ static void recalculate_windings(status_t*status, segrange_t*range)
     /* test sanity: verify that we don't have changed segments
        outside of the given range */
     s = actlist_leftmost(status->actlist);
-    while(s && s!=range->segmin) {
+    while (s && s!=range->segmin) {
         assert(!s->changed);
         s = s->right;
     }
     s = actlist_rightmost(status->actlist);
-    while(s && s!=range->segmax) {
+    while (s && s!=range->segmax) {
         assert(!s->changed);
         s = s->left;
     }
@@ -1163,7 +1163,7 @@ static void recalculate_windings(status_t*status, segrange_t*range)
 
     if (end)
         end = end->right;
-    while(s!=end) {
+    while (s!=end) {
 #ifndef CHECKS
         if (s->changed)
 #endif
@@ -1210,7 +1210,7 @@ static void intersect_with_horizontal(status_t*status, segment_t*h)
     right = right->right; //first seg to the right of h->b
     segment_t* s = left;
 
-    while(s!=right) {
+    while (s!=right) {
         assert(s);
         int32_t x = XPOS_INT(s, status->y);
 #ifdef DEBUG
@@ -1258,7 +1258,7 @@ static windstate_t get_horizontal_first_windstate(status_t*status, int x1, int x
     segment_t*left = actlist_find(status->actlist, p1, p2);
 
     segment_t*a = actlist_right(status->actlist, left);
-    while(a) {
+    while (a) {
         if (a->pos.y == status->y) {
             /* we need to iterate through all segments that received a point in this
                scanline, as actlist_find above will miss (positively sloped) segments 
@@ -1592,7 +1592,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
     status.xrow = xrow_new();
 
     event_t*e = queue_get(&status.queue);
-    while(e) {
+    while (e) {
         assert(e->s1->fs);
         status.y = e->p.y;
 #ifdef CHECKS
@@ -1620,7 +1620,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
             event_apply(&status, e);
             event_free(e);
             e = queue_get(&status.queue);
-        } while(e && status.y == e->p.y);
+        } while (e && status.y == e->p.y);
 
         xrow_sort(status.xrow);
         segrange_t range;
@@ -1660,7 +1660,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
     /* we only add segments with non-empty edgestyles to strokes in
        recalculate_windings, but better safe than sorry */
     gfxsegmentlist_t*stroke = p->strokes;
-    while(stroke) {
+    while (stroke) {
         assert(stroke->fs);
         stroke = stroke->next;
     }

@@ -117,7 +117,7 @@ static void add_line(renderbuf_t*buf, double x1, double y1, double x2, double y2
 
     //printf("line %d from %f to %f dir=%s\n", polygon_nr, y1, y2, dir==DIR_UP?"up":"down");
 
-    while(posy<=endy) {
+    while (posy<=endy) {
         double xx = startx + posx;
         add_pixel(buf, xx, posy, dir, fs, polygon_nr);
         posx+=stepx;
@@ -237,7 +237,7 @@ static inline double min(double a, double b) {return a<b?a:b;}
 static int adjust_x(int xmin, int xmax)
 {
     xmax += 8;
-    while(((xmax - xmin)&0x07) != 0x04)
+    while (((xmax - xmin)&0x07) != 0x04)
         xmax++;
     return xmax;
 }

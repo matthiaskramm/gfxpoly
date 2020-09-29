@@ -57,7 +57,7 @@ int main(int argn, char*argv[])
     double ua=0,ub=0,uc=0;
 
 
-    while(1) {
+    while (1) {
         gfxcanvas_t*canvas = gfxcanvas_new(0.05);
 
         triangle_t b1 = triangle_turn(t2, -32, -24, ua, 1);

@@ -60,7 +60,7 @@ unsigned int crc32_add_string(unsigned int checksum, const char*s)
     crc32_init();
     if (!s)
         return checksum;
-    while(*s) {
+    while (*s) {
         checksum = checksum>>8 ^ crc32[(*s^checksum)&0xff];
         s++;
     }
@@ -75,7 +75,7 @@ unsigned int crc32_add_bytes(unsigned int checksum, const void*_s, int len)
     do {
         checksum = checksum>>8 ^ crc32[(*s^checksum)&0xff];
         s++;
-    } while(--len);
+    } while (--len);
     return checksum;
 }
 unsigned int hash_block(const unsigned char*data, int len)
@@ -208,7 +208,7 @@ dict_t*dict_clone(dict_t*o)
     int t;
     for(t=0;t<o->hashsize;t++) {
         dictentry_t*e = o->slots[t];
-        while(e) {
+        while (e) {
             dictentry_t*n = (dictentry_t*)malloc(sizeof(dictentry_t));
             memcpy(n, e, sizeof(dictentry_t));
             n->key = h->key_type->dup(e->key);
@@ -228,7 +228,7 @@ static void dict_expand(dict_t*h, int newlen)
     int t; 
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
-        while(e) {
+        while (e) {
             dictentry_t*next = e->next;
             unsigned int newhash = e->hash%newlen;
             e->next = newslots[newhash];
@@ -270,7 +270,7 @@ void dict_dump(dict_t*h, FILE*fi, const char*prefix)
     int t;
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
-        while(e) {
+        while (e) {
             if (h->key_type!=&charptr_type) {
                 fprintf(fi, "%s%p=%p\n", prefix, e->key, e->data);
             } else {
@@ -308,7 +308,7 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
        through a slot to find our data */
     if (e && h->num*3 >= h->hashsize*2) {
         int newsize = h->hashsize;
-        while(h->num*3 >= newsize*2) {
+        while (h->num*3 >= newsize*2) {
             newsize = newsize<15?15:(newsize+1)*2-1;
         }
         dict_expand(h, newsize);
@@ -324,7 +324,7 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
 
     /* check subsequent entries for a match */
     dictentry_t*last = h->slots[hash];
-    while(e) {
+    while (e) {
         if (h->key_type->equals(e->key, key)) {
             /* move to front- makes a difference of about 10% in most applications */
             last->next = e->next;
@@ -357,7 +357,7 @@ char dict_del(dict_t*h, const void*key)
     unsigned int hash = h->key_type->hash(key) % h->hashsize;
     dictentry_t*head = h->slots[hash];
     dictentry_t*e = head, *prev=0;
-    while(e) {
+    while (e) {
         if (h->key_type->equals(e->key, key)) {
             dictentry_t*next = e->next;
             h->key_type->free(e->key);
@@ -385,7 +385,7 @@ char dict_del2(dict_t*h, const void*key, void*data)
     unsigned int hash = h->key_type->hash(key) % h->hashsize;
     dictentry_t*head = h->slots[hash];
     dictentry_t*e = head, *prev=0;
-    while(e) {
+    while (e) {
         if (h->key_type->equals(e->key, key) && e->data == data) {
             dictentry_t*next = e->next;
             h->key_type->free(e->key);
@@ -420,7 +420,7 @@ void dict_foreach_keyvalue(dict_t*h, void (*runFunction)(void*data, const void*k
     int t;
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
-        while(e) {
+        while (e) {
             dictentry_t*next = e->next;
             if (runFunction) {
                 runFunction(data, e->key, e->data);
@@ -434,7 +434,7 @@ void dict_foreach_value(dict_t*h, void (*runFunction)(void*))
     int t;
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
-        while(e) {
+        while (e) {
             dictentry_t*next = e->next;
             if (runFunction) {
                 runFunction(e->data);
@@ -449,7 +449,7 @@ void dict_free_all(dict_t*h, char free_keys, void (*free_data_function)(void*))
     int t;
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
-        while(e) {
+        while (e) {
             dictentry_t*next = e->next;
             if (free_keys) {
                 h->key_type->free(e->key);
