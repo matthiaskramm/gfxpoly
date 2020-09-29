@@ -578,6 +578,52 @@ gfxpoly_t* gfxpoly_createbox(double x1, double y1,double x2, double y2, double g
     return poly;
 }
 
+gfxsegmentlist_t* gfxsegmentlist_clone(gfxsegmentlist_t* orig) {
+    gfxsegmentlist_t* s = malloc(sizeof(gfxsegmentlist_t));
+    // TODO: The edgestyle is opaque and replicated as-is.
+    memcpy(s, orig, sizeof(gfxsegmentlist_t));
+    s->points = malloc(sizeof(point_t)*orig->points_size);
+    memcpy(s->points, orig->points, sizeof(point_t)*orig->points_size);
+    return s;
+}
+
+gfxpoly_t* gfxpoly_clone(gfxpoly_t* p)
+{
+    gfxpoly_t* poly = malloc(sizeof(gfxpoly_t));
+    poly->gridsize = p->gridsize;
+    gfxsegmentlist_t* prev = NULL;
+    gfxsegmentlist_t* first = NULL;
+    gfxsegmentlist_t* stroke = p->strokes;
+    while (stroke) {
+        gfxsegmentlist_t* s = gfxsegmentlist_clone(stroke);
+        if (!first)
+            first = s;
+        if (prev)
+            prev->next = s;
+        stroke = stroke->next;
+        prev = s;
+    }
+    poly->strokes = first;
+    return poly;
+}
+
+gfxpoly_t* gfxpoly_move(gfxpoly_t* orig, double x, double y)
+{
+    gfxpoly_t* moved = gfxpoly_clone(orig);
+    gfxsegmentlist_t* stroke = moved->strokes;
+    int32_t shiftx = x / orig->gridsize;
+    int32_t shifty = y / orig->gridsize;
+    while (stroke) {
+        int i;
+        for (i = 0; i < stroke->num_points; i++) {
+            stroke->points[i].x += shiftx;
+            stroke->points[i].y += shifty;
+        }
+        stroke = stroke->next;
+    }
+    return moved;
+}
+
 void gfxline_print(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(_l);
