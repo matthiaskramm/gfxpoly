@@ -49,11 +49,11 @@ typedef enum {LEFT=0, RIGHT=1} leftright_t;
 
 static void draw_arc(gfxcanvas_t*draw, double x, double y, double a1, double a2, double r)
 {
-    if(a2<a1) a2+=M_PI*2;
+    if (a2<a1) a2+=M_PI*2;
 
     double d = (a2-a1);
     int steps = ceil(8*d/(M_PI*2)); // we use 8 splines for a full circle
-    if(!steps) return;
+    if (!steps) return;
 
     int t;
     double step = (a2-a1)/steps;
@@ -83,14 +83,14 @@ typedef struct _gfxpoint
 static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double limit)
 {
     width/=2;
-    if(width<=0) 
+    if (width<=0) 
         width = 0.05;
 
     /* remove duplicate points */
     int s=1,t;
     gfxpoint_t last = p[0];
     for(t=1;t<num;t++) {
-        if(p[t].x != last.x || p[t].y != last.y) {
+        if (p[t].x != last.x || p[t].y != last.y) {
             p[s++] = last = p[t];
         }
     }
@@ -108,11 +108,11 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
        pass */
     int pass;
     for(pass=0;pass<2;pass++) {
-        if(closed) {
+        if (closed) {
             double dx = p[end].x - p[end-incr].x;
             double dy = p[end].y - p[end-incr].y;
             lastw = atan2(dy,dx);
-            if(lastw<0) lastw+=M_PI*2;
+            if (lastw<0) lastw+=M_PI*2;
         }
     
         int pos;
@@ -121,25 +121,25 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
             double dx = p[pos+incr].x - p[pos].x;
             double dy = p[pos+incr].y - p[pos].y;
             double w = atan2(dy,dx);
-            if(w<0) w+=M_PI*2;
+            if (w<0) w+=M_PI*2;
             
-            if(closed || pos!=start) {
+            if (closed || pos!=start) {
                 double d = w-lastw;
                 leftright_t turn;
-                if(d>=0 && d<M_PI) turn=LEFT;
-                else if(d<0 && d>-M_PI) turn=RIGHT;
-                else if(d>=M_PI) {turn=RIGHT;}
-                else if(d<=-M_PI) {turn=LEFT;d+=M_PI*2;}
+                if (d>=0 && d<M_PI) turn=LEFT;
+                else if (d<0 && d>-M_PI) turn=RIGHT;
+                else if (d>=M_PI) {turn=RIGHT;}
+                else if (d<=-M_PI) {turn=LEFT;d+=M_PI*2;}
                 else {assert(0);}
-                if(turn!=LEFT || join==gfx_joinBevel) {
+                if (turn!=LEFT || join==gfx_joinBevel) {
                     // nothing to do. bevel joins are easy
-                } else if(join==gfx_joinRound) {
+                } else if (join==gfx_joinRound) {
                     draw_arc(draw, p[pos].x, p[pos].y, lastw-M_PI/2, w-M_PI/2, width);
-                } else if(join==gfx_joinMiter) {
+                } else if (join==gfx_joinMiter) {
                     double xw = M_PI/2 - d/2;
-                    if(xw>0) {
+                    if (xw>0) {
                         double r2 = 1.0 / sin(M_PI/2-d/2);
-                        if(r2 < limit) {
+                        if (r2 < limit) {
                             r2 *= width;
                             double addx = cos(lastw-M_PI/2+d/2)*r2;
                             double addy = sin(lastw-M_PI/2+d/2)*r2;
@@ -156,19 +156,19 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
             lastw = w;
         }
 
-        if(closed) {
+        if (closed) {
             draw->close(draw);
         } else {
             /* draw stroke ends. We draw duplicates of some points here. The drawer
                implementation should be smart enough to remove them. */
             double c = cos(lastw-M_PI/2)*width;
             double s = sin(lastw-M_PI/2)*width;
-            if(cap == gfx_capButt) {
+            if (cap == gfx_capButt) {
                 draw->lineTo(draw, p[pos].x+c, p[pos].y+s);
                 draw->lineTo(draw, p[pos].x-c, p[pos].y-s);
-            } else if(cap == gfx_capRound) {
+            } else if (cap == gfx_capRound) {
                 draw_arc(draw, p[pos].x, p[pos].y, lastw-M_PI/2, lastw+M_PI/2, width);
-            } else if(cap == gfx_capSquare) {
+            } else if (cap == gfx_capSquare) {
                 double c = cos(lastw-M_PI/2)*width;
                 double s = sin(lastw-M_PI/2)*width;
                 draw->lineTo(draw, p[pos].x+c, p[pos].y+s);
@@ -182,14 +182,14 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
         end=0;
         incr=-1;
     }
-    if(!closed)
+    if (!closed)
         draw->close(draw);
 }
 
 void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double miterLimit)
 {
     gfxline_t*start = gfxline_rewind(_start);
-    if(!start)
+    if (!start)
         return;
     assert(start->type == gfx_moveTo);
     gfxline_t*line = start;
@@ -198,34 +198,34 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
     int pos = 0;
     double lastx,lasty;
     while(line) {
-        if(line->type == gfx_moveTo) {
-            if(pos>size) size = pos;
+        if (line->type == gfx_moveTo) {
+            if (pos>size) size = pos;
             pos++;
-        } else if(line->type == gfx_lineTo) {
+        } else if (line->type == gfx_lineTo) {
             pos++;
-        } else if(line->type == gfx_splineTo) {
+        } else if (line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
-            if(!parts) parts = 1;
+            if (!parts) parts = 1;
             pos+=parts+1;
         }
         lastx = line->x;
         lasty = line->y;
         line = line->next;
     }
-    if(pos>size) size = pos;
-    if(!size) return;
+    if (pos>size) size = pos;
+    if (!size) return;
 
     gfxpoint_t* points = malloc(sizeof(gfxpoint_t)*size);
     line = start;
     pos = 0;
     while(line) {
-        if(line->type == gfx_moveTo) {
-            if(pos)
+        if (line->type == gfx_moveTo) {
+            if (pos)
                 draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);
             pos = 0;
-        } else if(line->type == gfx_splineTo) {
+        } else if (line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
-            if(!parts) parts = 1;
+            if (!parts) parts = 1;
             double stepsize = 1.0/parts;
             int i;
             for(i=0;i<parts;i++) {
@@ -240,7 +240,7 @@ void draw_stroke(gfxline_t*_start, gfxcanvas_t*draw, double width, gfx_capType c
         pos++;
         line = line->next;
     }
-    if(pos) draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);
+    if (pos) draw_single_stroke(points, pos, draw, width, cap, join, miterLimit);
     free(points);
 }
 

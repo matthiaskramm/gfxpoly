@@ -45,7 +45,7 @@ void moments_update(moments_t*moments, actlist_t*actlist, int32_t y1, int32_t y2
     double area = 0.0;
 
     while(s) {
-        if(l && l->wind.is_filled) {
+        if (l && l->wind.is_filled) {
             area += (XPOS(s,mid) - XPOS(l,mid));
 
 #ifdef MOMENTS

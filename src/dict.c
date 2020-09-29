@@ -37,7 +37,7 @@ static char crc32_initialized=0;
 static void crc32_init(void)
 {
     int t;
-    if(crc32_initialized)
+    if (crc32_initialized)
         return;
     crc32_initialized = 1;
     for(t=0; t<256; t++) {
@@ -58,7 +58,7 @@ unsigned int crc32_add_byte(unsigned int checksum, unsigned char b)
 unsigned int crc32_add_string(unsigned int checksum, const char*s)
 {
     crc32_init();
-    if(!s)
+    if (!s)
         return checksum;
     while(*s) {
         checksum = checksum>>8 ^ crc32[(*s^checksum)&0xff];
@@ -70,7 +70,7 @@ unsigned int crc32_add_bytes(unsigned int checksum, const void*_s, int len)
 {
     unsigned char*s = (unsigned char*)_s;
     crc32_init();
-    if(!s || !len)
+    if (!s || !len)
         return checksum;
     do {
         checksum = checksum>>8 ^ crc32[(*s^checksum)&0xff];
@@ -127,26 +127,26 @@ void int_free(void*o)
 
 bool charptr_equals(const void*o1, const void*o2) 
 {
-    if(!o1 || !o2)
+    if (!o1 || !o2)
         return o1==o2;
     return !strcmp(o1,o2);
 }
 unsigned int charptr_hash(const void*o) 
 {
-    if(!o)
+    if (!o)
         return 0;
     int l = strlen(o);
     return hash_block((unsigned char*)o, l);
 }
 void* charptr_dup(const void*o) 
 {
-    if(!o)
+    if (!o)
         return 0;
     return strdup(o);
 }
 void charptr_free(void*o) 
 {
-    if(o) {
+    if (o) {
         free(o);
     }
 }
@@ -236,7 +236,7 @@ static void dict_expand(dict_t*h, int newlen)
             e = next;
         }
     }
-    if(h->slots)
+    if (h->slots)
         free(h->slots);
     h->slots = newslots;
     h->hashsize = newlen;
@@ -247,7 +247,7 @@ dictentry_t* dict_put(dict_t*h, const void*key, void* data)
     unsigned int hash = h->key_type->hash(key);
     dictentry_t*e = (dictentry_t*)malloc(sizeof(dictentry_t));
     
-    if(!h->hashsize)
+    if (!h->hashsize)
         dict_expand(h, 1);
 
     unsigned int hash2 = hash % h->hashsize;
@@ -271,7 +271,7 @@ void dict_dump(dict_t*h, FILE*fi, const char*prefix)
     for(t=0;t<h->hashsize;t++) {
         dictentry_t*e = h->slots[t];
         while(e) {
-            if(h->key_type!=&charptr_type) {
+            if (h->key_type!=&charptr_type) {
                 fprintf(fi, "%s%p=%p\n", prefix, e->key, e->data);
             } else {
                 fprintf(fi, "%s%s=%p\n", prefix, (char*)e->key, e->data);
@@ -288,7 +288,7 @@ int dict_count(dict_t*h)
 
 static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
 {
-    if(!h->num) {
+    if (!h->num) {
         return 0;
     }
     
@@ -297,16 +297,16 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
 
     /* check first entry for match */
     dictentry_t*e = h->slots[hash];
-    if(e && h->key_type->equals(e->key, key)) {
+    if (e && h->key_type->equals(e->key, key)) {
         return e;
-    } else if(e) {
+    } else if (e) {
         e = e->next;
     }
 
     /* if dict is 2/3 filled, double the size. Do
        this the first time we have to actually iterate
        through a slot to find our data */
-    if(e && h->num*3 >= h->hashsize*2) {
+    if (e && h->num*3 >= h->hashsize*2) {
         int newsize = h->hashsize;
         while(h->num*3 >= newsize*2) {
             newsize = newsize<15?15:(newsize+1)*2-1;
@@ -314,10 +314,10 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
         dict_expand(h, newsize);
         hash = ohash % h->hashsize;
         e = h->slots[hash];
-        if(e && h->key_type->equals(e->key, key)) {
+        if (e && h->key_type->equals(e->key, key)) {
             // omit move to front
             return e;
-        } else if(e) {
+        } else if (e) {
             e = e->next;
         }
     }
@@ -325,7 +325,7 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
     /* check subsequent entries for a match */
     dictentry_t*last = h->slots[hash];
     while(e) {
-        if(h->key_type->equals(e->key, key)) {
+        if (h->key_type->equals(e->key, key)) {
             /* move to front- makes a difference of about 10% in most applications */
             last->next = e->next;
             e->next = h->slots[hash];
@@ -340,7 +340,7 @@ static inline dictentry_t* dict_do_lookup(dict_t*h, const void*key)
 void* dict_lookup(dict_t*h, const void*key)
 {
     dictentry_t*e = dict_do_lookup(h, key);
-    if(e)
+    if (e)
         return e->data;
     return 0;
 }
@@ -352,18 +352,18 @@ char dict_contains(dict_t*h, const void*key)
 
 char dict_del(dict_t*h, const void*key)
 {
-    if(!h->num)
+    if (!h->num)
         return 0;
     unsigned int hash = h->key_type->hash(key) % h->hashsize;
     dictentry_t*head = h->slots[hash];
     dictentry_t*e = head, *prev=0;
     while(e) {
-        if(h->key_type->equals(e->key, key)) {
+        if (h->key_type->equals(e->key, key)) {
             dictentry_t*next = e->next;
             h->key_type->free(e->key);
             memset(e, 0, sizeof(dictentry_t));
             free(e);
-            if(e == head) {
+            if (e == head) {
                 h->slots[hash] = next;
             } else {
                 assert(prev);
@@ -380,18 +380,18 @@ char dict_del(dict_t*h, const void*key)
 
 char dict_del2(dict_t*h, const void*key, void*data)
 {
-    if(!h->num)
+    if (!h->num)
         return 0;
     unsigned int hash = h->key_type->hash(key) % h->hashsize;
     dictentry_t*head = h->slots[hash];
     dictentry_t*e = head, *prev=0;
     while(e) {
-        if(h->key_type->equals(e->key, key) && e->data == data) {
+        if (h->key_type->equals(e->key, key) && e->data == data) {
             dictentry_t*next = e->next;
             h->key_type->free(e->key);
             memset(e, 0, sizeof(dictentry_t));
             free(e);
-            if(e == head) {
+            if (e == head) {
                 h->slots[hash] = next;
             } else {
                 assert(prev);
@@ -408,7 +408,7 @@ char dict_del2(dict_t*h, const void*key, void*data)
 
 dictentry_t* dict_get_slot(dict_t*h, const void*key)
 {
-    if(!h->num)
+    if (!h->num)
         return 0;
     unsigned int ohash = h->key_type->hash(key);
     unsigned int hash = ohash % h->hashsize;
@@ -422,7 +422,7 @@ void dict_foreach_keyvalue(dict_t*h, void (*runFunction)(void*data, const void*k
         dictentry_t*e = h->slots[t];
         while(e) {
             dictentry_t*next = e->next;
-            if(runFunction) {
+            if (runFunction) {
                 runFunction(data, e->key, e->data);
             }
             e = next;
@@ -436,7 +436,7 @@ void dict_foreach_value(dict_t*h, void (*runFunction)(void*))
         dictentry_t*e = h->slots[t];
         while(e) {
             dictentry_t*next = e->next;
-            if(runFunction) {
+            if (runFunction) {
                 runFunction(e->data);
             }
             e = next;
@@ -451,10 +451,10 @@ void dict_free_all(dict_t*h, char free_keys, void (*free_data_function)(void*))
         dictentry_t*e = h->slots[t];
         while(e) {
             dictentry_t*next = e->next;
-            if(free_keys) {
+            if (free_keys) {
                 h->key_type->free(e->key);
             }
-            if(free_data_function) {
+            if (free_data_function) {
                 free_data_function(e->data);
             }
             memset(e, 0, sizeof(dictentry_t));
@@ -485,7 +485,7 @@ void dict_destroy_shallow(dict_t*dict)
 
 void dict_destroy(dict_t*dict)
 {
-    if(!dict)
+    if (!dict)
         return;
     dict_clear(dict);
     free(dict);
@@ -493,7 +493,7 @@ void dict_destroy(dict_t*dict)
 
 void dict_destroy_with_data(dict_t*dict)
 {
-    if(!dict)
+    if (!dict)
         return;
     dict_free_all(dict, 1, free);
     free(dict);

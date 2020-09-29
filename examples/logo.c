@@ -100,9 +100,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
 
     PDF_setrgbcolor_fill(pdf, 0xe8/255.0,0xec/255.0,0xff/255.0);
     for(l=filled1;l;l=l->next) {
-        if(l->type == gfx_moveTo) {
+        if (l->type == gfx_moveTo) {
             PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
-        } else if(l->type == gfx_lineTo) {
+        } else if (l->type == gfx_lineTo) {
             PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
         }
     }
@@ -110,9 +110,9 @@ static void draw_on_pdf(gfxpoly_t*raw, const char*filename, double scale)
 
     PDF_setrgbcolor_fill(pdf, 0xd0/255.0,0xd8/255.0,0xff/255.0);
     for(l=filled2;l;l=l->next) {
-        if(l->type == gfx_moveTo) {
+        if (l->type == gfx_moveTo) {
             PDF_moveto(pdf, tx+l->x*scale, ty+l->y*scale);
-        } else if(l->type == gfx_lineTo) {
+        } else if (l->type == gfx_lineTo) {
             PDF_lineto(pdf, tx+l->x*scale, ty+l->y*scale);
         }
     }
@@ -173,15 +173,15 @@ int main(int argn, char*argv[])
         float offset_x = x_pos[i]*scale_x*300 + pos_x;
         float offset_y = y_pos[i]*scale_y*300;
         ttfglyph_t*glyph = ttf_find_unicode(ttf, str[i]);
-        if(!glyph)
+        if (!glyph)
             continue;
         int j;
         for(j=0;j<glyph->num_points;j++) {
             ttfpoint_t*p = &glyph->points[j];
             ttfpoint_t*next = j < glyph->num_points-1 ? &glyph->points[j+1] : NULL;
-            if(p->flags&GLYPH_CONTOUR_START) {
+            if (p->flags&GLYPH_CONTOUR_START) {
                 canvas->moveTo(canvas, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
-            } /*else if(!(p->flags&GLYPH_ON_CURVE) && next &&
+            } /*else if (!(p->flags&GLYPH_ON_CURVE) && next &&
                        (next->flags&GLYPH_ON_CURVE)) {
                 canvas->splineTo(canvas, offset_x + p->x * scale_x,
                                          offset_y + p->y * scale_y,
@@ -192,7 +192,7 @@ int main(int argn, char*argv[])
             }*/ else {
                 canvas->lineTo(canvas, offset_x + p->x * scale_x, offset_y + p->y * scale_y);
             }
-            if(p->flags&GLYPH_CONTOUR_END) {
+            if (p->flags&GLYPH_CONTOUR_END) {
                 canvas->close(canvas);
             }
         }

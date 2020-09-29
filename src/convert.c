@@ -45,8 +45,8 @@ static inline int32_t convert_coord(double x, double z)
        b) we need to be able to multiply two coordinates and store them in a double w/o loss of precision
     */
     x *= z;
-    if(x < -0x2000000) x = -0x2000000;
-    if(x >  0x1ffffff) x =  0x1ffffff;
+    if (x < -0x2000000) x = -0x2000000;
+    if (x >  0x1ffffff) x =  0x1ffffff;
     return ceil(x);
 }
 
@@ -57,16 +57,16 @@ static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
     double lastx=0,lasty=0;
     double z = 1.0 / gridsize;
     while(line) {
-        if(line->type == gfx_moveTo) {
-            if(line->next && line->next->type != gfx_moveTo && (line->x!=lastx || line->y!=lasty)) {
+        if (line->type == gfx_moveTo) {
+            if (line->next && line->next->type != gfx_moveTo && (line->x!=lastx || line->y!=lasty)) {
                 w->moveto(w, convert_coord(line->x,z), convert_coord(line->y,z));
             }
-        } else if(line->type == gfx_lineTo) {
+        } else if (line->type == gfx_lineTo) {
             w->lineto(w, convert_coord(line->x,z), convert_coord(line->y,z));
-        } else if(line->type == gfx_splineTo) {
+        } else if (line->type == gfx_splineTo) {
             int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + 
                                    fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
-            if(!parts) parts = 1;
+            if (!parts) parts = 1;
             double stepsize = 1.0/parts;
             int i;
             for(i=0;i<parts;i++) {
@@ -90,20 +90,20 @@ static char* readline(FILE*fi)
     char c;
     while(1) {
         int l = fread(&c, 1, 1, fi);
-        if(!l)
+        if (!l)
             return 0;
-        if(c!=10 || c!=13)
+        if (c!=10 || c!=13)
             break;
     }
     char line[256];
     int pos = 0;
     while(1) {
-        if(pos<sizeof(line)-2) {
+        if (pos<sizeof(line)-2) {
             line[pos++] = c;
             line[pos] = 0;
         }
         int l = fread(&c, 1, 1, fi);
-        if(!l || c==10 || c==13) {
+        if (!l || c==10 || c==13) {
             return strdup(line);
         }
     }
@@ -112,7 +112,7 @@ static char* readline(FILE*fi)
 static void convert_file(const char*filename, polywriter_t*w, double gridsize)
 {
     FILE*fi = fopen(filename, "rb");
-    if(!fi) {
+    if (!fi) {
         perror(filename);
         return;
     }
@@ -121,21 +121,21 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
     double g = 0;
     while(1) {
         char*line = readline(fi);
-        if(!line)
+        if (!line)
             break;
         double x,y;
         char s[256];
-        if(sscanf(line, "%lf %lf %s", &x, &y, (char*)&s) == 3) {
-            if(!strcmp(s,"moveto")) {
+        if (sscanf(line, "%lf %lf %s", &x, &y, (char*)&s) == 3) {
+            if (!strcmp(s,"moveto")) {
                 w->moveto(w, convert_coord(x,z), convert_coord(y,z));
                 count++;
-            } else if(!strcmp(s,"lineto")) {
+            } else if (!strcmp(s,"lineto")) {
                 w->lineto(w, convert_coord(x,z), convert_coord(y,z));
                 count++;
             } else {
                 fprintf(stderr, "invalid command: %s\n", s);
             }
-        } else if(sscanf(line, "%% gridsize %lf", &g) == 1) {
+        } else if (sscanf(line, "%% gridsize %lf", &g) == 1) {
             gridsize = g;
             z = 1.0 / gridsize;
             w->setgridsize(w, g);
@@ -143,7 +143,7 @@ static void convert_file(const char*filename, polywriter_t*w, double gridsize)
         free(line);
     }
     fclose(fi);
-    if(g) {
+    if (g) {
         fprintf(stderr, "loaded %d points from %s (gridsize %f)\n", count, filename, g);
     } else {
         fprintf(stderr, "loaded %d points from %s\n", count, filename);
@@ -167,7 +167,7 @@ void finish_segment(compactpoly_t*data, void*fs)
               instead of requiring this to be non-NULL */
     assert(fs);
 
-    if(data->num_points <= 1)
+    if (data->num_points <= 1)
         return;
     point_t*p = malloc(sizeof(point_t)*data->num_points);
     gfxsegmentlist_t*s = calloc(1,sizeof(gfxsegmentlist_t));
@@ -178,7 +178,7 @@ void finish_segment(compactpoly_t*data, void*fs)
     s->dir = data->dir;
     s->points = p;
     assert(data->dir != DIR_UNKNOWN);
-    if(data->dir == DIR_UP) {
+    if (data->dir == DIR_UP) {
         int t;
         int s = data->num_points;
         for(t=0;t<data->num_points;t++) {
@@ -207,7 +207,7 @@ static void compactmoveto(polywriter_t*w, int32_t x, int32_t y)
     point_t p;
     p.x = x;
     p.y = y;
-    if(p.x != data->last.x || p.y != data->last.y) {
+    if (p.x != data->last.x || p.y != data->last.y) {
         data->new = 1;
     }
     data->last = p;
@@ -216,7 +216,7 @@ static void compactmoveto(polywriter_t*w, int32_t x, int32_t y)
 static inline int direction(point_t p1, point_t p2)
 {
     int diff = p1.y - p2.y;
-    if(diff) return diff;
+    if (diff) return diff;
     return p1.x - p2.x;
 }
 
@@ -228,11 +228,11 @@ static void compactlineto(polywriter_t*w, int32_t x, int32_t y)
     p.y = y;
 
     int diff = direction(p, data->last);
-    if(!diff)
+    if (!diff)
         return;
     segment_dir_t dir = diff<0?DIR_UP:DIR_DOWN;
 
-    if(dir!=data->dir || data->new) {
+    if (dir!=data->dir || data->new) {
         finish_segment(data, data->fs);
         data->dir = dir;
         data->points[0] = data->last;
@@ -240,7 +240,7 @@ static void compactlineto(polywriter_t*w, int32_t x, int32_t y)
     }
     data->new = 0;
 
-    if(data->points_size == data->num_points) {
+    if (data->points_size == data->num_points) {
         data->points_size <<= 1;
         assert(data->points_size > data->num_points);
         data->points = realloc(data->points, sizeof(point_t)*data->points_size);
@@ -338,7 +338,7 @@ static void polydraw_moveTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     int32_t x = convert_coord(_x, i->z);
     int32_t y = convert_coord(_y, i->z);
-    if(i->lastx != x || i->lasty != y) {
+    if (i->lastx != x || i->lasty != y) {
         i->writer.moveto(&i->writer, x, y);
     }
     i->lx = _x;
@@ -352,13 +352,13 @@ static void polydraw_moveTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 static void polydraw_lineTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
-    if(!i->last) {
+    if (!i->last) {
         polydraw_moveTo(d, _x, _y);
         return;
     }
     int32_t x = convert_coord(_x, i->z);
     int32_t y = convert_coord(_y, i->z);
-    if(i->lastx != x || i->lasty != y) {
+    if (i->lastx != x || i->lasty != y) {
         i->writer.lineto(&i->writer, x, y);
     }
     i->lx = _x;
@@ -370,26 +370,26 @@ static void polydraw_lineTo(gfxcanvas_t*d, gfxcoord_t _x, gfxcoord_t _y)
 static void polydraw_splineTo(gfxcanvas_t*d, gfxcoord_t sx, gfxcoord_t sy, gfxcoord_t x, gfxcoord_t y)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
-    if(!i->last) {
+    if (!i->last) {
         polydraw_moveTo(d, x, y);
         return;
     }
     double c = fabs(x-2*sx+i->lx) + fabs(y-2*sy+i->ly);
     int parts = (int)(sqrt(c)*SUBFRACTION);
-    if(!parts) parts = 1;
+    if (!parts) parts = 1;
     int t;
     int32_t nx,ny;
     for(t=0;t<parts;t++) {
         nx = convert_coord((double)(t*t*x + 2*t*(parts-t)*sx + (parts-t)*(parts-t)*i->lx)/(double)(parts*parts), i->z);
         ny = convert_coord((double)(t*t*y + 2*t*(parts-t)*sy + (parts-t)*(parts-t)*i->ly)/(double)(parts*parts), i->z);
-        if(nx != i->lastx || ny != i->lasty) {
+        if (nx != i->lastx || ny != i->lasty) {
             i->writer.lineto(&i->writer, nx, ny);
             i->lastx = nx; i->lasty = ny;
         }
     }
     nx = convert_coord(x,i->z);
     ny = convert_coord(y,i->z);
-    if(nx != i->lastx || ny != i->lasty) {
+    if (nx != i->lastx || ny != i->lasty) {
         i->writer.lineto(&i->writer, nx, ny);
     }
     i->lx = x;
@@ -402,9 +402,9 @@ static void polydraw_close(gfxcanvas_t*d)
 {
     polydraw_internal_t*i = (polydraw_internal_t*)d->internal;
     assert(!(i->last && (i->x0 == INVALID_COORD || i->y0 == INVALID_COORD)));
-    if(!i->last)
+    if (!i->last)
         return;
-    if(i->lastx != i->x0 || i->lasty != i->y0) {
+    if (i->lastx != i->x0 || i->lasty != i->y0) {
         i->writer.lineto(&i->writer, i->x0, i->y0);
         i->lastx = i->x0;
         i->lasty = i->y0;
@@ -448,7 +448,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
 {
     gfxsegmentlist_t*stroke;
     int count = 0;
-    if(!poly->strokes)
+    if (!poly->strokes)
         return 0;
     dict_t*d = dict_new(&point_type);
     dict_t*todo = dict_new(&ptr_type);
@@ -459,16 +459,16 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         dict_put(todo, stroke, stroke);
         assert(stroke->num_points>1);
         count += stroke->num_points;
-        if(stroke->dir == DIR_UP) {
+        if (stroke->dir == DIR_UP) {
             dict_put(d, &stroke->points[stroke->num_points-1], stroke);
-            if(!preserve_direction)
+            if (!preserve_direction)
                 dict_put(d, &stroke->points[0], stroke);
         } else {
             dict_put(d, &stroke->points[0], stroke);
-            if(!preserve_direction)
+            if (!preserve_direction)
                 dict_put(d, &stroke->points[stroke->num_points-1], stroke);
         }
-        if(stroke->points[0].y < y_min ||
+        if (stroke->points[0].y < y_min ||
            (stroke->points[0].y == y_min && stroke->points[0].x < x_min)) {
             y_min = stroke->points[0].y;
             stroke_min = stroke;
@@ -482,7 +482,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
     
     gfxline_t*l = gfxline_new();
     while(stroke) {
-        if(stroke && !preserve_direction) {
+        if (stroke && !preserve_direction) {
             char del1 = dict_del2(d, &stroke->points[0], stroke);
             char del2 = dict_del2(d, &stroke->points[stroke->num_points-1], stroke);
             assert(del1 && del2);
@@ -491,21 +491,21 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         int t;
         int pos = 0;
         int incr = 1;
-        if(preserve_direction) {
-            if(stroke->dir == DIR_UP) {
+        if (preserve_direction) {
+            if (stroke->dir == DIR_UP) {
                 pos = stroke->num_points-1;
                 incr = -1;
             }
         } else {
             // try to find matching point on either end.
             // Prefer downward.
-            if(last.x == stroke->points[stroke->num_points-1].x &&
+            if (last.x == stroke->points[stroke->num_points-1].x &&
                last.y == stroke->points[stroke->num_points-1].y) {
                 pos = stroke->num_points-1;
                 incr = -1;
             }
         }
-        if(last.x != stroke->points[pos].x || last.y != stroke->points[pos].y) {
+        if (last.x != stroke->points[pos].x || last.y != stroke->points[pos].y) {
             l = gfxline_moveTo(l, stroke->points[pos].x * poly->gridsize,
                               stroke->points[pos].y * poly->gridsize);
             assert(!should_connect);
@@ -527,7 +527,7 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
         while(!dict_contains(todo, stroke)) {
             should_connect = 0;
             stroke = next_todo;
-            if(!next_todo) {
+            if (!next_todo) {
                 stroke = 0;
                 break;
             }
@@ -582,13 +582,13 @@ void gfxline_print(gfxline_t*_l)
 {
     gfxline_t*l = gfxline_rewind(_l);
     while(l) {
-        if(l->type == gfx_moveTo) {
+        if (l->type == gfx_moveTo) {
             printf("moveTo %.2f,%.2f\n", l->x, l->y);
         }
-        if(l->type == gfx_lineTo) {
+        if (l->type == gfx_lineTo) {
             printf("lineTo %.2f,%.2f\n", l->x, l->y);
         }
-        if(l->type == gfx_splineTo) {
+        if (l->type == gfx_splineTo) {
             printf("splineTo %.2f,%.2f %.2f,%.2f\n", l->sx, l->sy, l->x, l->y);
         }
         l = l->next;
@@ -598,7 +598,7 @@ void gfxline_print(gfxline_t*_l)
 void gfxline_destroy(gfxline_t*_l)
 {
     gfxline_t* l = gfxline_rewind(_l);
-    if(l && (l+1) == l->next) {
+    if (l && (l+1) == l->next) {
         /* flattened */
         free(l);
     } else {

@@ -52,7 +52,7 @@ windstate_t evenodd_add(windcontext_t*context, windstate_t left, edgestyle_t*edg
 }
 edgestyle_t* evenodd_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
-    if(left->is_filled==right->is_filled)
+    if (left->is_filled==right->is_filled)
         return 0;
     else
         return &edgestyle_default;
@@ -75,7 +75,7 @@ windstate_t circular_add(windcontext_t*context, windstate_t left, edgestyle_t*ed
 {
     assert(edge);
     /* which one is + and which one - doesn't actually make any difference */
-    if(dir == DIR_DOWN)
+    if (dir == DIR_DOWN)
         left.wind_nr++;
     else
         left.wind_nr--;
@@ -86,7 +86,7 @@ windstate_t circular_add(windcontext_t*context, windstate_t left, edgestyle_t*ed
 
 edgestyle_t* circular_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
-    if(left->is_filled==right->is_filled)
+    if (left->is_filled==right->is_filled)
         return 0;
     else
         return &edgestyle_default;
@@ -116,7 +116,7 @@ windstate_t intersect_add(windcontext_t*context, windstate_t left, edgestyle_t*e
 
 edgestyle_t* intersect_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
-    if(left->is_filled==right->is_filled)
+    if (left->is_filled==right->is_filled)
         return 0;
     else
         return &edgestyle_default;
@@ -145,7 +145,7 @@ windstate_t union_add(windcontext_t*context, windstate_t left, edgestyle_t*edge,
 
 edgestyle_t* union_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
 {
-    if(left->is_filled==right->is_filled)
+    if (left->is_filled==right->is_filled)
         return 0;
     else
         return &edgestyle_default;

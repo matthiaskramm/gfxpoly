@@ -37,19 +37,19 @@ void rotate90(gfxpoly_t*poly)
 
 int main(int argn, char*argv[])
 {
-    if(argn<=1) {
+    if (argn<=1) {
         printf("Usage:\n\trun_ps <dir>\n");
         exit(0);
     }
     char*dir = argv[1];
     DIR*_dir = opendir(dir);
-    if(!_dir) return;
+    if (!_dir) return;
     struct dirent*file;
     while(1) {
         file = readdir(_dir);
         if (!file)
             break;
-        if(!strstr(file->d_name, ".ps"))
+        if (!strstr(file->d_name, ".ps"))
             continue;
 
         char* filename = allocprintf("%s/%s", dir, file->d_name);
@@ -59,7 +59,7 @@ int main(int argn, char*argv[])
 
         double zoom = 1.0;
 
-        if(!gfxpoly_check(poly1, 0)) {
+        if (!gfxpoly_check(poly1, 0)) {
             printf("bad polygon %s\n", filename);
             free(filename);
             continue;
@@ -74,11 +74,11 @@ int main(int argn, char*argv[])
             intbbox_t bbox = intbbox_from_polygon(poly1, zoom);
             unsigned char*bitmap1 = render_polygon(poly1, &bbox, zoom, rule, &onepolygon);
             unsigned char*bitmap2 = render_polygon(poly2, &bbox, zoom, &windrule_circular, &onepolygon);
-            if(!bitmap_ok(&bbox, bitmap1) || !bitmap_ok(&bbox, bitmap2)) {
+            if (!bitmap_ok(&bbox, bitmap1) || !bitmap_ok(&bbox, bitmap2)) {
                 save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
                 assert(!"error in bitmaps");
             }
-            if(!compare_bitmaps(&bbox, bitmap1, bitmap2)) {
+            if (!compare_bitmaps(&bbox, bitmap1, bitmap2)) {
                 save_two_bitmaps(&bbox, bitmap1, bitmap2, "error.png");
                 assert(!"bitmaps don't match");
             }

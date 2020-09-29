@@ -63,12 +63,12 @@ static inline void add_pixel(renderbuf_t*buf, double x, int y, segment_dir_t dir
     p.fs = fs;
     p.polygon_nr = polygon_nr;
     
-    if(y >= buf->bbox.ymax || y < buf->bbox.ymin) 
+    if (y >= buf->bbox.ymax || y < buf->bbox.ymin) 
         return;
 
     renderline_t*l = &buf->lines[y-buf->bbox.ymin];
 
-    if(l->num == l->size) {
+    if (l->num == l->size) {
         l->size += 32;
         l->points = (renderpoint_t*)realloc(l->points, l->size * sizeof(renderpoint_t));
     }
@@ -85,7 +85,7 @@ static void add_line(renderbuf_t*buf, double x1, double y1, double x2, double y2
     double diffx, diffy;
     double ny1, ny2, stepx;
 
-    if(y2 < y1) {
+    if (y2 < y1) {
         dir ^= DIR_UP^DIR_DOWN;
         double x,y;
         x = x1;x1 = x2;x2=x;
@@ -97,13 +97,13 @@ static void add_line(renderbuf_t*buf, double x1, double y1, double x2, double y2
     ny1 = floor(y1)+CUT;
     ny2 = floor(y2)+CUT;
 
-    if(ny1 < y1) {
+    if (ny1 < y1) {
         ny1 = floor(y1) + 1.0 + CUT;
     }
-    if(ny2 >= y2) {
+    if (ny2 >= y2) {
         ny2 = floor(y2) - 1.0 + CUT;
     }
-    if(ny1 > ny2)
+    if (ny1 > ny2)
         return;
 
     stepx = diffx/diffy;
@@ -129,8 +129,8 @@ static int compare_renderpoints(const void * _a, const void * _b)
 {
     renderpoint_t*a = (renderpoint_t*)_a;
     renderpoint_t*b = (renderpoint_t*)_b;
-    if(a->x < b->x) return -1;
-    if(a->x > b->x) return 1;
+    if (a->x < b->x) return -1;
+    if (a->x > b->x) return 1;
     return 0;
 }
 
@@ -140,7 +140,7 @@ static void fill_bitwise(unsigned char*line, int x1, int x2)
     int p2 = x2>>3;
     int b1 = 0xff >> (x1&7);
     int b2 = 0xff << (1+7-(x2&7));
-    if(p1==p2) {
+    if (p1==p2) {
         line[p1] |= b1&b2;
     } else {
         line[p1] |= b1;
@@ -193,18 +193,18 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
             renderpoint_t*p = &points[n];
             int x = (int)(p->x - bbox->xmin);
 
-            if(x < lastx)
+            if (x < lastx)
                 x = lastx; 
-            if(x > buf->width)
+            if (x > buf->width)
                 x = buf->width;
 
-            if(fill.is_filled && lastx<x) {
+            if (fill.is_filled && lastx<x) {
                 fill_bitwise(line, lastx, x);
             }
             fill = rule->add(context, fill, p->fs, p->dir, p->polygon_nr);
             lastx = x;
         }
-        if(fill.is_filled && lastx!=buf->width) {
+        if (fill.is_filled && lastx!=buf->width) {
             /* we're bleeding, fill over padding, too. */
             fprintf(stderr, "Polygon %p is bleeding in line %d\n", polygon, y);
             fill_bitwise(line, lastx, width8*8);
@@ -216,12 +216,12 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
     }
     
     for(y=0;y<buf->height;y++) {
-        if(buf->lines[y].points) {
+        if (buf->lines[y].points) {
             free(buf->lines[y].points);
         }
         memset(&buf->lines[y], 0, sizeof(renderline_t));
     }
-    if(bleeding) {
+    if (bleeding) {
         assert(!bitmap_ok(bbox, image));
     }
     free(buf->lines);buf->lines=0;
@@ -261,7 +261,7 @@ intbbox_t intbbox_from_polygon(gfxpoly_t*polygon, double zoom)
 
     double g = zoom*polygon->gridsize;
 
-    if(polygon->strokes && polygon->strokes->num_points) {
+    if (polygon->strokes && polygon->strokes->num_points) {
         b.xmin = polygon->strokes->points[0].x*g;
         b.ymin = polygon->strokes->points[0].y*g;
         b.xmax = polygon->strokes->points[0].x*g;
@@ -276,25 +276,25 @@ intbbox_t intbbox_from_polygon(gfxpoly_t*polygon, double zoom)
             int y1 = floor(p.y);
             int x2 = ceil(p.x);
             int y2 = ceil(p.y);
-            if(x1 < b.xmin) b.xmin = x1;
-            if(y1 < b.ymin) b.ymin = y1;
-            if(x2 > b.xmax) b.xmax = x2;
-            if(y2 > b.ymax) b.ymax = y2;
+            if (x1 < b.xmin) b.xmin = x1;
+            if (y1 < b.ymin) b.ymin = y1;
+            if (x2 > b.xmax) b.xmax = x2;
+            if (y2 > b.ymax) b.ymax = y2;
         }
     }
     
-    if(b.xmax > (int)(MAX_WIDTH*zoom))
+    if (b.xmax > (int)(MAX_WIDTH*zoom))
         b.xmax = (int)(MAX_WIDTH*zoom);
-    if(b.ymax > (int)(MAX_HEIGHT*zoom))
+    if (b.ymax > (int)(MAX_HEIGHT*zoom))
         b.ymax = (int)(MAX_HEIGHT*zoom);
-    if(b.xmin < -(int)(MAX_WIDTH*zoom))
+    if (b.xmin < -(int)(MAX_WIDTH*zoom))
         b.xmin = -(int)(MAX_WIDTH*zoom);
-    if(b.ymin < -(int)(MAX_HEIGHT*zoom))
+    if (b.ymin < -(int)(MAX_HEIGHT*zoom))
         b.ymin = -(int)(MAX_HEIGHT*zoom);
     
-    if(b.xmin > b.xmax) 
+    if (b.xmin > b.xmax) 
         b.xmin = b.xmax;
-    if(b.ymin > b.ymax) 
+    if (b.ymin > b.ymax) 
         b.ymin = b.ymax;
     
     b.xmax = adjust_x(b.xmin, b.xmax);
@@ -328,7 +328,7 @@ int bitmap_ok(intbbox_t*bbox, unsigned char*data)
     int y;
     int width8 = (bbox->width+7) >> 3;
     for(y=0;y<bbox->height;y++) {
-        if(data[width8-1]&0x01)
+        if (data[width8-1]&0x01)
             return 0; //bleeding
         data += width8;
     }
@@ -337,7 +337,7 @@ int bitmap_ok(intbbox_t*bbox, unsigned char*data)
 
 int compare_bitmaps(intbbox_t*bbox, unsigned char*data1, unsigned char*data2)
 {
-    if(!data1 || !data2) 
+    if (!data1 || !data2) 
         return 0;
     int x,y;
     int height = bbox->height;
@@ -357,15 +357,15 @@ int compare_bitmaps(intbbox_t*bbox, unsigned char*data1, unsigned char*data2)
                               l2[x+width8] | l2[x+width8*2];
 
             char fail = 0;
-            if((a1&B11111000)==B11111000 && (b2&B11111000)==0) fail=2;
-            if((a1&B01111100)==B01111100 && (b2&B01111100)==0) fail=3;
-            if((a1&B00111110)==B00111110 && (b2&B00111110)==0) fail=4;
-            if((a1&B00011111)==B00011111 && (b2&B00011111)==0) fail=5;
-            if((b1&B11111000)==B11111000 && (a2&B11111000)==0) fail=2;
-            if((b1&B01111100)==B01111100 && (a2&B01111100)==0) fail=3;
-            if((b1&B00111110)==B00111110 && (a2&B00111110)==0) fail=4;
-            if((b1&B00011111)==B00011111 && (a2&B00011111)==0) fail=5;
-            if(fail) {
+            if ((a1&B11111000)==B11111000 && (b2&B11111000)==0) fail=2;
+            if ((a1&B01111100)==B01111100 && (b2&B01111100)==0) fail=3;
+            if ((a1&B00111110)==B00111110 && (b2&B00111110)==0) fail=4;
+            if ((a1&B00011111)==B00011111 && (b2&B00011111)==0) fail=5;
+            if ((b1&B11111000)==B11111000 && (a2&B11111000)==0) fail=2;
+            if ((b1&B01111100)==B01111100 && (a2&B01111100)==0) fail=3;
+            if ((b1&B00111110)==B00111110 && (a2&B00111110)==0) fail=4;
+            if ((b1&B00011111)==B00011111 && (a2&B00011111)==0) fail=5;
+            if (fail) {
                 return 0;
             }
         }

@@ -89,9 +89,9 @@ static uint32_t checksum_block(uint8_t*_data, int len)
         sum += data[pos]<<24|data[pos+1]<<16|data[pos+2]<<8|data[pos+3];
     }
     int left = len-pos;
-    if(left == 1) sum+= data[pos+0]<<24;
-    if(left == 2) sum+= data[pos+0]<<24|data[pos+1]<<16;
-    if(left == 3) sum+= data[pos+0]<<24|data[pos+1]<<16|data[pos+2]<<8;
+    if (left == 1) sum+= data[pos+0]<<24;
+    if (left == 2) sum+= data[pos+0]<<24|data[pos+1]<<16;
+    if (left == 3) sum+= data[pos+0]<<24|data[pos+1]<<16|data[pos+2]<<8;
     return sum;
 }
 
@@ -107,7 +107,7 @@ static uint8_t readuint8_t(memreader_t*r)
 }
 static inline uint16_t readuint16_t(memreader_t*r)
 {
-    if(r->pos+2>r->size) return 0;
+    if (r->pos+2>r->size) return 0;
     uint16_t val = r->mem[r->pos]<<8|
               r->mem[r->pos+1];
     r->pos += 2;
@@ -119,7 +119,7 @@ static int16_t readint16_t(memreader_t*r)
 }
 static uint32_t readuint32_t(memreader_t*r)
 {
-    if(r->pos+4>r->size) return 0;
+    if (r->pos+4>r->size) return 0;
     uint32_t val = r->mem[r->pos]<<24|
               r->mem[r->pos+1]<<16|
               r->mem[r->pos+2]<<8|
@@ -130,7 +130,7 @@ static uint32_t readuint32_t(memreader_t*r)
 static void readBlock(memreader_t*r, void*dest, int len)
 {
     int remaining = r->size-r->pos;
-    if(len > remaining) {
+    if (len > remaining) {
         memcpy(dest, r->mem+r->pos, remaining);
         memset(dest+remaining, 0, len - remaining);
         r->pos += remaining;
@@ -154,20 +154,20 @@ static void expand(ttf_table_t*w, int newsize)
 }
 static inline void writeuint8_t(ttf_table_t*w, unsigned char b)
 {
-    if(w->memsize<w->len+1)
+    if (w->memsize<w->len+1)
         expand(w, w->len+1);
     w->data[w->len++] = b;
 }
 static inline void writeuint16_t(ttf_table_t*w, unsigned short v)
 {
-    if(w->memsize<w->len+2)
+    if (w->memsize<w->len+2)
         expand(w, w->len+2);
     w->data[w->len++] = v>>8;
     w->data[w->len++] = v;
 }
 static inline void writeuint16_t_LE(ttf_table_t*w, unsigned short v)
 {
-    if(w->memsize<w->len+2)
+    if (w->memsize<w->len+2)
         expand(w, w->len+2);
     w->data[w->len++] = v;
     w->data[w->len++] = v>>8;
@@ -175,7 +175,7 @@ static inline void writeuint16_t_LE(ttf_table_t*w, unsigned short v)
 #define writeint16_t writeuint16_t
 static inline void writeuint32_t(ttf_table_t*w, unsigned long v)
 {
-    if(w->memsize<w->len+4)
+    if (w->memsize<w->len+4)
         expand(w, w->len+4);
     w->data[w->len++] = v>>24;
     w->data[w->len++] = v>>16;
@@ -184,7 +184,7 @@ static inline void writeuint32_t(ttf_table_t*w, unsigned long v)
 }
 static inline void writeuint32_t_LE(ttf_table_t*w, unsigned long v)
 {
-    if(w->memsize<w->len+4)
+    if (w->memsize<w->len+4)
         expand(w, w->len+4);
     w->data[w->len++] = v;
     w->data[w->len++] = v>>8;
@@ -193,7 +193,7 @@ static inline void writeuint32_t_LE(ttf_table_t*w, unsigned long v)
 }
 static inline void writeBlock(ttf_table_t*w, void*data, int len)
 {
-    if(w->memsize<w->len+len)
+    if (w->memsize<w->len+len)
         expand(w, w->len+len);
     memcpy(w->data+w->len, data, len);
     w->len += len;
@@ -214,7 +214,7 @@ ttf_table_t*ttf_addtable(ttf_t*ttf, uint32_t id)
     for(before=ttf->tables; before&&before->id<id; before=before->next) {
         after=before;
     }
-    if(before && before->id == id) {
+    if (before && before->id == id) {
         msg("<error> duplicate table %08x", id);
         free(before->data);
         before->data = 0;
@@ -222,7 +222,7 @@ ttf_table_t*ttf_addtable(ttf_t*ttf, uint32_t id)
         return before;
     }
 
-    if(!after) {
+    if (!after) {
         t->next = ttf->tables;
         ttf->tables = t;
     } else {
@@ -230,7 +230,7 @@ ttf_table_t*ttf_addtable(ttf_t*ttf, uint32_t id)
         t->next = after->next;
         after->next = t;
     }
-    if(t->next)
+    if (t->next)
         t->next->prev = t;
     return t;
 }
@@ -238,7 +238,7 @@ ttf_table_t*ttf_find_table(ttf_t*ttf, uint32_t id)
 {
     ttf_table_t*table = ttf->tables;
     while(table) {
-        if(table->id == id)
+        if (table->id == id)
             return table;
         table = table->next;
     }
@@ -246,12 +246,12 @@ ttf_table_t*ttf_find_table(ttf_t*ttf, uint32_t id)
 }
 void ttf_table_delete(ttf_t*ttf, ttf_table_t*table)
 {
-    if(ttf && ttf->tables == table) {
+    if (ttf && ttf->tables == table) {
         ttf->tables = table->next;
     }
-    if(table->prev)
+    if (table->prev)
         table->prev->next = table->next;
-    if(table->next)
+    if (table->next)
         table->next->prev = table->prev;
     free(table->data);
     free(table);
@@ -259,7 +259,7 @@ void ttf_table_delete(ttf_t*ttf, ttf_table_t*table)
 uint32_t ttf_table_checksum(ttf_table_t*t)
 {
     uint32_t checksum = checksum_block(t->data, t->len);
-    if(t->id==TAG_HEAD && t->len>=12) {
+    if (t->id==TAG_HEAD && t->len>=12) {
         /* the checksum for the HEAD table is calculated by masking out
            the checksumadjust field */
         uint32_t adjust = t->data[8]<<24|t->data[9]<<16|t->data[10]<<8|t->data[11];
@@ -269,7 +269,7 @@ uint32_t ttf_table_checksum(ttf_table_t*t)
 }
 static uint8_t printable(uint8_t a)
 {
-    if(a<32 || a==127) return '.';
+    if (a<32 || a==127) return '.';
     else return a;
 }
 static void hexdump(uint8_t*data, int len, const char*prefix)
@@ -280,14 +280,14 @@ static void hexdump(uint8_t*data, int len, const char*prefix)
     for(t=0;t<len;t++) {
         printf("%02x ", data[t]);
         ascii[t&15] = printable(data[t]);
-        if((t && ((t&15)==15)) || (t==len-1))
+        if ((t && ((t&15)==15)) || (t==len-1))
         {
             int s,p=((t)&15)+1;
             ascii[p] = 0;
             for(s=p-1;s<16;s++) {
                 printf("   ");
             }
-            if(t==len-1)
+            if (t==len-1)
                 printf(" %s\n", ascii);
             else
                 printf(" %s\n%s    -=> ",ascii,prefix);
@@ -296,7 +296,7 @@ static void hexdump(uint8_t*data, int len, const char*prefix)
 }
 static void ttf_table_dump(ttf_table_t*t, const char*prefix)
 {
-    if(!t) return;
+    if (!t) return;
     hexdump(t->data, t->len, prefix);
 }
 
@@ -305,7 +305,7 @@ static table_head_t*head_new(ttf_t*ttf)
     table_head_t*head = calloc(1, sizeof(table_head_t));
     head->units_per_em = 1024;
     int t;
-    if(ttf->num_glyphs) {
+    if (ttf->num_glyphs) {
         head->xmin = ttf->glyphs[0].xmin;
         head->ymin = ttf->glyphs[0].ymin;
         head->xmax = ttf->glyphs[0].xmax;
@@ -313,10 +313,10 @@ static table_head_t*head_new(ttf_t*ttf)
         /* notice: the Microsoft font renderer expects these values to be adjusted (shifted)
            by the left side bearing if bit 1 in ttf->flags is not set */
         for(t=1;t<ttf->num_glyphs;t++) {
-            if(ttf->glyphs[t].xmin < head->xmin) head->xmin = ttf->glyphs[t].xmin;
-            if(ttf->glyphs[t].ymin < head->ymin) head->ymin = ttf->glyphs[t].ymin;
-            if(ttf->glyphs[t].xmax > head->xmax) head->xmax = ttf->glyphs[t].xmax;
-            if(ttf->glyphs[t].ymax > head->ymax) head->ymax = ttf->glyphs[t].ymax;
+            if (ttf->glyphs[t].xmin < head->xmin) head->xmin = ttf->glyphs[t].xmin;
+            if (ttf->glyphs[t].ymin < head->ymin) head->ymin = ttf->glyphs[t].ymin;
+            if (ttf->glyphs[t].xmax > head->xmax) head->xmax = ttf->glyphs[t].xmax;
+            if (ttf->glyphs[t].ymax > head->ymax) head->ymax = ttf->glyphs[t].ymax;
         }
     }
     head->macStyle = 0;
@@ -328,12 +328,12 @@ static int head_parse(ttf_t*ttf, memreader_t*r)
 {
     ttf->head = calloc(1, sizeof(table_head_t));
     uint32_t version = readuint32_t(r);
-    if(version!=VERSION_1_0)
+    if (version!=VERSION_1_0)
         msg("<warning> Font HEAD has unknown version %08x", version);
     uint32_t revision = readuint32_t(r);
     uint32_t checksum2 = readuint32_t(r);
     uint32_t magic = readuint32_t(r);
-    if(magic!=0x5f0f3cf5)
+    if (magic!=0x5f0f3cf5)
         msg("<warning> Font HEAD has unknown magic number %08x", magic);
     ttf->head->flags = readuint16_t(r);
     ttf->head->units_per_em = readuint16_t(r);
@@ -347,12 +347,12 @@ static int head_parse(ttf_t*ttf, memreader_t*r)
     ttf->head->lowest_readable_size = readuint16_t(r); //in pixels
     ttf->head->dir_hint = readint16_t(r);
     int loc_index = readint16_t(r); //used in 'loca' table
-    if(loc_index>1)
+    if (loc_index>1)
         msg("<warning> loca index format %d unknown", loc_index);
     uint16_t glyph_data_format = readint16_t(r);
-    if(glyph_data_format!=0)
+    if (glyph_data_format!=0)
         msg("<warning> Font glyph data format unknown: %04x", glyph_data_format);
-    if(r->pos < r->size) {
+    if (r->pos < r->size) {
         msg("<warning> Leftover bytes (%d) in HEAD tag", r->size - r->pos);
     }
     return loc_index;
@@ -391,7 +391,7 @@ static void head_dump(ttf_t*ttf)
 }
 static void head_delete(ttf_t*ttf)
 {
-    if(ttf->head) {
+    if (ttf->head) {
         free(ttf->head);
         ttf->head=0;
     }
@@ -400,7 +400,7 @@ static void head_delete(ttf_t*ttf)
 static table_os2_t*os2_new(ttf_t*ttf)
 {
     table_os2_t*os2 = calloc(1, sizeof(table_os2_t));
-    if(ttf->num_glyphs) {
+    if (ttf->num_glyphs) {
         int average_width=0;
         int t;
         for(t=0;t<ttf->num_glyphs;t++) {
@@ -413,7 +413,7 @@ static table_os2_t*os2_new(ttf_t*ttf)
     os2->usWeightClass = 400;
     os2->usWidthClass = 5;
 
-    if(ttf->head) {
+    if (ttf->head) {
         int advance = (ttf->head->xmax - ttf->head->xmin)/2;
         int height = (ttf->head->xmax - ttf->head->xmin);
         int ymid = height/2;
@@ -430,7 +430,7 @@ static table_os2_t*os2_new(ttf_t*ttf)
         os2->yStrikeoutPosition = ymid;
         os2->usWinAscent = ttf->ascent;
         os2->usWinDescent = ttf->descent>0?0:-ttf->descent;
-        if(os2->usWinAscent+os2->usWinDescent < 32) {
+        if (os2->usWinAscent+os2->usWinDescent < 32) {
             /* Windows requires fonts to have a height of at least 32, otherwise it'll
                refuse to display it. */
             os2->usWinDescent = 32;
@@ -450,13 +450,13 @@ static table_os2_t*os2_new(ttf_t*ttf)
     os2->ulCodePageRange1 = 1;
     os2->ulCodePageRange2 = 0;
 
-    if(ttf->unicode_size) {
+    if (ttf->unicode_size) {
         int min,max;
         for(min=0;min<ttf->unicode_size;min++)
-            if(ttf->unicode[min]) break;
+            if (ttf->unicode[min]) break;
         for(max=ttf->unicode_size-1;max>=0;max--)
-            if(ttf->unicode[max]) break;
-        if(min<=max) {
+            if (ttf->unicode[max]) break;
+        if (min<=max) {
             os2->fsFirstCharIndex = min;
             os2->fsLastCharIndex = max;
         }
@@ -478,7 +478,7 @@ static table_os2_t*os2_parse(memreader_t*r)
        1 = TrueType 1.66
        2 = OpenType 1.2
        3 = OpenType 1.4 */
-    if(version!=0 && version!=1 && version!=2 && version!=3)
+    if (version!=0 && version!=1 && version!=2 && version!=3)
         msg("<warning> Unknown OS2 version: %04x", version);
     os2->xAvgCharWidth = readint16_t(r);
     os2->usWeightClass = readuint16_t(r);
@@ -518,17 +518,17 @@ static table_os2_t*os2_parse(memreader_t*r)
     os2->sTypoLineGap = readint16_t(r);
     os2->usWinAscent = readuint16_t(r);
     os2->usWinDescent = readuint16_t(r);
-    if(version<1) return os2;
+    if (version<1) return os2;
     os2->ulCodePageRange1 = readuint32_t(r);
     os2->ulCodePageRange2 = readuint32_t(r);
-    if(version<2) return os2;
+    if (version<2) return os2;
     os2->sxHeight = readint16_t(r);
     os2->sCapHeight = readint16_t(r);
     os2->usDefaultChar = readuint16_t(r);
     os2->usBreakChar = readuint16_t(r);
     os2->usMaxContext = readuint16_t(r);
 
-    if(r->pos < r->size) {
+    if (r->pos < r->size) {
         msg("<warning> Leftover bytes (%d) in OS2 tag", r->size - r->pos);
     }
     return os2;
@@ -537,7 +537,7 @@ static void os2_write(ttf_t*ttf, ttf_table_t*w)
 {
     table_os2_t*os2 = ttf->os2;
     uint16_t version=1;
-    if(os2->sxHeight|os2->sCapHeight|os2->usDefaultChar|os2->usBreakChar|os2->usMaxContext) {
+    if (os2->sxHeight|os2->sCapHeight|os2->usDefaultChar|os2->usBreakChar|os2->usMaxContext) {
         version=2;
     }
     writeuint16_t(w, version);
@@ -579,10 +579,10 @@ static void os2_write(ttf_t*ttf, ttf_table_t*w)
     writeint16_t(w, os2->sTypoLineGap);
     writeuint16_t(w, os2->usWinAscent);
     writeuint16_t(w, os2->usWinDescent);
-    if(version<1) return;
+    if (version<1) return;
     writeuint32_t(w, os2->ulCodePageRange1);
     writeuint32_t(w, os2->ulCodePageRange2);
-    if(version<2) return;
+    if (version<2) return;
     writeint16_t(w, os2->sxHeight);
     writeint16_t(w, os2->sCapHeight);
     writeuint16_t(w, os2->usDefaultChar);
@@ -592,7 +592,7 @@ static void os2_write(ttf_t*ttf, ttf_table_t*w)
 static void os2_dump(ttf_t*ttf)
 {
     table_os2_t*os2 = ttf->os2;
-    if(!os2) return;
+    if (!os2) return;
     printf("os2->xAvgCharWidth: %d\n", os2->xAvgCharWidth);
     printf("os2->usWeightClass: %d\n", os2->usWeightClass);
     printf("os2->usWidthClass: %d\n", os2->usWidthClass);
@@ -639,7 +639,7 @@ static void os2_dump(ttf_t*ttf)
 }
 static void os2_delete(ttf_t*ttf)
 {
-    if(ttf->os2)
+    if (ttf->os2)
         free(ttf->os2);
     ttf->os2=0;
 }
@@ -649,18 +649,18 @@ static table_maxp_t*maxp_new(ttf_t*ttf)
     table_maxp_t*maxp = calloc(1, sizeof(table_maxp_t));
     int t;
     maxp->maxContours=1;
-    if(ttf->num_glyphs) {
+    if (ttf->num_glyphs) {
         int max = 1;
         for(t=0;t<ttf->num_glyphs;t++) {
-            if(ttf->glyphs[t].num_points>max)
+            if (ttf->glyphs[t].num_points>max)
                 max = ttf->glyphs[t].num_points;
             int contours = 0;
             int s;
             for(s=0;s<ttf->glyphs[t].num_points;s++) {
-                if(ttf->glyphs[t].points[s].flags&GLYPH_CONTOUR_END)
+                if (ttf->glyphs[t].points[s].flags&GLYPH_CONTOUR_END)
                     contours++;
             }
-            if(maxp->maxContours < contours)
+            if (maxp->maxContours < contours)
                 maxp->maxContours = contours;
         }
         maxp->maxPoints = max;
@@ -679,9 +679,9 @@ static table_maxp_t* maxp_parse(ttf_t*ttf, memreader_t*r)
     /* according to freetype, older fonts (version<0x10000)
        apparently only contain the number of glyphs. this is
        rather rare, though. */
-    if(version<0x10000 && r->size==6) return 0;
+    if (version<0x10000 && r->size==6) return 0;
 
-    if(r->size<32)
+    if (r->size<32)
         msg("<warning> Truncated maxp table (version %d)", version);
 
     table_maxp_t*maxp = calloc(1, sizeof(table_maxp_t));
@@ -703,7 +703,7 @@ static table_maxp_t* maxp_parse(ttf_t*ttf, memreader_t*r)
 static void maxp_write(ttf_t*ttf, ttf_table_t*w)
 {
     table_maxp_t*maxp = ttf->maxp;
-    if(!maxp) {
+    if (!maxp) {
         /* version 0.5 simplified maxp table */
         writeuint32_t(w, 0x00005000);
         writeuint16_t(w, ttf->num_glyphs);
@@ -728,7 +728,7 @@ static void maxp_write(ttf_t*ttf, ttf_table_t*w)
 static void maxp_dump(ttf_t*ttf)
 {
     table_maxp_t*maxp = ttf->maxp;
-    if(!maxp) return;
+    if (!maxp) return;
     printf("maxp->maxPoints: %d\n", maxp->maxPoints);
     printf("maxp->maxContours: %d\n", maxp->maxContours);
     printf("maxp->maxComponentPoints: %d\n", maxp->maxComponentPoints);
@@ -745,7 +745,7 @@ static void maxp_dump(ttf_t*ttf)
 }
 static void maxp_delete(ttf_t*ttf)
 {
-    if(ttf->maxp)
+    if (ttf->maxp)
         free(ttf->maxp);
     ttf->maxp=0;
 }
@@ -753,17 +753,17 @@ static void maxp_delete(ttf_t*ttf)
 static table_hea_t*hea_new(ttf_t*ttf)
 {
     table_hea_t*hea = calloc(1, sizeof(table_hea_t));
-    if(ttf->num_glyphs) {
+    if (ttf->num_glyphs) {
         int t;
         for(t=0;t<ttf->num_glyphs;t++) {
-            if(ttf->glyphs[t].advance > hea->advanceWidthMax)
+            if (ttf->glyphs[t].advance > hea->advanceWidthMax)
                 hea->advanceWidthMax = ttf->glyphs[t].advance;
-            if(ttf->glyphs[t].bearing < hea->minLeftSideBearing)
+            if (ttf->glyphs[t].bearing < hea->minLeftSideBearing)
                 hea->minLeftSideBearing = ttf->glyphs[t].bearing;
-            if(ttf->glyphs[t].xmax < hea->minRightSideBearing)
+            if (ttf->glyphs[t].xmax < hea->minRightSideBearing)
                 hea->minRightSideBearing = ttf->glyphs[t].xmax;
             int width = ttf->glyphs[t].xmax - ttf->glyphs[t].xmin;
-            if(width > hea->xMaxExtent)
+            if (width > hea->xMaxExtent)
                 hea->xMaxExtent = width;
         }
         hea->caretSlopeRise = 1;
@@ -789,11 +789,11 @@ static int hea_parse(memreader_t*r, ttf_t*ttf)
     readint16_t(r); //reserved[2]
     readint16_t(r); //reserved[3]
     int16_t metricDataFormat = readint16_t(r); //should be 0
-    if(metricDataFormat!=0) {
+    if (metricDataFormat!=0) {
         msg("<error> Unknown metric format %d", metricDataFormat);
     }
     int num_advances = readuint16_t(r);
-    if(num_advances > ttf->num_glyphs) {
+    if (num_advances > ttf->num_glyphs) {
         msg("<error> bad number of horizontal metrics: %d", num_advances);
         num_advances = ttf->num_glyphs;
     }
@@ -824,7 +824,7 @@ static table_hea_t*hea_write(ttf_t*ttf, ttf_table_t*w, int num_advances)
 static void hea_dump(ttf_t*ttf)
 {
     table_hea_t*hea = ttf->hea;
-    if(!hea) return;
+    if (!hea) return;
     const char*dir = ttf->is_vertical?"v":"h";
     printf("%shea->ascent: %d\n", dir, ttf->ascent);
     printf("%shea->descent: %d\n", dir, ttf->descent);
@@ -839,7 +839,7 @@ static void hea_dump(ttf_t*ttf)
 }
 static void hea_delete(ttf_t*ttf)
 {
-    if(ttf->hea) {
+    if (ttf->hea) {
         free(ttf->hea);
         ttf->hea=0;
     }
@@ -849,14 +849,14 @@ static void mtx_parse(memreader_t*r, ttf_t*ttf, int num_advances)
 {
     uint16_t old_advance = 0;
     int t;
-    if(num_advances > r->size/4)
+    if (num_advances > r->size/4)
         num_advances = r->size/4;
     for(t=0;t<num_advances;t++) {
         old_advance = ttf->glyphs[t].advance = readuint16_t(r);
         ttf->glyphs[t].bearing = readint16_t(r);
     }
     int rest = (r->size - num_advances*4)/2;
-    if(ttf->num_glyphs < num_advances+rest) {
+    if (ttf->num_glyphs < num_advances+rest) {
         rest = ttf->num_glyphs-num_advances;
     }
     for(t=0;t<rest;t++) {
@@ -867,10 +867,10 @@ static void mtx_parse(memreader_t*r, ttf_t*ttf, int num_advances)
 static int mtx_write(ttf_t*ttf, ttf_table_t*w)
 {
     int num_advances = ttf->num_glyphs;
-    if(ttf->num_glyphs>=2) {
+    if (ttf->num_glyphs>=2) {
         int t;
         for(t=ttf->num_glyphs-1;t>0;t--) {
-            if(ttf->glyphs[t-1].advance !=
+            if (ttf->glyphs[t-1].advance !=
                ttf->glyphs[t].advance) break;
         }
         /* we need to store all individual advances as well
@@ -897,33 +897,33 @@ static uint32_t*loca_parse(memreader_t*r, ttf_t*ttf, int size)
     uint32_t lastloc = 0;
     uint32_t loc = 0;
     char warn_unsorted = 1;
-    if(size) {
-        if(num*4 > r->size) {
+    if (size) {
+        if (num*4 > r->size) {
             msg("<warning> Short 'loca' table (32 bit): %d/%d", r->size/4, num);
             num=r->size/4;
         }
-        if(num*4 < r->size) {
+        if (num*4 < r->size) {
             msg("<warning> Extraneous data (%d bytes) in 'loca' table (32 bit)", r->size-num*4);
         }
         for(t=0;t<num;t++) {
             locations[t] = loc = readuint32_t(r);
-            if(lastloc > loc && warn_unsorted) {
+            if (lastloc > loc && warn_unsorted) {
                 msg("<warning> Unsorted 'loca' table (32 bit)");
                 warn_unsorted=0;
             }
             lastloc = loc;
         }
     } else {
-        if(num*2 > r->size) {
+        if (num*2 > r->size) {
             msg("<warning> Short 'loca' table (16 bit)");
             num=r->size/2;
         }
-        if(num*2 < r->size) {
+        if (num*2 < r->size) {
             msg("<warning> Extraneous data (%d bytes) in 'loca' table (16 bit)", r->size-num*2);
         }
         for(t=0;t<num;t++) {
             locations[t] = loc = readuint16_t(r)*2;
-            if(lastloc > loc && warn_unsorted) {
+            if (lastloc > loc && warn_unsorted) {
                 msg("<warning> Unsorted 'loca' table");
                 warn_unsorted=0;
             }
@@ -937,13 +937,13 @@ static int loca_write(ttf_t*ttf, ttf_table_t*w, uint32_t*locations)
     int t;
     char use_32bit = 0;
     for(t=0;t<=ttf->num_glyphs;t++) {
-        if(locations[t]>=0x20000 || (locations[t]&1)) {
+        if (locations[t]>=0x20000 || (locations[t]&1)) {
             use_32bit = 1;
             break;
         }
     }
 
-    if(use_32bit) {
+    if (use_32bit) {
         for(t=0;t<=ttf->num_glyphs;t++) {
             writeuint32_t(w, locations[t]);
         }
@@ -961,26 +961,26 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
     ttfglyph_t*glyph = &ttf->glyphs[glyphnr];
 
     uint16_t*endpoints = 0;
-    if(num_contours>0) {
+    if (num_contours>0) {
         endpoints = malloc(sizeof(uint16_t)*num_contours);
         int s;
         int lastpos = -1;
         for(s=0;s<num_contours;s++) {
             int pos = endpoints[s] = readuint16_t(r);
-            if(pos<=lastpos) {
+            if (pos<=lastpos) {
                 msg("<warning> Unsorted endpoints array (len:%d) last=%d now=%d", s, pos, lastpos);
             }
             lastpos = pos;
         }
     }
     uint16_t code_len = readuint16_t(r);
-    if(code_len) {
+    if (code_len) {
         glyph->code = malloc(sizeof(uint16_t)*code_len);
         readBlock(r, glyph->code, code_len);
         glyph->code_size = code_len;
     }
 
-    if(!endpoints)
+    if (!endpoints)
         return 1;
 
     /*msg("<notice> TTF Glyph %d) code_size=%d num_contours=%d glyph->num_points=%d %d/%d/%d/%d",
@@ -996,7 +996,7 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
     int num=0;
     while(num<glyph->num_points) {
         uint8_t flag = readuint8_t(r);
-        if(flag&0xc0) {
+        if (flag&0xc0) {
             msg("<error> Bad flags in glyph outline: %02x (at pos %d)", flag, num);
             free(glyph->points);
             glyph->points = 0;
@@ -1004,9 +1004,9 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
             return 0;
         }
         int count = 1;
-        if(flag & 0x08)
+        if (flag & 0x08)
             count += readuint8_t(r);
-        if(count+num>glyph->num_points) {
+        if (count+num>glyph->num_points) {
             msg("<warning> Bad count (%d) in glyph (%d) (at pos %d)", count, glyphnr, num);
             count = glyph->num_points-num;
         }
@@ -1025,19 +1025,19 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
         count=count>glyph->num_points-num?glyph->num_points-num:(count?count:1);
         do {
             char is_end=0;
-            if(contour_pos<num_contours && num==endpoints[contour_pos]) {
+            if (contour_pos<num_contours && num==endpoints[contour_pos]) {
                 contour_pos++;
                 is_end=1;
             }
             int oldx = x;
-            if((flag&0x12) == 0x12) x += readuint8_t(r);
-            else if((flag&0x12) == 0x02) x -= readuint8_t(r);
-            else if((flag&0x12) == 0x00) x += readint16_t(r);
+            if ((flag&0x12) == 0x12) x += readuint8_t(r);
+            else if ((flag&0x12) == 0x02) x -= readuint8_t(r);
+            else if ((flag&0x12) == 0x00) x += readint16_t(r);
 
             glyph->points[num].x = x;
             uint8_t f = flag&GLYPH_ON_CURVE;
-            if(is_start) f|=GLYPH_CONTOUR_START;
-            if(is_end) f|=GLYPH_CONTOUR_END;
+            if (is_start) f|=GLYPH_CONTOUR_START;
+            if (is_end) f|=GLYPH_CONTOUR_END;
             glyph->points[num].flags = f;
             num++;
             is_start = is_end;
@@ -1052,9 +1052,9 @@ static int parse_simple_glyph(ttf_t*ttf, memreader_t*r, int num_contours, int gl
         int count = flag&8?readuint8_t(&fy)+1:1;
         count=count>glyph->num_points-num?glyph->num_points-num:(count?count:1);
         do {
-            if((flag&0x24) == 0x24) y += readuint8_t(r);
-            else if((flag&0x24) == 0x04) y -= readuint8_t(r);
-            else if((flag&0x24) == 0x00) y += readint16_t(r);
+            if ((flag&0x24) == 0x24) y += readuint8_t(r);
+            else if ((flag&0x24) == 0x04) y -= readuint8_t(r);
+            else if ((flag&0x24) == 0x00) y += readint16_t(r);
             glyph->points[num].y = y;
             num++;
         } while(--count);
@@ -1068,10 +1068,10 @@ static void glyf_parse(memreader_t*rr, ttf_t*ttf, uint32_t*loca)
     char warn_about_compound_glyphs=1;
     for(t=0;t<ttf->num_glyphs;t++) {
         INIT_READ(r, rr->mem, rr->size, loca[t]);
-        if(loca[t]==loca[t+1] || loca[t]==r.size) {
+        if (loca[t]==loca[t+1] || loca[t]==r.size) {
             continue; //empty glyph
         }
-        if(r.pos+10>r.size) {
+        if (r.pos+10>r.size) {
             msg("<warning> Truncated glyph entry %d/%d (or bad loca entry %d/%d, next loca: %d)",
                     t, ttf->num_glyphs, loca[t], r.size, loca[t+1]);
             break;
@@ -1082,12 +1082,12 @@ static void glyf_parse(memreader_t*rr, ttf_t*ttf, uint32_t*loca)
         ttf->glyphs[t].xmax = readint16_t(&r);
         ttf->glyphs[t].ymax = readint16_t(&r);
 
-        if(num_contours<0) {
-            if(warn_about_compound_glyphs)
+        if (num_contours<0) {
+            if (warn_about_compound_glyphs)
                 msg("<error> Compound glyphs not supported yet");
             warn_about_compound_glyphs=0;
         } else {
-            if(!parse_simple_glyph(ttf, &r, num_contours, t))
+            if (!parse_simple_glyph(ttf, &r, num_contours, t))
                 return;
         }
     }
@@ -1098,13 +1098,13 @@ void write_simple_glyph(ttf_table_t*w, ttfglyph_t*g)
     /* endpoints array */
     int s;
     for(s=0;s<g->num_points;s++) {
-        if(g->points[s].flags&GLYPH_CONTOUR_END)
+        if (g->points[s].flags&GLYPH_CONTOUR_END)
             writeuint16_t(w, s);
     }
 
     /* bytecode */
     writeuint16_t(w, g->code_size);
-    if(g->code_size)
+    if (g->code_size)
         writeBlock(w, g->code, g->code_size);
 
     /* flags */
@@ -1117,25 +1117,25 @@ void write_simple_glyph(ttf_table_t*w, ttfglyph_t*g)
         int dx = p->x - lastx;
         int dy = p->y - lasty;
         uint8_t flags = p->flags&GLYPH_ON_CURVE;
-        if(!dx) {
+        if (!dx) {
             flags|=0x10;
-        } else if(dx<0 && dx>=-255) {
+        } else if (dx<0 && dx>=-255) {
             flags|=0x02;
-        } else if(dx>0 && dx<=255) {
+        } else if (dx>0 && dx<=255) {
             flags|=0x12;
         }
-        if(!dy) {
+        if (!dy) {
             flags|=0x20;
-        } else if(dy<0 && dy>=-255) {
+        } else if (dy<0 && dy>=-255) {
             flags|=0x04;
-        } else if(dy>0 && dy<=255) {
+        } else if (dy>0 && dy<=255) {
             flags|=0x24;
         }
-        if(flags == lastflag && flagcount<255) {
+        if (flags == lastflag && flagcount<255) {
             flagcount++;
         } else {
-            if(lastflag>=0) {
-                if(flagcount) {
+            if (lastflag>=0) {
+                if (flagcount) {
                     writeuint8_t(w, lastflag|8);
                     writeuint8_t(w, flagcount);
                 } else {
@@ -1148,8 +1148,8 @@ void write_simple_glyph(ttf_table_t*w, ttfglyph_t*g)
         lastx = p->x;
         lasty = p->y;
     }
-    if(lastflag>=0) {
-        if(flagcount) {
+    if (lastflag>=0) {
+        if (flagcount) {
             writeuint8_t(w, lastflag|8);
             writeuint8_t(w, flagcount);
         } else {
@@ -1162,26 +1162,26 @@ void write_simple_glyph(ttf_table_t*w, ttfglyph_t*g)
     for(s=0;s<g->num_points;s++) {
         ttfpoint_t*p = &g->points[s];
         int dx = p->x - lastx;
-        if(dx>32767 || dx<-32768) {
+        if (dx>32767 || dx<-32768) {
             msg("<error> Coordinate overflow in glyph");
         }
         lastx = p->x;
-        if(dx>0 && dx<=255) writeuint8_t(w, dx);
-        else if(dx<0 && dx>=-255) writeuint8_t(w, -dx);
-        else if(dx) writeint16_t(w, dx);
+        if (dx>0 && dx<=255) writeuint8_t(w, dx);
+        else if (dx<0 && dx>=-255) writeuint8_t(w, -dx);
+        else if (dx) writeint16_t(w, dx);
     }
 
     lasty=0;
     for(s=0;s<g->num_points;s++) {
         ttfpoint_t*p = &g->points[s];
         int dy = p->y - lasty;
-        if(dy>32767 || dy<-32768) {
+        if (dy>32767 || dy<-32768) {
             msg("<error> Coordinate overflow in glyph");
         }
         lasty = p->y;
-        if(dy>0 && dy<=255) writeuint8_t(w, dy);
-        else if(dy<0 && dy>=-255) writeuint8_t(w, -dy);
-        else if(dy) writeint16_t(w, dy);
+        if (dy>0 && dy<=255) writeuint8_t(w, dy);
+        else if (dy<0 && dy>=-255) writeuint8_t(w, -dy);
+        else if (dy) writeint16_t(w, dy);
     }
 }
 uint32_t* glyf_write(ttf_t* ttf, ttf_table_t*w)
@@ -1194,7 +1194,7 @@ uint32_t* glyf_write(ttf_t* ttf, ttf_table_t*w)
         int s;
         int num_contours = 0;
         for(s=0;s<g->num_points;s++) {
-            if(g->points[s].flags&GLYPH_CONTOUR_END)
+            if (g->points[s].flags&GLYPH_CONTOUR_END)
                 num_contours++;
         }
         writeint16_t(w, num_contours?num_contours:1);
@@ -1203,12 +1203,12 @@ uint32_t* glyf_write(ttf_t* ttf, ttf_table_t*w)
         writeint16_t(w, g->xmax);
         writeint16_t(w, g->ymax);
 
-        if(!num_contours) {
+        if (!num_contours) {
             /* some ttf parsers can't deal with zero contours, so in the case
                of an empty glyph, write a single point (0,0) */
             writeuint16_t(w, 0); //endpoint of 1st contour
             writeuint16_t(w, g->code_size);
-            if(g->code_size)
+            if (g->code_size)
                 writeBlock(w, g->code, g->code_size);
             writeuint8_t(w, 0x31); //flag (xy=(0,0),on curve)
         } else {
@@ -1220,7 +1220,7 @@ uint32_t* glyf_write(ttf_t* ttf, ttf_table_t*w)
 }
 void glyf_dump(ttf_t* ttf)
 {
-    if(!ttf->glyphs) return;
+    if (!ttf->glyphs) return;
     int t;
     for(t=0;t<ttf->num_glyphs;t++) {
         ttfglyph_t*g = &ttf->glyphs[t];
@@ -1231,25 +1231,25 @@ void glyf_dump(ttf_t* ttf)
         printf("  points=(");
         int s;
         for(s=0;s<g->num_points;s++) {
-            if(s) printf(",");
+            if (s) printf(",");
             printf("%d/%d/0x%02x", g->points[s].x, g->points[s].y, g->points[s].flags);
         }
         printf(")\n");
-        if(g->code_size)
+        if (g->code_size)
             hexdump(g->code, g->code_size, "  ");
     }
 }
 void glyf_delete(ttf_t* ttf)
 {
-    if(!ttf->glyphs)
+    if (!ttf->glyphs)
         return;
     int t;
     for(t=0;t<ttf->num_glyphs;t++) {
-        if(ttf->glyphs[t].code) {
+        if (ttf->glyphs[t].code) {
             free(ttf->glyphs[t].code);
             ttf->glyphs[t].code = 0;
         }
-        if(ttf->glyphs[t].points) {
+        if (ttf->glyphs[t].points) {
             free(ttf->glyphs[t].points);
             ttf->glyphs[t].points = 0;
         }
@@ -1259,7 +1259,7 @@ void glyf_delete(ttf_t* ttf)
 
 ttfglyph_t* ttf_find_unicode(ttf_t*ttf, uint32_t unicode)
 {
-    if(ttf->unicode && unicode < ttf->unicode_size) {
+    if (ttf->unicode && unicode < ttf->unicode_size) {
         return &ttf->glyphs[ttf->unicode[unicode]];
     }
     return NULL;
@@ -1269,9 +1269,9 @@ ttfglyph_t* ttf_find_unicode(ttf_t*ttf, uint32_t unicode)
 static void grow_unicode(ttf_t*ttf, int index)
 {
     int size = index+1;
-    if(!ttf->unicode) {
+    if (!ttf->unicode) {
         ttf->unicode = calloc(size, sizeof(ttf->unicode[0]));
-    } else if(ttf->unicode_size<size) {
+    } else if (ttf->unicode_size<size) {
         ttf->unicode = realloc(ttf->unicode, sizeof(ttf->unicode[0])*size);
         memset(ttf->unicode+ttf->unicode_size, 0, sizeof(ttf->unicode[0])*(size - ttf->unicode_size));
     }
@@ -1283,7 +1283,7 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
     int num_subtables = readuint16_t(r);
     int t;
     char warn=1;
-    if(r->pos+num_subtables*8 > r->size) {
+    if (r->pos+num_subtables*8 > r->size) {
         msg("<warning> CMap overflow");
         num_subtables = (r->size-r->pos)/8;
     }
@@ -1292,7 +1292,7 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
         uint16_t platform = readuint16_t(r);
         uint16_t encoding = readuint16_t(r);
         uint32_t offset = readuint32_t(r);
-        if(offset>r->size) {
+        if (offset>r->size) {
             msg("<warning> CMAP table %d %d is out of bounds (%d)", platform, encoding, offset);
             continue;
         }
@@ -1301,7 +1301,7 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
                          platform==3 && encoding == 1 ||
                          platform==3 && encoding == 10;
 
-        if(!is_unicode)
+        if (!is_unicode)
             continue;
 
         INIT_READ(t, r->mem, r->size, offset);
@@ -1309,13 +1309,13 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
         int length = readuint16_t(&t);
         uint16_t language = readuint16_t(&t);
 
-        if(language)
+        if (language)
             msg("<warning> Language code %02x in unicode mapping", language);
 
         int num = 0;
-        if(format == 0) {
+        if (format == 0) {
             num = length-6;
-            if(t.pos+length > t.size) {
+            if (t.pos+length > t.size) {
                 msg("<warning> overflow in format 0 cmap table");
                 num = t.size-t.pos;
             }
@@ -1325,9 +1325,9 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
             for(s=0;s<num;s++) {
                 ttf->unicode[s] = readuint8_t(&t);
             }
-        } else if(format == 4) {
+        } else if (format == 4) {
             uint16_t segment_count = readuint16_t(&t);
-            if(segment_count&1) {
+            if (segment_count&1) {
                 msg("<error> Bad segmentx2 count %d", segment_count);
                 continue;
             }
@@ -1347,7 +1347,7 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
                 uint16_t end = readuint16_t(&r_end);
                 uint16_t delta = readuint16_t(&r_delta);
                 uint16_t range = readuint16_t(&r_range);
-                if(start==0xffff && end==0xffff && delta==1) {
+                if (start==0xffff && end==0xffff && delta==1) {
                     /* this is a common (maybe even required) occurence in fonts
                        which explicitly map "unicode undefined" (0xffff) to
                        "glyph undefined" (0).
@@ -1358,13 +1358,13 @@ void cmap_parse(memreader_t*r, ttf_t*ttf)
                 }
                 grow_unicode(ttf, end);
                 int u;
-                if(!range) {
+                if (!range) {
                     for(u=start;u<=end;u++) {
                         ttf->unicode[u] = (u + delta) & 0xffff;
                     }
                 } else {
                     int pos = r_range.pos-2+range;
-                    if(warn && pos+end-start+1 > t.size) {
+                    if (warn && pos+end-start+1 > t.size) {
                         msg("<warning> glyphmap index out of bounds (%d-%d/%d)", pos, pos+end-start, t.size);
                         warn=0;
                     }
@@ -1382,9 +1382,9 @@ static int segment_size(unicode_t*unicode, int pos, int size)
     int s;
     int count=0;
     for(s=pos;s<size;s++) {
-        if(!unicode[s])
+        if (!unicode[s])
             count++;
-        if(count>4) {
+        if (count>4) {
             /* a segment costs us 8 bytes, so for more than 4 consecutive
                zero entries (16 bit each) in the glyph index array,
                it pays off to start a new segment */
@@ -1392,7 +1392,7 @@ static int segment_size(unicode_t*unicode, int pos, int size)
         }
     }
     s -= count; // go to the last filled in entry
-    if(s==size)
+    if (s==size)
         return size-1;
     return s;
 }
@@ -1422,7 +1422,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
     int pos=0;
     int num_segments=0;
     while(pos < ttf->unicode_size) {
-        if(!ttf->unicode[pos]) {
+        if (!ttf->unicode[pos]) {
             pos++;
             continue;
         }
@@ -1472,7 +1472,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
     pos=0;
     num_segments = 0;
     while(pos < ttf->unicode_size) {
-        if(!ttf->unicode[pos]) {
+        if (!ttf->unicode[pos]) {
             pos++;
             continue;
         }
@@ -1486,13 +1486,13 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
         char do_delta=1;
         for(s=pos+1;s<=end;s++) {
             uint16_t delta2 = ttf->unicode[s]-s;
-            if(delta2!=delta) {
+            if (delta2!=delta) {
                 do_delta=0;
                 break;
             }
         }
         uint16_t range;
-        if(do_delta) {
+        if (do_delta) {
             range = 0;
         } else {
             delta = 0;
@@ -1525,7 +1525,7 @@ void cmap_write(ttf_t* ttf, ttf_table_t*w)
 }
 void cmap_delete(ttf_t*ttf)
 {
-    if(ttf->unicode) {
+    if (ttf->unicode) {
         free(ttf->unicode);
         ttf->unicode=0;
     }
@@ -1556,7 +1556,7 @@ void name_parse(memreader_t*r, ttf_t*ttf)
         char ** read_name = 0;
 
         INIT_READ(ss, r->mem, r->size, offset+offset_2);
-        if(!(platform==0 || (platform==1 && encoding==0)))
+        if (!(platform==0 || (platform==1 && encoding==0)))
                 continue;
 
         INIT_READ(s, r->mem, r->size, offset+offset_2);
@@ -1588,7 +1588,7 @@ void name_write(ttf_t*ttf, ttf_table_t*table)
     int nr = sizeof(strings)/sizeof(strings[0]);
 
     for(t=0;t<nr;t++) {
-        if(strings[t])
+        if (strings[t])
             count+=2;
     }
     writeuint16_t(table, count); //count
@@ -1599,7 +1599,7 @@ void name_write(ttf_t*ttf, ttf_table_t*table)
     /* Windows expects the name table to be sorted by platform/encoding/language/name_id */
     int offset = 0;
     for(t=0;t<nr;t++) {
-        if(strings[t]) {
+        if (strings[t]) {
             writeuint16_t(table, 1); //platform id (mac)
             writeuint16_t(table, 0); //encoding id (latin-1)
             writeuint16_t(table, 0); //language (english)
@@ -1611,7 +1611,7 @@ void name_write(ttf_t*ttf, ttf_table_t*table)
         }
     }
     for(t=0;t<nr;t++) {
-        if(strings[t]) {
+        if (strings[t]) {
             writeuint16_t(table, 3); //platform id (windows)
             writeuint16_t(table, 1); //encoding id (ucs-2)
             writeuint16_t(table, 0x409); //language (US)
@@ -1627,13 +1627,13 @@ void name_write(ttf_t*ttf, ttf_table_t*table)
     table->data[offset_pos+1] = table->len;
 
     for(t=0;t<nr;t++) {
-        if(strings[t]) {
+        if (strings[t]) {
             int len = strlen(strings[t]);
             writeBlock(table, strings[t], len);
         }
     }
     for(t=0;t<nr;t++) {
-        if(strings[t]) {
+        if (strings[t]) {
             int s;
             int len = strlen(strings[t]);
             for(s=0;s<len;s++) {
@@ -1645,27 +1645,27 @@ void name_write(ttf_t*ttf, ttf_table_t*table)
 }
 void name_delete(ttf_t*ttf)
 {
-    if(ttf->full_name) {
+    if (ttf->full_name) {
         free(ttf->full_name);
         ttf->full_name=0;
     }
-    if(ttf->family_name) {
+    if (ttf->family_name) {
         free(ttf->family_name);
         ttf->family_name=0;
     }
-    if(ttf->subfamily_name) {
+    if (ttf->subfamily_name) {
         free(ttf->subfamily_name);
         ttf->subfamily_name=0;
     }
-    if(ttf->version_string) {
+    if (ttf->version_string) {
         free(ttf->version_string);
         ttf->version_string=0;
     }
-    if(ttf->font_uid) {
+    if (ttf->font_uid) {
         free(ttf->font_uid);
         ttf->font_uid=0;
     }
-    if(ttf->postscript_name) {
+    if (ttf->postscript_name) {
         free(ttf->postscript_name);
         ttf->postscript_name=0;
     }
@@ -1704,7 +1704,7 @@ void post_write(ttf_t*ttf, ttf_table_t*table)
 }
 void post_delete(ttf_t*ttf)
 {
-    if(ttf->post) {
+    if (ttf->post) {
         free(ttf->post);
         ttf->post = 0;
     }
@@ -1730,8 +1730,8 @@ void cvt_write(ttf_t*ttf, ttf_table_t*table)
 }
 void cvt_delete(ttf_t*ttf)
 {
-    if(ttf->cvt) {
-        if(ttf->cvt->values) 
+    if (ttf->cvt) {
+        if (ttf->cvt->values) 
             free(ttf->cvt->values);
         free(ttf->cvt);
         ttf->cvt = 0;
@@ -1754,7 +1754,7 @@ void gasp_parse(memreader_t*r, ttf_t*ttf)
     readuint16_t(r); //version
     int num = readuint16_t(r);
     int t;
-    if(!num) return;
+    if (!num) return;
     gasp->records = malloc(sizeof(gasp->records[0])*num);
     for(t=0;t<num;t++) {
         gasp->records[t].size = readuint16_t(r);
@@ -1773,7 +1773,7 @@ void gasp_write(ttf_t*ttf, ttf_table_t*table)
     int version = 0;
     int t;
     for(t=0;t<gasp->num;t++) {
-        if(gasp->records[t].behaviour & ~(GASP_GRIDFIT | GASP_DOGRAY)) {
+        if (gasp->records[t].behaviour & ~(GASP_GRIDFIT | GASP_DOGRAY)) {
             version = 1;
         }
     }
@@ -1786,8 +1786,8 @@ void gasp_write(ttf_t*ttf, ttf_table_t*table)
 }
 void gasp_delete(ttf_t*ttf)
 {
-    if(ttf->gasp) {
-        if(ttf->gasp->records)
+    if (ttf->gasp) {
+        if (ttf->gasp->records)
             free(ttf->gasp->records);
         free(ttf->gasp);
         ttf->gasp = 0;
@@ -1813,7 +1813,7 @@ table_code_t*prep_new(ttf_t*ttf)
 void fpgm_parse(memreader_t*r, ttf_t*ttf)
 {
     table_code_t*fpgm = ttf->fpgm  = calloc(1, sizeof(table_code_t));
-    if(!r->size) return;
+    if (!r->size) return;
     fpgm->size = r->size;
     fpgm->code = malloc(r->size);
     readBlock(r, fpgm->code, r->size);
@@ -1825,8 +1825,8 @@ void fpgm_write(ttf_t*ttf, ttf_table_t*table)
 }
 void fpgm_delete(ttf_t*ttf)
 {
-    if(ttf->fpgm) {
-        if(ttf->fpgm->code)
+    if (ttf->fpgm) {
+        if (ttf->fpgm->code)
             free(ttf->fpgm->code);
         free(ttf->fpgm);
         ttf->fpgm = 0;
@@ -1836,7 +1836,7 @@ void fpgm_delete(ttf_t*ttf)
 void prep_parse(memreader_t*r, ttf_t*ttf)
 {
     table_code_t*prep = ttf->prep  = calloc(1, sizeof(table_code_t));
-    if(!r->size) return;
+    if (!r->size) return;
     prep->size = r->size;
     prep->code = malloc(r->size);
     readBlock(r, prep->code, r->size);
@@ -1848,8 +1848,8 @@ void prep_write(ttf_t*ttf, ttf_table_t*table)
 }
 void prep_delete(ttf_t*ttf)
 {
-    if(ttf->prep) {
-        if(ttf->prep->code)
+    if (ttf->prep) {
+        if (ttf->prep->code)
             free(ttf->prep->code);
         free(ttf->prep);
         ttf->prep = 0;
@@ -1861,7 +1861,7 @@ static int ttf_parse_tables(ttf_t*ttf)
     ttf_table_t*table;
 
     table = ttf_find_table(ttf, TAG_HEAD);
-    if(!table) {
+    if (!table) {
         msg("<error> Font has no head table");
         return 0;
     }
@@ -1870,7 +1870,7 @@ static int ttf_parse_tables(ttf_t*ttf)
     ttf_table_delete(ttf, table);
 
     table = ttf_find_table(ttf, TAG_MAXP);
-    if(!table) {
+    if (!table) {
         msg("<error> Font has no maxp table");
         return 0;
     }
@@ -1878,14 +1878,14 @@ static int ttf_parse_tables(ttf_t*ttf)
     ttf->maxp = maxp_parse(ttf, &m2);
     ttf_table_delete(ttf, table);
 
-    if(!ttf->num_glyphs) {
+    if (!ttf->num_glyphs) {
         msg("<error> Invalid number of characters");
         return 0;
     }
     ttf->glyphs = calloc(ttf->num_glyphs, sizeof(ttfglyph_t));
 
     table = ttf_find_table(ttf, TAG_OS2);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         ttf->os2 = os2_parse(&m);
         ttf_table_delete(ttf, table);
@@ -1893,27 +1893,27 @@ static int ttf_parse_tables(ttf_t*ttf)
 
 
     table = ttf_find_table(ttf, TAG_HHEA);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         int num_advances = hea_parse(&m, ttf);
         ttf_table_delete(ttf, table);
 
         table = ttf_find_table(ttf, TAG_HMTX);
-        if(table) {
+        if (table) {
             INIT_READ(m, table->data, table->len, 0);
             mtx_parse(&m, ttf, num_advances);
             ttf_table_delete(ttf, table);
         }
     } else {
         table = ttf_find_table(ttf, TAG_VHEA);
-        if(table) {
+        if (table) {
             ttf->is_vertical=1;
             INIT_READ(m, table->data, table->len, 0);
             int num_advances = hea_parse(&m, ttf);
             ttf_table_delete(ttf, table);
 
             table = ttf_find_table(ttf, TAG_VMTX);
-            if(table) {
+            if (table) {
                 INIT_READ(m, table->data, table->len, 0);
                 mtx_parse(&m, ttf, num_advances);
                 ttf_table_delete(ttf, table);
@@ -1923,12 +1923,12 @@ static int ttf_parse_tables(ttf_t*ttf)
         }
     }
     table = ttf_find_table(ttf, TAG_LOCA);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         uint32_t*loca = loca_parse(&m, ttf, loc_index);
         ttf_table_delete(ttf, table);
         table = ttf_find_table(ttf, TAG_GLYF);
-        if(table) {
+        if (table) {
             INIT_READ(m, table->data, table->len, 0);
             glyf_parse(&m, ttf, loca);
             ttf_table_delete(ttf, table);
@@ -1937,49 +1937,49 @@ static int ttf_parse_tables(ttf_t*ttf)
     }
 
     table = ttf_find_table(ttf, TAG_CMAP);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         cmap_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
 
     table = ttf_find_table(ttf, TAG_POST);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         post_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
 
     table = ttf_find_table(ttf, TAG_NAME);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         name_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
 
     table = ttf_find_table(ttf, TAG_CVT);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         cvt_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
     
     table = ttf_find_table(ttf, TAG_GASP);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         gasp_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
     
     table = ttf_find_table(ttf, TAG_PREP);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         prep_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
     
     table = ttf_find_table(ttf, TAG_FPGM);
-    if(table) {
+    if (table) {
         INIT_READ(m, table->data, table->len, 0);
         fpgm_parse(&m, ttf);
         ttf_table_delete(ttf, table);
@@ -1992,23 +1992,23 @@ static void ttf_collapse_tables(ttf_t*ttf)
     ttf_table_t*table;
 
     ttf_table_t*head = ttf_find_table(ttf, TAG_HEAD);
-    if(head)
+    if (head)
         return; //already collapsed
 
-    if(ttf->maxp) {
+    if (ttf->maxp) {
         table = ttf_addtable(ttf, TAG_MAXP);
         maxp_write(ttf, table);
         maxp_delete(ttf);
     }
 
-    if(ttf->os2) {
+    if (ttf->os2) {
         table = ttf_addtable(ttf, TAG_OS2);
         os2_write(ttf, table);
         os2_delete(ttf);
     }
 
-    if(ttf->hea) {
-        if(!ttf->is_vertical) {
+    if (ttf->hea) {
+        if (!ttf->is_vertical) {
             table = ttf_addtable(ttf, TAG_HMTX);
             int num_advances = mtx_write(ttf, table);
             table = ttf_addtable(ttf, TAG_HHEA);
@@ -2024,14 +2024,14 @@ static void ttf_collapse_tables(ttf_t*ttf)
     }
 
     int loca_size=0;
-    if(ttf->num_glyphs) {
-        if(ttf->unicode) {
+    if (ttf->num_glyphs) {
+        if (ttf->unicode) {
             table = ttf_addtable(ttf, TAG_CMAP);
             cmap_write(ttf, table);
             cmap_delete(ttf);
         }
 
-        if(ttf->glyphs) {
+        if (ttf->glyphs) {
             table = ttf_addtable(ttf, TAG_GLYF);
             uint32_t*locations = glyf_write(ttf, table);
             table = ttf_addtable(ttf, TAG_LOCA);
@@ -2041,32 +2041,32 @@ static void ttf_collapse_tables(ttf_t*ttf)
         }
     }
 
-    if(ttf->full_name || ttf->family_name || ttf->subfamily_name || ttf->font_uid || ttf->postscript_name) {
+    if (ttf->full_name || ttf->family_name || ttf->subfamily_name || ttf->font_uid || ttf->postscript_name) {
         table = ttf_addtable(ttf, TAG_NAME);
         name_write(ttf, table);
         name_delete(ttf);
     }
-    if(ttf->post) {
+    if (ttf->post) {
         table = ttf_addtable(ttf, TAG_POST);
         post_write(ttf, table);
         post_delete(ttf);
     }
-    if(ttf->cvt) {
+    if (ttf->cvt) {
         table = ttf_addtable(ttf, TAG_CVT);
         cvt_write(ttf, table);
         cvt_delete(ttf);
     }
-    if(ttf->gasp) {
+    if (ttf->gasp) {
         table = ttf_addtable(ttf, TAG_GASP);
         gasp_write(ttf, table);
         gasp_delete(ttf);
     }
-    if(ttf->fpgm) {
+    if (ttf->fpgm) {
         table = ttf_addtable(ttf, TAG_FPGM);
         fpgm_write(ttf, table);
         fpgm_delete(ttf);
     }
-    if(ttf->prep) {
+    if (ttf->prep) {
         table = ttf_addtable(ttf, TAG_PREP);
         prep_write(ttf, table);
         prep_delete(ttf);
@@ -2088,14 +2088,14 @@ ttf_t* ttf_load(void*data, int length)
 {
     INIT_READ(r,data,length, 0);
 
-    if(length<12) {
+    if (length<12) {
         msg("<error> Truncated Truetype file (%d bytes)", length);
         return 0;
     }
 
     ttf_t*ttf = calloc(1, sizeof(ttf_t));
     ttf->version = readuint32_t(&r);
-    if(ttf->version == SWAP32(length)) {
+    if (ttf->version == SWAP32(length)) {
         uint32_t fontDataSize = readuint32_t(&r);
         uint32_t version = readuint32_t(&r);
         uint32_t flags  = readuint32_t(&r);
@@ -2109,7 +2109,7 @@ ttf_t* ttf_load(void*data, int length)
         /* we're being paranoid: it's entirely possible for the font
            size to be exactly 0x10000. Only treat this font as eot if
            it has the right magic number */
-        if(magic == 0x4c50) {
+        if (magic == 0x4c50) {
             readuint32_t(&r); //unicoderange[0]
             readuint32_t(&r); //unicoderange[1]
             readuint32_t(&r); //unicoderange[2]
@@ -2151,17 +2151,17 @@ ttf_t* ttf_load(void*data, int length)
         }
     }
 
-    if(ttf->version == TTCFTAG) {
+    if (ttf->version == TTCFTAG) {
         /* a ttc collection is a number of truetype fonts
            packaged together */
-        if(length<16) {
+        if (length<16) {
             msg("<error> Truncated TTC file (%d bytes)", length);
             return 0;
         }
         uint32_t ttcf_version = readuint32_t(&r); // 0x00000100: v1.0, 0x00000200: v2.0, includes DSIG table
         uint32_t num_fonts = readuint32_t(&r); // number of fonts
         uint32_t font1_position = readuint32_t(&r);
-        if(font1_position+12 > length) {\
+        if (font1_position+12 > length) {\
             msg("<error> Truncated TTC file (%d bytes, first font at %d)", length, font1_position);
             return 0;
         }
@@ -2175,9 +2175,9 @@ ttf_t* ttf_load(void*data, int length)
     readuint16_t(&r); //entry selector
     readuint16_t(&r); //range shift
 
-    if(num_tables*16 > length) {
+    if (num_tables*16 > length) {
         msg("<error> Truncated TTF file (table entries: %d)", num_tables);
-        if(ttf->version != OPENTYPE &&
+        if (ttf->version != OPENTYPE &&
            ttf->version != TRUETYPE_MACOS &&
            ttf->version != VERSION_1_0) {
             // bad table length, weird version. This is probably not a ttf file.
@@ -2196,7 +2196,7 @@ ttf_t* ttf_load(void*data, int length)
         uint32_t pos = table_data[t*4+2];
         uint32_t len = table_data[t*4+3];
         
-        if(pos+len > length) {
+        if (pos+len > length) {
             msg("<error> TTF Table %02x%02x%02x%02x outside of stream (pos %d)", (tag>>24)&0xff, (tag>>16)&0xff, (tag>>8)&0xff, (tag)&0xff, pos);
         } else {
             uint8_t*mem = malloc(len);
@@ -2208,7 +2208,7 @@ ttf_t* ttf_load(void*data, int length)
             table->len = table->memsize = len;
 #if 0
             uint32_t checksum2 = ttf_table_checksum(table);
-            if(checksum2!=checksum) {
+            if (checksum2!=checksum) {
                 msg("<warning> Checksum mismatch in tag %02x%02x%02x%02x %c%c%c%c (%d bytes) %08x!=%08x",
                         (tag>>24)&0xff, (tag>>16)&0xff, (tag>>8)&0xff, (tag)&0xff,
                         (tag>>24)&0xff, (tag>>16)&0xff, (tag>>8)&0xff, (tag)&0xff,
@@ -2219,26 +2219,26 @@ ttf_t* ttf_load(void*data, int length)
     }
     free(table_data);
 
-    if(!ttf_parse_tables(ttf))
+    if (!ttf_parse_tables(ttf))
         return 0;
 
     return ttf;
 }
 void ttf_create_truetype_tables(ttf_t*ttf)
 {
-    if(!ttf->head)
+    if (!ttf->head)
         ttf->head = head_new(ttf);
-    if(!ttf->maxp)
+    if (!ttf->maxp)
         ttf->maxp = maxp_new(ttf);
-    if(!ttf->hea)
+    if (!ttf->hea)
         ttf->hea = hea_new(ttf);
-    if(!ttf->os2)
+    if (!ttf->os2)
         ttf->os2 = os2_new(ttf);
-    if(!ttf->post)
+    if (!ttf->post)
         ttf->post = post_new(ttf);
-    if(!ttf->gasp)
+    if (!ttf->gasp)
         ttf->gasp = gasp_new(ttf);
-    if(!ttf->prep)
+    if (!ttf->prep)
         ttf->prep = prep_new(ttf);
 }
 
@@ -2297,13 +2297,13 @@ ttf_table_t* ttf_write(ttf_t*ttf, uint32_t*checksum_adjust)
     int head_pos = 0;
     uint8_t zero[4]={0,0,0,0};
     for(t=ttf->tables;t;t=t->next) {
-        if(t->id == TAG_HEAD)
+        if (t->id == TAG_HEAD)
             head_pos = file->len;
         writeBlock(file, t->data, t->len);
         writeBlock(file, zero, (-t->len)&3); //pad
     }
     uint32_t checksum = 0xb1b0afba - ttf_table_checksum(file);
-    if(checksum_adjust)
+    if (checksum_adjust)
         *checksum_adjust = checksum;
     uint8_t*checksum2 = file->data + head_pos + 8;
     checksum2[0] = checksum>>24;
@@ -2398,7 +2398,7 @@ void ttf_save_eot(ttf_t*ttf, const char*filename)
     checksum_data[3] = checksum_adjust>>24;
 
     FILE*fi = fopen(filename, "wb");
-    if(!fi) {
+    if (!fi) {
         perror(filename);
         return;
     }
@@ -2414,7 +2414,7 @@ void ttf_save(ttf_t*ttf, const char*filename)
 {
     ttf_table_t* t = ttf_write(ttf, 0);
     FILE*fi = fopen(filename, "wb");
-    if(!fi) {
+    if (!fi) {
         perror(filename);
         return;
     }
@@ -2481,13 +2481,13 @@ memfile_t* memfile_open(const char*path)
     memfile_t*file = malloc(sizeof(memfile_t));
 #if defined(HAVE_MMAP) && defined(HAVE_STAT)
     int fi = open(path, O_RDONLY);
-    if(fi<0) {
+    if (fi<0) {
         perror(path);
         free(file);
         return 0;
     }
     struct stat sb;
-    if(fstat(fi, &sb)<0) {
+    if (fstat(fi, &sb)<0) {
         perror(path);
         return 0;
     }
@@ -2496,7 +2496,7 @@ memfile_t* memfile_open(const char*path)
     close(fi);
 #else
     FILE*fi = fopen(path, "rb");
-    if(!fi) {
+    if (!fi) {
         perror(path);
         free(file);
         return 0;
@@ -2505,7 +2505,7 @@ memfile_t* memfile_open(const char*path)
     file->len = ftell(fi);
     fseek(fi, 0, SEEK_SET);
     file->data = malloc(file->len);
-    if(!file->data) {
+    if (!file->data) {
         msg("<error> Out of memory while allocating memory for file %s\n", path);
         free(file);
         return 0;
@@ -2541,13 +2541,13 @@ int main(int argn, const char*argv[])
 {
     setConsoleLogging(7);
     const char*filename = "comic.ttf";
-    if(argn>1)
+    if (argn>1)
         filename = argv[1];
     //msg("<notice> Loading %s", filename);
     memfile_t*m = memfile_open(filename);
     ttf_t*ttf = ttf_load(m->data, m->len);
 
-    if(!ttf) {
+    if (!ttf) {
         msg("<error> Couldn't load %s", filename);
         return 1;
     }
@@ -2555,7 +2555,7 @@ int main(int argn, const char*argv[])
 
     ttf_create_truetype_tables(ttf);
 
-    if(!ttf) return 1;
+    if (!ttf) return 1;
     memfile_close(m);
     //ttf_dump(ttf);
     //printf("os2 version: %04x (%d), maxp size: %d\n",

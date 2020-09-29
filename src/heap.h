@@ -35,7 +35,7 @@ typedef struct {                                                       \
 static void name##_put(name##_t*h, t*e)                                \
 {                                                                      \
     int parent = h->size++;                                            \
-    if(h->size>=h->max_size) {                                         \
+    if (h->size>=h->max_size) {                                         \
         h->max_size = h->max_size<15?15:(h->max_size+1)*2-1;           \
         h->elements = (t**)realloc(h->elements,                        \
                                       h->max_size*sizeof(t*));         \
@@ -43,7 +43,7 @@ static void name##_put(name##_t*h, t*e)                                \
     int node;                                                          \
     do {                                                               \
         node = parent;                                                 \
-        if(!node) break;                                               \
+        if (!node) break;                                               \
         parent = (node-1)/2;                                           \
         h->elements[node] = h->elements[parent];                       \
     } while(lt(e, h->elements[parent]));                               \
@@ -51,7 +51,7 @@ static void name##_put(name##_t*h, t*e)                                \
 }                                                                      \
 static t* name##_get(name##_t*h)                                       \
 {                                                                      \
-    if(!h->size) return 0;                                             \
+    if (!h->size) return 0;                                             \
     t*r = h->elements[0];                                              \
     int node,child = 0;                                                \
     t*node_p = h->elements[--h->size];                                 \
@@ -59,10 +59,10 @@ static t* name##_get(name##_t*h)                                       \
     do {                                                               \
         node = child;                                                  \
         child = node<<1|1;                                             \
-        if(child >= h->size) {                                         \
+        if (child >= h->size) {                                         \
             break;                                                     \
         }                                                              \
-        if(child+1 < h->size && lt(h->elements[child+1],               \
+        if (child+1 < h->size && lt(h->elements[child+1],               \
                                    h->elements[child]))                \
             child++;                                                   \
         h->elements[node] = h->elements[child];                        \
