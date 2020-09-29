@@ -16,3 +16,5 @@ libgfxpoly.a
 gfxpoly-*.*.*/
 gfxpoly-*.*.*.tar.gz
 .session.vim
+gfxpoly.so
+.tags
