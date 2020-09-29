@@ -53,14 +53,14 @@ typedef struct _segment {
     point_t delta;
     double k; //k = a.x*b.y-a.y*b.x = delta.y*a.x - delta.x*a.y (=0 for points on the segment)
     int32_t minx, maxx;
-    
+
     segment_dir_t dir;
     edgestyle_t*fs;
     edgestyle_t*fs_out;
 #ifdef CHECKS
     char fs_out_ok;
 #endif
-    
+
     int polygon_nr;
     windstate_t wind;
     uintptr_t nr;
@@ -86,7 +86,7 @@ typedef struct _segment {
 
 #define LINE_EQ(p,s) ((double)(s)->delta.y*(p).x - (double)(s)->delta.x*(p).y - (s)->k)
 
-/* x1 + ((x2-x1)*(y-y1)) / dy = 
+/* x1 + ((x2-x1)*(y-y1)) / dy =
    (x1*(y2-y1) + (x2-x1)*(y-y1)) / dy =
    (x1*(y2-y)  +  x2    *(y-y1)) / dy =
    (x1*y2 - x2*y1 + x2*y - y*x1) / dy =

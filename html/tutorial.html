@@ -25,7 +25,7 @@ by approximating them with lines (See <a href="#creating_polygons"/>creating pol
 <p>
 Polygon endpoints, furthermore, are rounded to a grid (i.e., represented as integer coordinates.) <br />
 During polygon intersection, the resulting polygons are again rounded- also, new intersection
-points will cause adjacent lines (i.e. lines passing through that grid point) 
+points will cause adjacent lines (i.e. lines passing through that grid point)
 to be "routed" through the intersection point, a concept known as "snap rounding to hot pixels": <br />
 
 <p>
@@ -33,16 +33,16 @@ to be "routed" through the intersection point, a concept known as "snap rounding
 </p>
 
 This approach ensures robustness of intersection, since there's always a unique representation of
-the output polygon (as opposed to doing polygon intersection on floating point numbers where 
+the output polygon (as opposed to doing polygon intersection on floating point numbers where
 due to numerical precision, intersection points might now have an actual representation as floating
 point number, leading to errors when they are "rounded" to a float.)
 </p>
 
 <p>
 There are a lot of academic papers about why snap rounding is preferrable to numeric approaches.
-gfxpoly uses <a href="http://ect.bell-labs.com/who/hobby/93_2-27.pdf">the algorithm from Hobby</a> 
-with a few additional ideas 
-from <a href="http://www.springerlink.com/content/p46t8502v6q6g687/">Hershberger</a> and 
+gfxpoly uses <a href="http://ect.bell-labs.com/who/hobby/93_2-27.pdf">the algorithm from Hobby</a>
+with a few additional ideas
+from <a href="http://www.springerlink.com/content/p46t8502v6q6g687/">Hershberger</a> and
 <a href="http://cccg.ca/proceedings/2007/07a1full.pdf">Bhattacharya et al</a>.
 </p>
 
@@ -52,7 +52,7 @@ of grid points, instead of the center- this is an optimization that makes snappi
 
 <h2>Creating polygons</h2><a name="#creating_polygons"></a>
 
-<p> 
+<p>
 The easiest way to create a gfxpoly polygon is to first represent
 the shape you want to process as an outline of lines and splines:
 </p>
@@ -93,7 +93,7 @@ The parameters are defined as following:
 
 <h2>Boolean operations between polygons</h2><a name="#bool"></a>
 
-<p>Once you have a representation of your polygon as <tt>gfxpoly</tt> you 
+<p>Once you have a representation of your polygon as <tt>gfxpoly</tt> you
 can intersect polygons:</p>
 
 <pre class="code">
@@ -152,7 +152,7 @@ double area = gfxpoly_intersection_area(poly1, poly2);
 <h3>Creating gfxpoly through gfxcanvas</h3><a name="#gfxcanvas"></a>
 <p>
 Representing polygons as a <tt>gfxline_t</tt> list first has the disadvantage
-of having to allocate that structure first. A faster way is to use the 
+of having to allocate that structure first. A faster way is to use the
 gfxcanvas_t abstraction to convert a shape to a gfxpoly on the fly:
 </p>
 
@@ -169,7 +169,7 @@ gfxpoly_t* poly = (gfxpoly_t*)canvas-&gt;result(canvas);
 
 <p>
 This also has the advantage that you can overlay multiple input polygons using
-the same gfxcanvas object, and then later process them in one go. 
+the same gfxcanvas object, and then later process them in one go.
 Use <tt>canvas-&gt;setUserData(canvas, data)</tt> to store polygon-specific data. This
 data will later be passed back to you by <a href="#windrule">windrule</a>.add().
 </p>
@@ -182,8 +182,8 @@ the line segments using <tt>gfxpoly_process</tt>. It has the following prototype
 </p>
 
 <pre class="code">
-gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, 
-                           windrule_t*windrule, windcontext_t*context, 
+gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2,
+                           windrule_t*windrule, windcontext_t*context,
 			   moments_t*moments);
 </pre>
 

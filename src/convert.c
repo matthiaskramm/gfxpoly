@@ -40,7 +40,7 @@ POSSIBILITY OF SUCH DAMAGE. */
 
 static inline int32_t convert_coord(double x, double z)
 {
-    /* we clamp to 26 bit because: 
+    /* we clamp to 26 bit because:
        a) we use a (x1-x2) shortcut when comparing coordinates
        b) we need to be able to multiply two coordinates and store them in a double w/o loss of precision
     */
@@ -64,7 +64,7 @@ static void convert_gfxline(gfxline_t*_line, polywriter_t*w, double gridsize)
         } else if (line->type == gfx_lineTo) {
             w->lineto(w, convert_coord(line->x,z), convert_coord(line->y,z));
         } else if (line->type == gfx_splineTo) {
-            int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) + 
+            int parts = (int)(sqrt(fabs(line->x-2*line->sx+lastx) +
                                    fabs(line->y-2*line->sy+lasty))*SUBFRACTION);
             if (!parts) parts = 1;
             double stepsize = 1.0/parts;
@@ -394,7 +394,7 @@ static void polydraw_splineTo(gfxcanvas_t*d, gfxcoord_t sx, gfxcoord_t sy, gfxco
     }
     i->lx = x;
     i->ly = y;
-    i->lastx = nx; 
+    i->lastx = nx;
     i->lasty = ny;
     i->last = 1;
 }
@@ -476,10 +476,10 @@ static gfxline_t*mkgfxline(gfxpoly_t*poly, char preserve_direction)
     }
     gfxsegmentlist_t*next_todo = poly->strokes;
     stroke = stroke_min;
-    
+
     point_t last = {INVALID_COORD, INVALID_COORD};
     char should_connect = 0;
-    
+
     gfxline_t*l = gfxline_new();
     while (stroke) {
         if (stroke && !preserve_direction) {

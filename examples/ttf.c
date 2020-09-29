@@ -1731,7 +1731,7 @@ void cvt_write(ttf_t*ttf, ttf_table_t*table)
 void cvt_delete(ttf_t*ttf)
 {
     if (ttf->cvt) {
-        if (ttf->cvt->values) 
+        if (ttf->cvt->values)
             free(ttf->cvt->values);
         free(ttf->cvt);
         ttf->cvt = 0;
@@ -1963,21 +1963,21 @@ static int ttf_parse_tables(ttf_t*ttf)
         cvt_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
-    
+
     table = ttf_find_table(ttf, TAG_GASP);
     if (table) {
         INIT_READ(m, table->data, table->len, 0);
         gasp_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
-    
+
     table = ttf_find_table(ttf, TAG_PREP);
     if (table) {
         INIT_READ(m, table->data, table->len, 0);
         prep_parse(&m, ttf);
         ttf_table_delete(ttf, table);
     }
-    
+
     table = ttf_find_table(ttf, TAG_FPGM);
     if (table) {
         INIT_READ(m, table->data, table->len, 0);
@@ -2195,7 +2195,7 @@ ttf_t* ttf_load(void*data, int length)
         uint32_t checksum = table_data[t*4+1];
         uint32_t pos = table_data[t*4+2];
         uint32_t len = table_data[t*4+3];
-        
+
         if (pos+len > length) {
             msg("<error> TTF Table %02x%02x%02x%02x outside of stream (pos %d)", (tag>>24)&0xff, (tag>>16)&0xff, (tag>>8)&0xff, (tag)&0xff, pos);
         } else {

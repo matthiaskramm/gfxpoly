@@ -50,7 +50,7 @@ void actlist_dump(actlist_t*a, int32_t y, double gridsize)
         if (y) {
             double x = ((double)s->delta.x*(y-s->a.y)/s->delta.y)+s->a.x;
             if (s!=a->list) {
-                if (lastx>x) 
+                if (lastx>x)
                     fprintf(stderr, "?%.2f<->%.2f? ", lastx * gridsize, x * gridsize);
             }
             lastx = x;
@@ -72,7 +72,7 @@ void actlist_verify(actlist_t*a, int32_t y)
                 /* we need to re-evaluate the x of the previous segment. if we
                    try to store it, it might end up being converted to a double,
                    which will make it non-equal to (and possibly larger than) the
-                   "long double" the FPU has in its internal registers. 
+                   "long double" the FPU has in its internal registers.
                    This only happens when compiler optimizations are turned on. */
                 assert((XPOS(s, y) - XPOS(l, y)) >= 0);
                 assert(XDIFF(s,l,y) >= 0);
@@ -302,7 +302,7 @@ static int actlist_splay_walk(actlist_t*a, segment_t*s, segment_t**ss, segment_t
         fprintf(stderr, "[%d] != [%d]\n", SEGNR(s), SEGNR(*ss));
         return 0;
     }
-    (*ss) = (*ss)->right; 
+    (*ss) = (*ss)->right;
     if (!actlist_splay_walk(a, s->rightchild, ss, s)) return 0;
     return 1;
 }
@@ -317,7 +317,7 @@ static int actlist_splay_verify(actlist_t*a)
 static void actlist_splay_dump2(actlist_t*a, segment_t*s, char*mid, char*up, char*down)
 {
     if (!s) return;
-    
+
     if (s->leftchild || s->rightchild) {
         if (s->leftchild) {
             char*o3 = malloc(strlen(up)+3);
@@ -404,7 +404,7 @@ static void actlist_splay(actlist_t*a, point_t p1, point_t p2)
     segment_t tmp;
     memset(&tmp, 0, sizeof(tmp));
     segment_t*left=&tmp,*right=&tmp;
-   
+
     while (1) {
         if (cmp(a->root,p1,p2)<0) {
             /* we're to the left of the root */
@@ -469,13 +469,13 @@ static void actlist_insert_after(actlist_t*a, segment_t*left, segment_t*s)
         s->right = a->list;
         a->list = s;
     }
-    if (s->left) 
+    if (s->left)
         s->left->right = s;
-    if (s->right) 
+    if (s->right)
         s->right->left = s;
 
 #ifdef SPLAY
-    // we insert nodes not trees 
+    // we insert nodes not trees
     assert(!s->leftchild);
     assert(!s->rightchild);
 
@@ -492,7 +492,7 @@ static void actlist_insert_after(actlist_t*a, segment_t*left, segment_t*s)
     }
     a->root = s;
     a->root->parent = 0;
-  
+
     assert(actlist_splay_verify(a));
 #endif
 
@@ -558,10 +558,10 @@ void actlist_delete(actlist_t*a, segment_t*s)
             a->root = a->root->rightchild;
         }
     }
-    if (a->root) 
+    if (a->root)
         a->root->parent = 0;
     s->leftchild = s->rightchild = s->parent = 0;
-    
+
     assert(actlist_splay_verify(a));
 #endif
 }
@@ -621,14 +621,14 @@ void actlist_swap(actlist_t*a, segment_t*s1, segment_t*s2)
     s2->left = s1l;
     if (s2r) s2r->left = s1;
     s1->right = s2r;
-    if (s2l!=s1) s1->left = s2l; 
+    if (s2l!=s1) s1->left = s2l;
     else        s1->left = s2;
-    if (s1r!=s2) s2->right = s1r; 
+    if (s1r!=s2) s2->right = s1r;
     else        s2->right = s1;
-   
+
 #ifdef SPLAY
     if (s2->parent==s1) {
-        /* 
+        /*
              s1            s2
             /      ->     /
           s2            s1
@@ -651,7 +651,7 @@ void actlist_swap(actlist_t*a, segment_t*s1, segment_t*s2)
         s1->leftchild = l;
         s1->rightchild = r;
     } else if (s1->parent==s2) {
-        /* 
+        /*
              s2            s1
             /      ->     /
           s1            s2

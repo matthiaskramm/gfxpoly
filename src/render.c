@@ -62,8 +62,8 @@ static inline void add_pixel(renderbuf_t*buf, double x, int y, segment_dir_t dir
     p.dir = dir;
     p.fs = fs;
     p.polygon_nr = polygon_nr;
-    
-    if (y >= buf->bbox.ymax || y < buf->bbox.ymin) 
+
+    if (y >= buf->bbox.ymax || y < buf->bbox.ymin)
         return;
 
     renderline_t*l = &buf->lines[y-buf->bbox.ymin];
@@ -187,14 +187,14 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
         int num = buf->lines[y].num;
         qsort(points, num, sizeof(renderpoint_t), compare_renderpoints);
         int lastx = 0;
-        
+
         windstate_t fill = rule->start(context);
         for(n=0;n<num;n++) {
             renderpoint_t*p = &points[n];
             int x = (int)(p->x - bbox->xmin);
 
             if (x < lastx)
-                x = lastx; 
+                x = lastx;
             if (x > buf->width)
                 x = buf->width;
 
@@ -214,7 +214,7 @@ unsigned char* render_polygon(gfxpoly_t*polygon, intbbox_t*bbox, double zoom, wi
 
         }
     }
-    
+
     for(y=0;y<buf->height;y++) {
         if (buf->lines[y].points) {
             free(buf->lines[y].points);
@@ -282,7 +282,7 @@ intbbox_t intbbox_from_polygon(gfxpoly_t*polygon, double zoom)
             if (y2 > b.ymax) b.ymax = y2;
         }
     }
-    
+
     if (b.xmax > (int)(MAX_WIDTH*zoom))
         b.xmax = (int)(MAX_WIDTH*zoom);
     if (b.ymax > (int)(MAX_HEIGHT*zoom))
@@ -291,12 +291,12 @@ intbbox_t intbbox_from_polygon(gfxpoly_t*polygon, double zoom)
         b.xmin = -(int)(MAX_WIDTH*zoom);
     if (b.ymin < -(int)(MAX_HEIGHT*zoom))
         b.ymin = -(int)(MAX_HEIGHT*zoom);
-    
-    if (b.xmin > b.xmax) 
+
+    if (b.xmin > b.xmax)
         b.xmin = b.xmax;
-    if (b.ymin > b.ymax) 
+    if (b.ymin > b.ymax)
         b.ymin = b.ymax;
-    
+
     b.xmax = adjust_x(b.xmin, b.xmax);
 
     b.width = b.xmax - b.xmin;
@@ -337,7 +337,7 @@ int bitmap_ok(intbbox_t*bbox, unsigned char*data)
 
 int compare_bitmaps(intbbox_t*bbox, unsigned char*data1, unsigned char*data2)
 {
-    if (!data1 || !data2) 
+    if (!data1 || !data2)
         return 0;
     int x,y;
     int height = bbox->height;
@@ -347,13 +347,13 @@ int compare_bitmaps(intbbox_t*bbox, unsigned char*data1, unsigned char*data2)
     unsigned char*l2 = &data2[width8*2];
     for(y=2;y<height-2;y++) {
         for(x=0;x<width8;x++) {
-            unsigned char a1 = l1[x-width8*2] & l1[x-width8] & l1[x] & 
+            unsigned char a1 = l1[x-width8*2] & l1[x-width8] & l1[x] &
                               l1[x+width8] & l1[x+width8*2];
-            unsigned char b1 = l2[x-width8*2] & l2[x-width8] & l2[x] & 
+            unsigned char b1 = l2[x-width8*2] & l2[x-width8] & l2[x] &
                               l2[x+width8] & l2[x+width8*2];
-            unsigned char a2 = l1[x-width8*2] | l1[x-width8] | l1[x] | 
+            unsigned char a2 = l1[x-width8*2] | l1[x-width8] | l1[x] |
                               l1[x+width8] | l1[x+width8*2];
-            unsigned char b2 = l2[x-width8*2] | l2[x-width8] | l2[x] | 
+            unsigned char b2 = l2[x-width8*2] | l2[x-width8] | l2[x] |
                               l2[x+width8] | l2[x+width8*2];
 
             char fail = 0;

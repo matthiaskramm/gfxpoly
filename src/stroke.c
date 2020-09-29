@@ -83,7 +83,7 @@ typedef struct _gfxpoint
 static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double width, gfx_capType cap, gfx_joinType join, double limit)
 {
     width/=2;
-    if (width<=0) 
+    if (width<=0)
         width = 0.05;
 
     /* remove duplicate points */
@@ -95,9 +95,9 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
         }
     }
     num = s;
-    
+
     char closed = (num>2 && p[0].x == p[num-1].x && p[0].y == p[num-1].y);
-    
+
     int start = 0;
     int end = num-1;
     int incr = 1;
@@ -114,7 +114,7 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
             lastw = atan2(dy,dx);
             if (lastw<0) lastw+=M_PI*2;
         }
-    
+
         int pos;
         for(pos=start;pos!=end;pos+=incr) {
             //printf("%d) %.2f %.2f\n", pos, p[pos].x, p[pos].y);
@@ -122,7 +122,7 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
             double dy = p[pos+incr].y - p[pos].y;
             double w = atan2(dy,dx);
             if (w<0) w+=M_PI*2;
-            
+
             if (closed || pos!=start) {
                 double d = w-lastw;
                 leftright_t turn;
@@ -145,7 +145,7 @@ static void draw_single_stroke(gfxpoint_t*p, int num, gfxcanvas_t*draw, double w
                             double addy = sin(lastw-M_PI/2+d/2)*r2;
                             draw->lineTo(draw, p[pos].x+addx, p[pos].y+addy);
                         }
-                    } 
+                    }
                 }
             }
 

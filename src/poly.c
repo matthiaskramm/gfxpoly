@@ -146,9 +146,9 @@ static inline int compare_events(const void*_a,const void*_b)
     /* we need to schedule end after intersect (so that a segment about
        to end has a chance to tear up a few other segs first) and start
        events after end (in order not to confuse the intersection check, which
-       assumes there's an actual y overlap between active segments, and 
+       assumes there's an actual y overlap between active segments, and
        because ending segments in the active list make it difficult to insert
-       starting segments at the right position)). 
+       starting segments at the right position)).
        Horizontal lines come last, because the only purpose
        they have is to create snapping coordinates for the segments (still)
        existing in this scanline.
@@ -291,10 +291,10 @@ char gfxpoly_check(gfxpoly_t*poly, char updown)
                         point_t b = stroke->points[s+1];
                         if ((a.x == p2->x && a.y == p2->y) ||
                            (b.x == p2->x && b.y == p2->y)) {
-                            fprintf(stderr, "%.2f,%.2f -> %.2f,%.2f\n", 
-                                    a.x * poly->gridsize, 
-                                    a.y * poly->gridsize, 
-                                    b.x * poly->gridsize, 
+                            fprintf(stderr, "%.2f,%.2f -> %.2f,%.2f\n",
+                                    a.x * poly->gridsize,
+                                    a.y * poly->gridsize,
+                                    b.x * poly->gridsize,
                                     b.y * poly->gridsize);
                         }
                     }
@@ -387,7 +387,7 @@ void gfxpoly_save_arrows(gfxpoly_t*poly, const char*filename)
             fprintf(fi, "%f %f lineto\n", (p.x - lx*d2 + (ly*d))*g,
                                           (p.y - ly*d2 - (lx*d))*g);
             fprintf(fi, "%f %f lineto\n", p.x * g, p.y * g);
-            fprintf(fi, "%f %f lineto\n", (p.x - lx*d2 - (ly*d))*g, 
+            fprintf(fi, "%f %f lineto\n", (p.x - lx*d2 - (ly*d))*g,
                                           (p.y - ly*d2 + (lx*d))*g);
             fprintf(fi, "%f %f lineto\n", (p.x - lx*d2) * g, (p.y - ly*d2) * g);
             fprintf(fi, "%f %f moveto\n", p.x * g, p.y * g);
@@ -449,16 +449,16 @@ inline static void event_free(event_t*e)
 static void event_dump(status_t*status, event_t*e)
 {
     if (e->type == EVENT_HORIZONTAL) {
-        fprintf(stderr, "Horizontal [%d] (%.2f,%.2f) -> (%.2f,%.2f)\n", (int)e->s1->nr, 
+        fprintf(stderr, "Horizontal [%d] (%.2f,%.2f) -> (%.2f,%.2f)\n", (int)e->s1->nr,
                 e->s1->a.x * status->gridsize, e->s1->a.y * status->gridsize, e->s1->b.x * status->gridsize, e->s1->b.y * status->gridsize);
     } else if (e->type == EVENT_START) {
-        fprintf(stderr, "event: segment [%d] starts at (%.2f,%.2f)\n", (int)e->s1->nr, 
+        fprintf(stderr, "event: segment [%d] starts at (%.2f,%.2f)\n", (int)e->s1->nr,
                 e->p.x * status->gridsize, e->p.y * status->gridsize);
     } else if (e->type == EVENT_END) {
-        fprintf(stderr, "event: segment [%d] ends at (%.2f,%.2f)\n", (int)e->s1->nr, 
+        fprintf(stderr, "event: segment [%d] ends at (%.2f,%.2f)\n", (int)e->s1->nr,
                 e->p.x * status->gridsize, e->p.y * status->gridsize);
     } else if (e->type == EVENT_CROSS) {
-        fprintf(stderr, "event: segment [%d] and [%d] intersect at (%.2f,%.2f)\n", (int)e->s1->nr, (int)e->s2->nr, 
+        fprintf(stderr, "event: segment [%d] and [%d] intersect at (%.2f,%.2f)\n", (int)e->s1->nr, (int)e->s2->nr,
                 e->p.x * status->gridsize, e->p.y * status->gridsize);
     } else {
         assert(0);
@@ -515,9 +515,9 @@ static void segment_init(segment_t*s, int32_t x1, int32_t y1, int32_t x2, int32_
     s->polygon_nr = polygon_nr;
 
 #ifdef CHECKS
-    /* notice: on some systems (with some compilers), for the line 
+    /* notice: on some systems (with some compilers), for the line
        (1073741823,-1073741824)->(1073741823,1073741823)
-       we get LINE_EQ(s->a, s) == 1. 
+       we get LINE_EQ(s->a, s) == 1.
        That's why we now clamp to 26 bit.
     */
     assert(LINE_EQ(s->a, s) == 0);
@@ -563,7 +563,7 @@ static void segment_destroy(segment_t*s)
 
 static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stroke, int polygon_nr, int pos, double gridsize)
 {
-    if (!stroke) 
+    if (!stroke)
         return;
     segment_t*s = 0;
     /* we need to queue multiple segments at once because we need to process start events
@@ -579,7 +579,7 @@ static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stro
         /*if (l->tmp)
             s->nr = l->tmp;*/
         fprintf(stderr, "[%d] (%.2f,%.2f) -> (%.2f,%.2f) %s (stroke %p, %d more to come)\n",
-                s->nr, s->a.x * gridsize, s->a.y * gridsize, 
+                s->nr, s->a.x * gridsize, s->a.y * gridsize,
                 s->b.x * gridsize, s->b.y * gridsize,
                 s->dir==DIR_UP?"up":"down", stroke, stroke->num_points - 1 - pos);
 #endif
@@ -588,7 +588,7 @@ static void advance_stroke(queue_t*queue, hqueue_t*hqueue, gfxsegmentlist_t*stro
         e->p = s->a;
         e->s1 = s;
         e->s2 = 0;
-        
+
         if (queue) queue_put(queue, e);
         else hqueue_put(hqueue, e);
 
@@ -730,7 +730,7 @@ static void schedule_crossing(status_t*status, segment_t*s1, segment_t*s2)
 #endif
         return;
     }
-    
+
     double asign1 = LINE_EQ(s2->a, s1);
     if (asign1==0) {
         // segment2 touches segment1 in a single point (ignored)
@@ -767,7 +767,7 @@ static void schedule_crossing(status_t*status, segment_t*s1, segment_t*s2)
     }
 
 #ifdef DONT_REMEMBER_CROSSINGS
-    /* s2 crosses s1 from *left* to *right*. This is a crossing we already processed- 
+    /* s2 crosses s1 from *left* to *right*. This is a crossing we already processed-
        there's not way s2 would be to the left of s1 otherwise */
     if (asign1<0 && bsign1>0) return;
     if (asign2>0 && bsign2<0) return;
@@ -901,7 +901,7 @@ static void insert_point_into_segment(status_t*status, segment_t*s, point_t p)
             segment_dir_t dir = s->wind.is_filled?DIR_DOWN:DIR_UP;
 #ifdef DEBUG
             fprintf(stderr, "[%d] receives next point (%.2f,%.2f)->(%.2f,%.2f) (drawing (%s))\n", s->nr,
-                    s->pos.x * status->gridsize, s->pos.y * status->gridsize, 
+                    s->pos.x * status->gridsize, s->pos.y * status->gridsize,
                     p.x * status->gridsize, p.y * status->gridsize,
                     dir==DIR_UP?"up":"down"
                     );
@@ -910,8 +910,8 @@ static void insert_point_into_segment(status_t*status, segment_t*s, point_t p)
             append_stroke(status, s->pos, p, dir, s->fs_out);
         } else {
 #ifdef DEBUG
-            fprintf(stderr, "[%d] receives next point (%.2f,%.2f) (omitting)\n", s->nr, 
-                    p.x * status->gridsize, 
+            fprintf(stderr, "[%d] receives next point (%.2f,%.2f) (omitting)\n", s->nr,
+                    p.x * status->gridsize,
                     p.y * status->gridsize);
 #endif
         }
@@ -1175,7 +1175,7 @@ static void recalculate_windings(status_t*status, segrange_t*range)
             s->fs_out = status->windrule->diff(status->context, &wind, &s->wind);
 
 #ifdef DEBUG
-            fprintf(stderr, "[%d] dir=%s wind=%d wind.filled=%s fs_old/new=%s/%s %s\n", s->nr, s->dir==DIR_UP?"up":"down", s->wind.wind_nr, s->wind.is_filled?"fill":"nofill", 
+            fprintf(stderr, "[%d] dir=%s wind=%d wind.filled=%s fs_old/new=%s/%s %s\n", s->nr, s->dir==DIR_UP?"up":"down", s->wind.wind_nr, s->wind.is_filled?"fill":"nofill",
                     fs_old?"draw":"omit", s->fs_out?"draw":"omit",
                     fs_old!=s->fs_out?"CHANGED":"");
 #endif
@@ -1214,7 +1214,7 @@ static void intersect_with_horizontal(status_t*status, segment_t*h)
         assert(s);
         int32_t x = XPOS_INT(s, status->y);
 #ifdef DEBUG
-        fprintf(stderr, "...intersecting with [%d] (%.2f,%.2f) -> (%.2f,%.2f) at (%.2f,%.2f)\n", 
+        fprintf(stderr, "...intersecting with [%d] (%.2f,%.2f) -> (%.2f,%.2f) at (%.2f,%.2f)\n",
                 s->nr,
                 s->a.x * status->gridsize, s->a.y * status->gridsize,
                 s->b.x * status->gridsize, s->b.y * status->gridsize,
@@ -1261,9 +1261,9 @@ static windstate_t get_horizontal_first_windstate(status_t*status, int x1, int x
     while (a) {
         if (a->pos.y == status->y) {
             /* we need to iterate through all segments that received a point in this
-               scanline, as actlist_find above will miss (positively sloped) segments 
-               that are to the right of (x1,y) only as long as we don't take the 
-               hotpixel re-routing into account 
+               scanline, as actlist_find above will miss (positively sloped) segments
+               that are to the right of (x1,y) only as long as we don't take the
+               hotpixel re-routing into account
                TODO: this is inefficient, we should probably be iterating through the
                hotpixels on this scanline.
              */
@@ -1277,12 +1277,12 @@ static windstate_t get_horizontal_first_windstate(status_t*status, int x1, int x
 
     assert(!left || left->fs_out_ok);
 #ifdef DEBUG
-    fprintf(stderr, "  fragment %.2f..%.2f\n", 
+    fprintf(stderr, "  fragment %.2f..%.2f\n",
             x1 * status->gridsize,
             x2 * status->gridsize);
     if (left) {
-        fprintf(stderr, "    segment [%d] (%.2f,%.2f -> %.2f,%2f, at %.2f,%.2f) is to the left\n", 
-                SEGNR(left), 
+        fprintf(stderr, "    segment [%d] (%.2f,%.2f -> %.2f,%2f, at %.2f,%.2f) is to the left\n",
+                SEGNR(left),
                 left->a.x * status->gridsize,
                 left->a.y * status->gridsize,
                 left->b.x * status->gridsize,
@@ -1305,7 +1305,7 @@ static windstate_t process_horizontal_fragment(status_t*status, horizontal_t*h, 
 {
     windstate_t above = status->windrule->add(status->context, below, h->fs, h->dir, h->polygon_nr);
     edgestyle_t*fs = status->windrule->diff(status->context, &above, &below);
-        
+
     segment_dir_t dir = above.is_filled?DIR_DOWN:DIR_UP;
     point_t p1 = {x1,h->y};
     point_t p2 = {x2,h->y};
@@ -1318,7 +1318,7 @@ static windstate_t process_horizontal_fragment(status_t*status, horizontal_t*h, 
     fprintf(stderr, "    ...%s (below: (wind_nr=%d, filled=%d), above: (wind_nr=%d, filled=%d) %s %d-%d\n",
             fs?"storing":"ignoring",
             below.wind_nr, below.is_filled,
-            above.wind_nr, above.is_filled, 
+            above.wind_nr, above.is_filled,
             dir==DIR_UP?"up":"down", x1, x2);
 #endif
     return above;
@@ -1396,7 +1396,7 @@ static void process_horizontals(status_t*status)
                 e->h->pos = num_open;
                 open[num_open++] = e->h;
 #ifdef DEBUG
-                fprintf(stderr, "horizontal (y=%.2f): %.2f -> %.2f dir=%s fs=%p\n", 
+                fprintf(stderr, "horizontal (y=%.2f): %.2f -> %.2f dir=%s fs=%p\n",
                         e->h->y * status->gridsize,
                         e->h->x1 * status->gridsize,
                         e->h->x2 * status->gridsize,
@@ -1580,7 +1580,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
         assert(poly1->gridsize == poly2->gridsize);
         gfxpoly_enqueue(poly2, &status.queue, 0, /*polygon nr*/1);
     }
-    
+
 #ifdef CHECKS
     status.seen_crossings = dict_new(&point_type);
 #endif
@@ -1634,7 +1634,7 @@ gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule
         add_points_to_ending_segments(&status, status.y);
 
         recalculate_windings(&status, &range);
-        
+
         actlist_verify(status.actlist, status.y);
         process_horizontals(&status);
 #ifdef CHECKS

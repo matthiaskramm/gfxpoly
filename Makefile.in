@@ -52,7 +52,7 @@ examples/logo.o: examples/logo.c src/*.h examples/ttf.h
 examples/triangles.o: examples/triangles.c src/*.h examples/ttf.h
 examples/ttf.o: examples/ttf.c examples/ttf.h
 
-tests/run_ps.o: tests/run_ps.c gfxpoly.h 
+tests/run_ps.o: tests/run_ps.c gfxpoly.h
 
 libgfxpoly.$(A): $(OBJECTS)
 	$(AR) cru $@ $(OBJECTS)
@@ -75,7 +75,7 @@ install:
 	cp libgfxpoly.$(A) $(libdir)
 	cp libgfxpoly.$(SO) $(libdir)/libgfxpoly.$(SO).$(PACKAGE_VERSION)
 
-clean: 
+clean:
 	rm -f src/*.o examples/*.o libgfxpoly.$(A) libgfxpoly.$(SO)
 
 .PHONY: tests examples

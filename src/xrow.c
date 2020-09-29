@@ -87,7 +87,7 @@ int xrow_find(xrow_t*r, int32_t x)
 #ifdef CHECKS
     int t;
     for(t=0;t<r->num;t++) {
-        if (x < r->x[t]) 
+        if (x < r->x[t])
             break;
     }
     assert(max == t);

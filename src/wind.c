@@ -158,7 +158,7 @@ windrule_t windrule_union = {
 };
 
 
-/* 
+/*
  } else if (rule == WIND_NONZERO) {
      fill = wind!=0;
  } else if (rule == WIND_ODDEVEN) {
