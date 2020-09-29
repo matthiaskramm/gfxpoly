@@ -45,6 +45,42 @@ static PyObject* WrapBbox(gfxbbox_t bbox) {
     return list;
 }
 
+static PyObject* WrapGfxLine(gfxline_t* line) {
+    gfxline_t* l;
+    int len = 0, i = 0;
+    l = line;
+    while (l) {l=l->next;len++;}
+    PyObject*list = PyList_New(len);
+    l = line;
+    while (l) {
+	PyObject*point=0;
+	if(l->type == gfx_moveTo) {
+	    point = PyTuple_New(3);
+	    PyTuple_SetItem(point, 0, PyUnicode_FromString("m"));
+	    PyTuple_SetItem(point, 1, PyFloat_FromDouble(l->x));
+	    PyTuple_SetItem(point, 2, PyFloat_FromDouble(l->y));
+	} else if (l->type == gfx_lineTo) {
+	    point = PyTuple_New(3);
+	    PyTuple_SetItem(point, 0, PyUnicode_FromString("l"));
+	    PyTuple_SetItem(point, 1, PyFloat_FromDouble(l->x));
+	    PyTuple_SetItem(point, 2, PyFloat_FromDouble(l->y));
+	} else if (l->type == gfx_splineTo) {
+	    point = PyTuple_New(5);
+	    PyTuple_SetItem(point, 0, PyUnicode_FromString("s"));
+	    PyTuple_SetItem(point, 1, PyFloat_FromDouble(l->x));
+	    PyTuple_SetItem(point, 2, PyFloat_FromDouble(l->y));
+	    PyTuple_SetItem(point, 3, PyFloat_FromDouble(l->sx));
+	    PyTuple_SetItem(point, 4, PyFloat_FromDouble(l->sy));
+	} else {
+	    point = Py_BuildValue("s", 0);  // None
+	}
+	PyList_SetItem(list, i, point);
+	l = l->next;
+	i++;
+    }
+    return list;
+}
+
 // --- gfxpoly ----------------------------------------------------------------
 
 static PyObject* GfxPolyNew(PyTypeObject* type, PyObject* args, PyObject* kwargs) {
@@ -101,6 +137,14 @@ static PyObject* GfxPolyBBox(PyObject* _self, PyObject* args, PyObject* kwargs) 
     return WrapBbox(gfxpoly_calculate_bbox(self->poly));
 }
 
+static PyObject* GfxPolyDecompose(PyObject* _self, PyObject* args, PyObject* kwargs) {
+    PyGfxPolyObj* self = (PyGfxPolyObj*)_self;
+    static char *kwlist[] = {NULL};
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "", kwlist))
+	return NULL;
+    return WrapGfxLine(gfxline_from_gfxpoly(self->poly));
+}
+
 static PyObject* GfxPolyGetAttro(PyObject* _self, PyObject* attr) {
     PyGfxPolyObj* self = (PyGfxPolyObj*)_self;
     if (PyObject_RichCompareBool(attr, k_gridsize, Py_EQ) > 0) {
@@ -137,6 +181,7 @@ static PyMethodDef gfxpoly_methods[] = {
     {"union", (PyCFunction)(GfxPolyUnion), METH_VARARGS|METH_KEYWORDS, NULL},
     {"bbox", (PyCFunction)(GfxPolyBBox), METH_VARARGS|METH_KEYWORDS, NULL},
     {"move", (PyCFunction)(GfxPolyMove), METH_VARARGS|METH_KEYWORDS, NULL},
+    {"decompose",  (PyCFunction)(GfxPolyDecompose),  METH_VARARGS|METH_KEYWORDS, NULL},
     {0, 0, 0, NULL}    // sentinel
 };
 
