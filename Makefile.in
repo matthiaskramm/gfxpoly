@@ -70,6 +70,12 @@ examples/triangles$(EXE): examples/triangles.o examples/ttf.o libgfxpoly.$(A)
 tests/run_ps$(EXE): tests/run_ps.o libgfxpoly.$(A)
 	$(L) tests/run_ps.o libgfxpoly.$(A) -o $@ $(LIBS)
 
+python/gfxpoly.o: python/gfxpoly.c gfxpoly.h
+	$(CC) `python3-config --includes` -c $< -o $@
+
+gfxpoly.$(SO): $(OBJECTS) python/gfxpoly.o
+	$(L) `python3-config --ldflags --embed` -shared $^ -o $@
+
 install:
 	cp gfxpoly.h $(includedir)
 	cp libgfxpoly.$(A) $(libdir)
