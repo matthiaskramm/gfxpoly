@@ -157,6 +157,36 @@ windrule_t windrule_union = {
     diff: union_diff,
 };
 
+// -------------------- subtract ----------------------
+
+windstate_t subtract_start(windcontext_t*context)
+{
+    return windstate_nonfilled;
+}
+
+windstate_t subtract_add(windcontext_t*context, windstate_t left, edgestyle_t*edge, segment_dir_t dir, int master)
+{
+    assert(master<sizeof(left.wind_nr)*8); //up to 32/64 polygons max
+    left.wind_nr ^= 1<<master;
+    // Subtract polygons 1...n from polygon 0.
+    left.is_filled = (left.wind_nr&1) && !(left.wind_nr&~1);
+    return left;
+}
+
+edgestyle_t* subtract_diff(windcontext_t*context, windstate_t*left, windstate_t*right)
+{
+    if (left->is_filled==right->is_filled)
+        return 0;
+    else
+        return &edgestyle_default;
+}
+
+windrule_t windrule_subtract = {
+    start: subtract_start,
+    add: subtract_add,
+    diff: subtract_diff,
+};
+
 
 /*
  } else if (rule == WIND_NONZERO) {

@@ -118,6 +118,15 @@ static PyObject* GfxPolyUnion(PyObject* _self, PyObject* args, PyObject* kwargs)
     return WrapGfxPoly(gfxpoly_union(self->poly, other->poly));
 }
 
+static PyObject* GfxPolySubtract(PyObject* _self, PyObject* args, PyObject* kwargs) {
+    PyGfxPolyObj* self = (PyGfxPolyObj*)_self;
+    PyGfxPolyObj* other;
+    static char *kwlist[] = {"other", NULL};
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs, "O!", kwlist, &PyGfxPoly, &other))
+	return NULL;
+    return WrapGfxPoly(gfxpoly_subtract(self->poly, other->poly));
+}
+
 static PyObject* GfxPolyMove(PyObject* _self, PyObject* args, PyObject* kwargs) {
     PyGfxPolyObj* self = (PyGfxPolyObj*)_self;
     PyGfxPolyObj* other;
@@ -179,6 +188,7 @@ static PyMethodDef gfxpoly_methods[] = {
     {"area", (PyCFunction)(GfxPolyArea), METH_VARARGS|METH_KEYWORDS, NULL},
     {"intersect", (PyCFunction)(GfxPolyIntersect), METH_VARARGS|METH_KEYWORDS, NULL},
     {"union", (PyCFunction)(GfxPolyUnion), METH_VARARGS|METH_KEYWORDS, NULL},
+    {"subtract", (PyCFunction)(GfxPolySubtract), METH_VARARGS|METH_KEYWORDS, NULL},
     {"bbox", (PyCFunction)(GfxPolyBBox), METH_VARARGS|METH_KEYWORDS, NULL},
     {"move", (PyCFunction)(GfxPolyMove), METH_VARARGS|METH_KEYWORDS, NULL},
     {"decompose",  (PyCFunction)(GfxPolyDecompose),  METH_VARARGS|METH_KEYWORDS, NULL},

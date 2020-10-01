@@ -212,6 +212,7 @@ extern windrule_t windrule_evenodd;
 extern windrule_t windrule_circular;
 extern windrule_t windrule_intersect;
 extern windrule_t windrule_union;
+extern windrule_t windrule_subtract;
 
 gfxpoly_t* gfxpoly_process(gfxpoly_t*poly1, gfxpoly_t*poly2, windrule_t*windrule, windcontext_t*context, moments_t*moments);
 

@@ -1676,6 +1676,10 @@ gfxpoly_t* gfxpoly_union(gfxpoly_t*p1, gfxpoly_t*p2)
 {
     return gfxpoly_process(p1, p2, &windrule_union, &twopolygons, NULL);
 }
+gfxpoly_t* gfxpoly_subtract(gfxpoly_t*p1, gfxpoly_t*p2)
+{
+    return gfxpoly_process(p1, p2, &windrule_subtract, &twopolygons, NULL);
+}
 gfxpoly_t* gfxpoly_selfintersect_evenodd(gfxpoly_t*p)
 {
     return gfxpoly_process(p, NULL, &windrule_evenodd, &onepolygon, NULL);
