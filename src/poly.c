@@ -36,6 +36,8 @@ POSSIBILITY OF SUCH DAMAGE. */
 #include "xrow.h"
 #include "wind.h"
 #include "convert.h"
+
+type_t point_type;
 #include "heap.h"
 #include "moments.h"
 

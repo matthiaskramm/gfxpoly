@@ -45,7 +45,7 @@ typedef enum {SLOPE_POSITIVE, SLOPE_NEGATIVE} slope_t;
 
 #define INVALID_COORD (0x7fffffff)
 #define SEGNR(s) ((int)((s)?(s)->nr:-1))
-type_t point_type;
+extern type_t point_type;
 
 typedef struct _segment {
     point_t a;

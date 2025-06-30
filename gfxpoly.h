@@ -98,6 +98,7 @@ void gfxpoly_destroy(gfxpoly_t*poly);
 
 gfxpoly_t* gfxpoly_intersect(gfxpoly_t*p1, gfxpoly_t*p2);
 gfxpoly_t* gfxpoly_union(gfxpoly_t*p1, gfxpoly_t*p2);
+gfxpoly_t* gfxpoly_subtract(gfxpoly_t*p1, gfxpoly_t*p2);
 
 gfxpoly_t* gfxpoly_selfintersect_evenodd(gfxpoly_t*p);
 gfxpoly_t* gfxpoly_selfintersect_circular(gfxpoly_t*p);
